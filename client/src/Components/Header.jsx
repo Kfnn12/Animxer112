@@ -1,13 +1,17 @@
 import React, { forwardRef, useImperativeHandle, useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
-
+import Cookies from "js-cookie";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Header = forwardRef((props, ref) => {
   const [togglemenu, setToggleMenu] = useState(true);
 
   const [searchActive, setSearchActive] = useState(false);
+  
+  const [userId, setUserId] = useState("");
 
   let menuRef = useRef();
+  
   useEffect(() => {
     let handler = (e) => {
       if (!menuRef.current.contains(e.target)) {
@@ -35,6 +39,15 @@ const Header = forwardRef((props, ref) => {
     }
   })
 
+  const getUser = async() => {
+    setUserId(Cookies.get("id"));
+  } 
+
+  useEffect(() => {
+    getUser();
+    console.log(userId);
+  });
+
   function scroll() {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
   }
@@ -61,14 +74,34 @@ const Header = forwardRef((props, ref) => {
     }
   };
 
+  const logout = (e) => {
+    const conf = window.confirm("Are you sure you want to logout??");
+    if(conf) {
+      Cookies.remove("id");
+      setUserId("");
+    }
+  }
+
+  const toggleButton = () => {
+    if(userId == undefined || userId.length == 0) {
+      return(<li className="login-tab">
+            <NavLink to={"/login"}>
+            <ion-icon name="log-in-outline"></ion-icon>
+            </NavLink>
+        </li>)
+    } 
+    return(<li className="login-tab" style={{cursor: "pointer"}} onClick={e => {logout(e)}}>fgdfg
+            {/* <NavLink to={"/profile"}><LogoutIcon/></NavLink> */}
+        </li>)
+  }
   return (
     <>
       <nav className="header">
         <div className="logo">
-          <NavLink to={"/"}>
+          <a href="/">
             <span className="white">Anime</span>{" "}
             <span className="blue">Trix</span>
-          </NavLink>
+          </a>
         </div>
 
         <ul onClick={scroll} className={togglemenu ? "nav-links" : "toggle-links"} ref={toggleref}>
@@ -77,17 +110,14 @@ const Header = forwardRef((props, ref) => {
               Home
             </NavLink>
           </li>
-          <li>
-            <NavLink to={"/popular"} onClick={() => closeMenuWhenClickedLink()}>
+          <li>  
+             <NavLink to={"/popular"} onClick={() => closeMenuWhenClickedLink()}>
               Popular
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              to={"/dub-anime"}
-              onClick={() => closeMenuWhenClickedLink()}
-            >
-              Dub Anime
+          <li>  
+             <NavLink to={"/top-airing"} onClick={() => closeMenuWhenClickedLink()}>
+              Trending
             </NavLink>
           </li>
           <li>
@@ -100,6 +130,20 @@ const Header = forwardRef((props, ref) => {
               Genres
             </NavLink>
           </li>
+          {/*
+          <li>
+            <NavLink
+              to={"/dub-anime"}
+              onClick={() => closeMenuWhenClickedLink()}
+            >
+              Dub Anime
+            </NavLink>
+          </li> */}
+          <li>
+            <NavLink to={"/ai-chat"} onClick={() => closeMenuWhenClickedLink()}>
+              AI Chat
+            </NavLink>
+          </li>
         </ul>
         <div className="search">
           <input
@@ -110,11 +154,7 @@ const Header = forwardRef((props, ref) => {
             onChange={handelChange}
           />
         </div>
-        <li className="login-tab">
-            <NavLink to={"/login"}>
-            <ion-icon name="log-in-outline"></ion-icon>
-            </NavLink>
-          </li>
+        {toggleButton()}
 
         <div className="mobile-search" ref={menuRef}>
           <div className="search-field">

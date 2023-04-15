@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
@@ -28,6 +28,14 @@ function Login() {
   }
 
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    const id = Cookies.get("id");
+    if(id) {
+      navigate("/");
+    }
+  });
+
   const submitHandler = async (e) => {
     e.preventDefault();
     const res = await userLogin();
@@ -65,9 +73,11 @@ function Login() {
               onChange={e => { setPassword(e.target.value) }}
               required
             />
-            <button type="submit" className="login-sign-in">
-              Log In
-            </button>
+             <div className="login-btn">
+              <button type="submit" className="login-sign-in">
+                Log In
+              </button>
+            </div>
           </div>
         </form>
         <div className="remember-me-forget-pass">
@@ -76,7 +86,7 @@ function Login() {
             <label htmlFor="remember-me">Remember me</label>
           </div>
           <Link to={"/forgot-password"}>Forgot password ?</Link>
-          <Link to={"/register"}>Don't have an account register</Link>
+          <Link to={"/register"}>Don't have an account <span className="register"> Register</span></Link>
         </div>
       </div>
     </section>

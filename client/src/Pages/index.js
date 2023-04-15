@@ -9,6 +9,11 @@ import TopAnimeAiring from "./topAiring"
 import NewSeason from "./NewSeason";
 import Login from "./Login"
 import Register from "./Register";
+import AIChat from "./AIChat";
+import Profile from "./Profile";
+import ForgotPassword from "./ForgotPassword";
+import MovieDetails from "./MovieDetails";
+import Watch from "./WatchOldApi";
 export{
     Details,
     DubAnime,
@@ -21,4 +26,9 @@ export{
     NewSeason,
     Login,
     Register,
+    AIChat,
+    Profile,
+    ForgotPassword,
+    MovieDetails,
+    Watch
 }

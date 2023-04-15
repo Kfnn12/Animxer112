@@ -1,7 +1,8 @@
-
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import Cookies from "js-cookie";
+
 
 function ForgotPassword() {
   const [password, setPassword] = useState("");
@@ -10,6 +11,13 @@ function ForgotPassword() {
   const [otp, setOtp] = useState("");
 
   const navigate = useNavigate()
+
+  useEffect(()=>{
+    const id = Cookies.get("id");
+    if(id) {
+      navigate("/");
+    }
+  });
 
   const changePassword = async() => {
     try {
@@ -91,54 +99,55 @@ function ForgotPassword() {
     }
   }
   return (
-    <div className="register">
-    <div className="register-container">
-      <h1>Change Password</h1>
-      <form autoComplete="false" onSubmit={e => {getOTP(e)}}>
-        <div className="form-group">
-          <input
-            type="text"
-            className="register-group-input"
-            placeholder="Email"
-            onChange={e => {setEmail(e.target.value)}}
-            required
-          />
-          <input
-            type="password"
-            className="register-group-input"
-            placeholder="Password"
-            onChange={e => {setPassword(e.target.value)}}
-            value={password}
-            required
-          />
-           <input
-            type="password"
-            className="register-group-input"
-            placeholder="Confirm password"
-            onChange={e => {setConPassword(e.target.value)}}
-            value={conPassword}
-            required
-          />
-          <input
-            type="text"
-            className="register-group-input"
-            placeholder="OTP"
-            onChange={e => {setOtp(e.target.value)}}
-          />
-          <button type="submit" className="register-sign-in">
-            Get OTP
-          </button>
-          <button type="button" className="register-sign-in" onClick={e => {submitHandler(e)}}>
-            Change Password
-          </button>
+<section className="login">
+      <div className="login-container">
+        <h1>Forgot Password?</h1>
+        <form autoComplete="false" onSubmit={e => {submitHandler(e)}}>
+          <div className="form-group">
+            <input
+              type="email"
+              className="login-group-input"
+              placeholder="Enter your email"
+              required
+              onChange={e => {setEmail(e.target.value)}}
+              value={email}
+            />
+            <input
+              type="password"
+              className="login-group-input"
+              placeholder="Enter your password Password"
+              required
+              onChange={e => {setPassword(e.target.value)}}
+            />
+            <input
+              type="password"
+              className="login-group-input"
+              placeholder="Confirm Password"
+              required
+              onChange={e => {setConPassword(e.target.value)}}
+            />
+              <input
+              type="text"
+              className="login-group-input-otp"
+              placeholder="Enter OTP"
+              required
+               onChange={e => {setOtp(e.target.value)}}
+            />
+            <button type="button" className='otp-btn' onClick={e => {getOTP(e)}}>Get OTP</button>
+            <div className="login-btn">
+              <button type="submit" className="login-sign-in">
+                Change Password
+              </button>
+            </div>
+          </div>
+        </form>
+        <div className="remember-me-forget-pass">
+          <Link to={"/login"}><span className="forgot">Remember Password? </span><span className="register"> Login</span></Link>
+          <Link to={"/register"}>
+            <span className="register"> Register</span></Link>
         </div>
-      </form>
-        <div className="login-here">
-          <span className='font'>Already have an account ?</span>
-          <Link to={'/login'}>Log In</Link>
-        </div>
-    </div>
-  </div>
+      </div>
+    </section>
   )
 }
 

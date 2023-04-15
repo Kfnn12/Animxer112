@@ -1,7 +1,7 @@
-
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import Cookies from "js-cookie";
 
 function Register() {
   const [name, setName] = useState("");
@@ -12,6 +12,13 @@ function Register() {
 
   const navigate = useNavigate()
 
+  useEffect(()=>{
+    const id = Cookies.get("id");
+    if(id) {
+      navigate("/");
+    }
+  });
+
   const userSignup = async() => {
     try {
             axios.interceptors.response.use(response => {
@@ -20,7 +27,7 @@ function Register() {
                     alert(error.response.data.error);
             return ;
             });
-            const res = await axios.post(`http://localhost:8000/api/v1/user/signup`, {
+            const res = await axios.post(`http://localhost:8000/api/v1/user/register`, {
                 name: name,
                 email: email,
                 password: password
@@ -147,8 +154,9 @@ function Register() {
         </div>
       </form>
         <div className="login-here">
-          <span className='font'>Already have an account ?</span>
-          <Link to={'/login'}>Log In</Link>
+          <Link to={'/login'}>
+            <span className='font'>Already have an account ?</span>
+            <span className="register"> Login</span></Link>
         </div>
     </div>
   </div>

@@ -1,21 +1,21 @@
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-// import { Footer } from "../Components/";
-// import ReplyIcon from '@mui/icons-material/Reply';
-// import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-// import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Footer } from "../Components/";
+import LoadingBar from "react-top-loading-bar";
+import ReplyIcon from '@mui/icons-material/Reply';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import Cookie from "js-cookie"
 
 export default function Stream(props) {
-  const { episodeId } = useParams();
+  const { episodeId } = useParams()
   const [data, setData] = useState([]);
-  const [detail, setDetail] = useState([]);
-  const location = useLocation();
-  const animeId = location.state.animeID;
-  const [lastwatch, setLastwatch] = useState(null);
+  const { animeId } = useParams()
+  const [loading, setLoading] = useState(true)
+  const [stream, setstream] = useState([])
+  const [detail, setDetail] = useState({});
+  const [extraDetail, setextraDetail] = useState([]);
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
 
@@ -35,55 +35,44 @@ export default function Stream(props) {
             const res = await axios.get(`http://localhost:8000/api/v1/discussion/comments/${episodeId}`)
             if(res.data.comments)
               setComments(res.data.comments);
+            else
+              setComments([]);
         } catch(err) {
             console.log(err);
             alert("Something went wrong please try again later.A")
     } 
   }
-  useEffect(() => {
-    const getVideo = async () => {
-      try {
-        const Video = await axios.get(
-          `https://animetrix-api.onrender.com/vidcdn/watch/${episodeId}`
-        );
-        setData(Video.data.Referer);
-      } catch (err) {
-        console.log("Connection Error");
-      }
-    };
-
-    const getDetail = async () => {
-      const Detail = await axios
-        .get(
-          `https://animetrix-api.onrender.com/anime-details/${animeId}`
-        )
-        .catch((err) => console.log("Connection Error"));
-
-      const temp = episodeId;
-      const ep = Detail.data.episodesList.find(
-        ({ episodeId }) => episodeId === temp
+  const getStream = async () => {
+    try {
+      const Video = await axios.get(
+        `https://animetrix-api.onrender.com/vidcdn/watch/${episodeId}`
       );
+      setData(Video.data.Referer);
+      setLoading(false);
+    }
+    catch (err) {
+      console.log("Error loading streaming data")
+    }
+  }
 
-      setLastwatch({
-        ep: ep.episodeNum,
-        title: Detail.data.animeTitle,
-        url: window.location.pathname,
-        animeId: animeId,
-        coverimg: Detail.data.animeImg,
-      });
-
-      setDetail(Detail.data);
-
-    };
-    getDetail();
-    getVideo();
+  const getDetails = async () => {
+    try {
+      const api = await fetch(`https://api.consumet.org/meta/anilist/info/${animeId}`)
+      const response = await api.json()
+      setDetail(response);
+      const responseArray = [response];
+      setextraDetail(responseArray)
+    }
+    catch (err) {
+      console.log("Error loading details")
+    }
+  }
+  useEffect(() => {
+    getDetails();
+    getStream();
     getComments();
 
   }, [animeId, episodeId]);
-
-  useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(lastwatch));
-  }, [lastwatch]);
 
   // reply logic
   const [showReplyTextArea, setShowReplyTextArea] = useState(false)
@@ -127,7 +116,7 @@ export default function Stream(props) {
           return (
                       <div className="user-comment">
                       <div className="user-img">
-                        <img src="https://i.pinimg.com/originals/b8/bf/ac/b8bfac2f45bdc9bfd3ac5d08be6e7de8.jpg" alt="user-img" />
+                        <img src={comment.sender.profile?comment.sender.profile:""} alt="user-img" />
                       </div>
                       <div className="user-name-time-text">
                         <div className="user-name-time">
@@ -153,34 +142,35 @@ export default function Stream(props) {
     }
   }
   return (
-    <>
-      <Helmet>
-        <meta
-          name="description"
-          content={`Best site to watch Anime English Sub/Dub online Free and download Anime English Sub/Dub anime.`}
-          charSet="utf-8"
-        />
-        <meta
-          name="keywords"
-          content={`${detail.animeTitle} English Sub/Dub, free ${detail.animeTitle} online, watch ${detail.animeTitle} online, watch ${detail.animeTitle} free, download ${detail.animeTitle} anime, download ${detail.animeTitle} free`}
-          charSet="utf-8"
-        />
-        <title>{`Watching ${detail.animeTitle} on AnimeTrix`}</title>
-        <link rel="canonical" href={`/vidcdn/watch/${episodeId}`} />
-      </Helmet>
-      {Object.keys(data).length !== 0 ? (
+<>
+      <LoadingBar
+        color='#0000FF'
+        progress={100}
+        height={5}
+        shadow='true'
+      />
+      {loading ? (
+        <div className="spinner-box">
+          <div className="configure-border-1">
+            <div className="configure-core"></div>
+          </div>
+          <div className="configure-border-2">
+            <div className="configure-core"></div>
+          </div>
+        </div>
+
+      ) : (
         <>
-          <div className="stream">
+          <div className="stream" key={episodeId}>
             <div className="stream-container">
               <div className="video-title">
-                <span>{detail.animeTitle}</span>
+                <span>{detail.title.romaji}</span>
                 <p>
                   Note :- Refresh the page if the player doesnt load (server
                   except Vidstreaming might contain ads use an adblocker to
                   block ads)
                 </p>
               </div>
-
               <div className="video-player-list">
                 {/* Video Player */}
                 <div className="video-player">
@@ -190,38 +180,59 @@ export default function Stream(props) {
                     frameBorder="0"
                     allowFullScreen="allowfullscreen"
                     webkitallowfullscreen="true"
-                    title={animeId}
+                    title={episodeId}
                   />
                 </div>
+                
                 {/* Episode List */}
                 <div className="list-box">
                   <div className="episode-list">
-                    {detail.episodesList &&
-                      detail.episodesList
-                        .slice(0)
-                        .reverse()
-                        .map((ep) => (
-                          <Link
-                            to={`/vidcdn/watch/${ep.episodeId}`}
-                            state={{ animeID: `${animeId}` }}
-                            key={ep.episodeNum}
-                          >
-                            {ep.episodeId === episodeId ? (
-                              <button className="active">
-                                {ep.episodeNum}
-                              </button>
-                            ) : ep.episodeNum % 2 === 0 ? (
-                              <button>{ep.episodeNum}</button>
-                            ) : (
-                              <button>{ep.episodeNum}</button>
-                            )}
-                          </Link>
-                        ))}
+                    {detail.episodes.map((ep) => (
+                      <>
+                        <Link to={`/watch/${ep.id}/${animeId}`}>
+                          {ep.id === episodeId ? (
+                            <button className="active">
+                              {ep.number}
+                            </button>
+                          ) : ep.number % 2 === 0 ? (
+                            <button>{ep.number}</button>
+                          ) : (
+                            <button>{ep.number}</button>
+                          )}
+                        </Link>
+                      </>
+                    ))}
                   </div>
                 </div>
               </div>
-
-              {/* discussion */}
+            </div>
+            {extraDetail.map((extra) => {
+              return (
+                <>
+                  <div className="airing-extra-info">
+                    {extra.nextAiringEpisode == undefined ? (
+                      <h1></h1>
+                    ) : (
+                      <h1>Episode {extra.nextAiringEpisode.episode} will air at {new Date(extra.nextAiringEpisode.airingTime * 1000).toLocaleString()}</h1>
+                    )}
+                  </div>
+                  <div className="characters-container">
+                    <div className="character-heading">
+                      <h1>Characters</h1>
+                    </div>
+                    {extra.characters.map((chDetails) => {
+                      return (
+                        <div>
+                          <img src={chDetails.image} alt="" />
+                          <h1>{chDetails.name.full}</h1>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </>
+              )
+            })}
+            {/* discussion */}
               <div className="comments">
                 <div className="comments-header">
                   <h3>Comments</h3>
@@ -244,19 +255,9 @@ export default function Stream(props) {
                   </div>
                 </div>
               </div>
-            </div>
           </div>
-          {/* <Footer /> */}
+          <Footer />
         </>
-      ) : (
-        <div className="spinner-box">
-          <div className="configure-border-1">
-            <div className="configure-core"></div>
-          </div>
-          <div className="configure-border-2">
-            <div className="configure-core"></div>
-          </div>
-        </div>
       )}
     </>
   );

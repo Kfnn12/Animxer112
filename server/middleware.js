@@ -1,5 +1,3 @@
-const singleChat = require("./modal/singleChatModal");
-
 const validateEmail = (req, res, next) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(req.body.email)) {
