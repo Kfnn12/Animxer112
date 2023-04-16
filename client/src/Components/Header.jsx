@@ -2,7 +2,7 @@ import React, { forwardRef, useImperativeHandle, useState, useEffect, useRef } f
 import { NavLink } from "react-router-dom";
 import Cookies from "js-cookie";
 import LogoutIcon from '@mui/icons-material/Logout';
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const Header = forwardRef((props, ref) => {
   const [togglemenu, setToggleMenu] = useState(true);
 
@@ -45,7 +45,7 @@ const Header = forwardRef((props, ref) => {
 
   useEffect(() => {
     getUser();
-    console.log(userId);
+    // console.log(userId);
   });
 
   function scroll() {
@@ -90,8 +90,8 @@ const Header = forwardRef((props, ref) => {
             </NavLink>
         </li>)
     } 
-    return(<li className="login-tab" style={{cursor: "pointer"}} onClick={e => {logout(e)}}>fgdfg
-            {/* <NavLink to={"/profile"}><LogoutIcon/></NavLink> */}
+    return(<li className="login-tab" style={{cursor: "pointer"}}onClick={e => {logout(e)}}>
+            <NavLink to={"/profile"}><AccountCircleIcon/></NavLink>
         </li>)
   }
   return (

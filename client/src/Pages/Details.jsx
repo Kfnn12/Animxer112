@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 // import axios from "axios";
 import LoadingBar from 'react-top-loading-bar';
 import Footer from "../Components/Footer";
-
+import ReactHtmlParser from 'react-html-parser';
 
 export default function Details() {
 
@@ -33,11 +33,7 @@ export default function Details() {
   useEffect(() => {
     getDetails()
   }, [animeId]);
-
-  const removeTag = (description) => {
-    const regex = /<[^>]*>/g;
-    return description.replace(regex, '').replace('(Source: Crunchyroll)', '');
-  } 
+ 
   return (
     <>
       <LoadingBar
@@ -83,7 +79,7 @@ export default function Details() {
                     )}
                     <div className="anime-storyline">
                       <div className="summary">Summary:-</div>
-                      <p>{removeTag(animeDetails.description)}</p>
+                      <p>{ReactHtmlParser(animeDetails.description)}</p>
                     </div>
 
                     <div className="list-box details">
