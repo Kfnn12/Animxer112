@@ -86,6 +86,32 @@
   display: none;
 }
 
+.account-login{
+  cursor: pointer;
+}
+.account-login img{
+  width: 37px;
+  border-radius: 50%;
+  z-index: 9999;
+}
+.account-login .extra-options{
+  display: inline;
+  position: absolute;
+  background: #162032;
+  padding: 30px;
+  border-radius: 18px;
+  right: 5%;
+  display: none;
+  z-index: 99999;
+}
+.account-login .extra-options li{
+  color: #fff;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.account-login .active{
+  display: block;
+}
 @media only screen and (max-width: 1500px) {
   .header {
     padding: 25px 35px;

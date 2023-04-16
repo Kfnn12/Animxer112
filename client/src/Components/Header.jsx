@@ -3,15 +3,17 @@ import { NavLink } from "react-router-dom";
 import Cookies from "js-cookie";
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import {FiLogOut} from "react-icons/fi"
 const Header = forwardRef((props, ref) => {
   const [togglemenu, setToggleMenu] = useState(true);
 
   const [searchActive, setSearchActive] = useState(false);
-  
+  const [profileActive, setProfileActive] = useState(false);
   const [userId, setUserId] = useState("");
+  const [img, setImg] = useState("https://i.pinimg.com/originals/b8/bf/ac/b8bfac2f45bdc9bfd3ac5d08be6e7de8.jpg");
 
   let menuRef = useRef();
-  
+
   useEffect(() => {
     let handler = (e) => {
       if (!menuRef.current.contains(e.target)) {
@@ -39,9 +41,9 @@ const Header = forwardRef((props, ref) => {
     }
   })
 
-  const getUser = async() => {
+  const getUser = async () => {
     setUserId(Cookies.get("id"));
-  } 
+  }
 
   useEffect(() => {
     getUser();
@@ -51,6 +53,10 @@ const Header = forwardRef((props, ref) => {
   function scroll() {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
   }
+  function ProfileView(){
+    setProfileActive(profileActive=>!profileActive)
+  }
+  const ProfileOpen = profileActive? 'active': 'gay';
   function MobileView() {
     setSearchActive(!searchActive);
     scroll()
@@ -76,23 +82,31 @@ const Header = forwardRef((props, ref) => {
 
   const logout = (e) => {
     const conf = window.confirm("Are you sure you want to logout??");
-    if(conf) {
+    if (conf) {
       Cookies.remove("id");
       setUserId("");
     }
   }
 
   const toggleButton = () => {
-    if(userId == undefined || userId.length == 0) {
-      return(<li className="login-tab">
-            <NavLink to={"/login"}>
-            <ion-icon name="log-in-outline"></ion-icon>
-            </NavLink>
-        </li>)
-    } 
-    return(<li className="login-tab" style={{cursor: "pointer"}}onClick={e => {logout(e)}}>
-            <NavLink to={"/profile"}><AccountCircleIcon/></NavLink>
-        </li>)
+    if (userId == undefined || userId.length == 0) {
+      return (<li className="login-tab">
+        <NavLink to={"/login"}>
+          <ion-icon name="log-in-outline"></ion-icon>
+        </NavLink>
+      </li>)
+    }
+    return (<li className="login-tab" style={{ cursor: "pointer" }}>
+      <div className="account-login" onClick={ProfileView}>
+        <img src={img} alt="user-image" className='login-img' />
+        <div className={`extra-options ${ProfileOpen}`}>
+          <li>Profile</li>
+          <li>Bookmark</li>
+          <li>History</li>
+        <li onClick={e => { logout(e) }}>Logout</li>
+        </div>
+      </div>
+    </li>)
   }
   return (
     <>
@@ -110,13 +124,13 @@ const Header = forwardRef((props, ref) => {
               Home
             </NavLink>
           </li>
-          <li>  
-             <NavLink to={"/popular"} onClick={() => closeMenuWhenClickedLink()}>
+          <li>
+            <NavLink to={"/popular"} onClick={() => closeMenuWhenClickedLink()}>
               Popular
             </NavLink>
           </li>
-          <li>  
-             <NavLink to={"/top-airing"} onClick={() => closeMenuWhenClickedLink()}>
+          <li>
+            <NavLink to={"/top-airing"} onClick={() => closeMenuWhenClickedLink()}>
               Trending
             </NavLink>
           </li>
@@ -164,7 +178,7 @@ const Header = forwardRef((props, ref) => {
             </div>
           </div>
         </div>
-        
+
 
 
         <div
