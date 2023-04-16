@@ -187,7 +187,7 @@ export default function Stream(props) {
               <div className="video-title">
                 <span>{detail.title.romaji}</span>
                 <p>
-                  Note :- Refresh the page if the player doesnt load (server
+                Note :- Refresh the page if the player doesnt load (server
                   except Vidstreaming might contain ads use an adblocker to
                   block ads)
                 </p>
