@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 
-import { Card, Lastwatch, Slider, AiringSchedule } from "../Components"
+import { Card, Lastwatch, Slider, AiringSchedule, ForYou } from "../Components"
 import { NewSeason } from "../Pages"
 
 import { useFetchInitialData } from "../utils/hooks";
@@ -66,6 +66,7 @@ const RecentAnime = (props) => {
           <NewSeason />
           <br /><br />
             <AiringSchedule airingList={airingList} ref={ref}/>
+            <ForYou/>
         </>
       )}
     </>

@@ -9,6 +9,7 @@ import Slider from "./slider";
 import ChatBody from "./ChatBody";
 import ChatInput from "./ChatInput";
 import AiringSchedule from "./AiringSchedule";
+import ForYou from "./ForYou";
 export {
     Card,
     Error404,
@@ -20,5 +21,6 @@ export {
     Slider,
     ChatBody,
     ChatInput,
-    AiringSchedule
+    AiringSchedule,
+    ForYou
 }

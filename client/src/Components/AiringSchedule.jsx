@@ -1,11 +1,11 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 function AiringSchedule(props) {
   const { airingList, ref } = props;
   return (
     <div className="airing-schedule">
       <div className="airing-schedule-heading">
-        <h3>Airing Schedule</h3>
+        <h3>Estemated Schedule</h3>
       </div>
 
       <div className="anime-airing">
@@ -20,7 +20,9 @@ function AiringSchedule(props) {
                 </div>
                 <div>{title.userPreferred}</div>
               </div>
+              <Link to={`/anime-details/${id}`}>
               <div className="schedule-info">Episode : {episode}</div>
+              </Link>
             </div>
           );
         })}

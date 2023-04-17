@@ -18,17 +18,9 @@
 .stream-container {
   display: flex;
   flex-direction: column;
-  width: 85%;
+  width: 95%;
 }
-.select-server{
-  display: flex;
-  background-color: red;
-  margin-left: 100px;
-  height: 200px;
-  max-width: 50%;
-  margin-top: 140px;
-  border-radius: 14px;
-}
+
 .video-title {
   padding: 10px 10px;
   max-width: 70%;
@@ -37,7 +29,7 @@
 .video-title>p {
   color: rgb(129, 174, 220);
   margin-bottom: 15px;
-  width: 78%;
+  width: 80%;
 }
 
 .video-title>span {
@@ -62,7 +54,7 @@
 }
 
 .list-box {
-  width: 70%;
+  width: 80%;
 }
 
 .episode-list {
@@ -138,12 +130,12 @@
 
 @media (max-width:1400px) {
   .stream {
-    padding: 20px 0;
+    padding: 20px 30px;
     padding-bottom: 300px;
   }
 
   .stream-container {
-    width: 95%;
+    width: 100%;
   }
 
   .video-player iframe {
@@ -170,11 +162,11 @@
 
 @media(max-width: 1200px) {
   .stream {
-    padding: 25px 0;
+    padding: 25px 30px;
   }
 
   .stream-container {
-    width: 95%;
+    width: 100%;
   }
 
   .video-player iframe {
@@ -182,7 +174,7 @@
   }
 
   .episode-list {
-    width: 103%;
+    width: 100%;
     max-height: 350px;
   }
 
@@ -196,11 +188,11 @@
 
 @media only screen and (max-width: 1150px) {
   .stream {
-    padding: 2rem;
+    padding: 10px 20px;
   }
 
   .stream-container {
-    width: 95%;
+    width: 100%;
   }
 
   .video-player iframe {
@@ -252,7 +244,7 @@
     max-width: 800px;
     width: 700px;
     max-height: 400px;
-    padding: 20px 30px;
+    /* padding: 20px 30px; */
     border-radius: 8px;
     display: flex;
     justify-content: center;
