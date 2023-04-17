@@ -191,14 +191,12 @@ const changeName = async(req, res) => {
 
 const addHistory = async(req, res) => {
   try {
-    const {_id, animeId, epId, title, image} = req.body;
+    const {_id, animeId, epId} = req.body;
     const user = User.find({"_id": _id, isVerified: true})
     if(user) {
       const newAnime = {
         animeId: animeId,
-        epId: epId,
-        title: title,
-        image: image
+        epId: epId
       }
       user.history.push(newAnime);
       await user.save();
