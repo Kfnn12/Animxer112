@@ -96,7 +96,7 @@ const Header = forwardRef((props, ref) => {
         </NavLink>
       </li>)
     }
-    return (<li className="login-tab" style={{ cursor: "pointer" }}>
+    return (
       <div className="account-login" onClick={ProfileView}>
         <img src={img} alt="user-image" className='login-img' />
         <div className={`extra-options ${ProfileOpen}`}>
@@ -106,7 +106,7 @@ const Header = forwardRef((props, ref) => {
         <li onClick={e => { logout(e) }}>Logout</li>
         </div>
       </div>
-    </li>)
+)
   }
   return (
     <>
