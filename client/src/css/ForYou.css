@@ -1,0 +1,10 @@
+.foryou-container{
+    display: flex;
+    justify-content:center ;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 40px;
+}
+.foryou-container .for-you-heading{
+    font-size: 40px;
+}
