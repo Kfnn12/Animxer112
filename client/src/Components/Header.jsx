@@ -4,11 +4,13 @@ import Cookies from "js-cookie";
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {FiLogOut} from "react-icons/fi"
+import axios from "axios";
 const Header = forwardRef((props, ref) => {
   const [togglemenu, setToggleMenu] = useState(true);
 
   const [searchActive, setSearchActive] = useState(false);
   const [profileActive, setProfileActive] = useState(false);
+  const [details, setDetails] = useState({});
   const [userId, setUserId] = useState("");
   const [img, setImg] = useState("https://i.pinimg.com/originals/b8/bf/ac/b8bfac2f45bdc9bfd3ac5d08be6e7de8.jpg");
 
@@ -44,11 +46,31 @@ const Header = forwardRef((props, ref) => {
   const getUser = async () => {
     setUserId(Cookies.get("id"));
   }
+  const getDetails = async () => {
+    try {
+        axios.interceptors.response.use(response => {
+            return response;
+        }, error => {
+            return;
+        });
+        console.log(userId);
+        const res = await axios.get(`http://localhost:8000/api/v1/user/${userId}`)
+        if (res.data) {
+            setDetails(res.data.user);
+            setImg(res.data.user.profile);
+        }
+        else
+            setDetails({});
+    } catch (err) {
+        console.log(err);
+    }
+}
 
   useEffect(() => {
+    getDetails();
     getUser();
     // console.log(userId);
-  });
+  },[userId]);
 
   function scroll() {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
@@ -100,7 +122,9 @@ const Header = forwardRef((props, ref) => {
       <div className="account-login" onClick={ProfileView}>
         <img src={img} alt="user-image" className='login-img' />
         <div className={`extra-options ${ProfileOpen}`}>
+          <NavLink to="/profile">
           <li>Profile</li>
+          </NavLink>
           <li>Bookmark</li>
           <li>History</li>
         <li onClick={e => { logout(e) }}>Logout</li>

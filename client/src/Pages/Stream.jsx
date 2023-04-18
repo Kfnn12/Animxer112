@@ -60,7 +60,7 @@ export default function Stream(props) {
         setComments([]);
     } catch (err) {
       console.log(err);
-      alert("Something went wrong please try again later.A")
+      alert("Error loading comments")
     }
   }
   const getStream = async () => {

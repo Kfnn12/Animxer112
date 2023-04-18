@@ -101,6 +101,7 @@
   padding: 30px;
   border-radius: 18px;
   right: 5%;
+  margin-top: 10px;
   display: none;
   z-index: 99999;
 }
@@ -118,7 +119,7 @@
   }
 }
 
-@media only screen and (max-width: 1300px) {
+@media only screen and (max-width: 1360px) {
   .search {
     position: relative;
     left: 25%;
@@ -188,7 +189,7 @@
     margin: 15px 19px;
   }
 }
-@media(max-width:1300px){
+@media(max-width:1350px){
   .account-login{
     position: relative;
     right: 5%;
@@ -197,7 +198,7 @@
 @media (max-width:1200px){
   .search {
     position: relative;
-    left: 19%;
+    left: 16%;
   }
 }
 @media (max-width:1000px){
@@ -210,6 +211,12 @@
   .search {
     position: relative;
     left: 12%;
+  }
+}
+@media(max-width:850px){
+  .account-login{
+    position: relative;
+    right: 6%;
   }
 }
 @media only screen and (max-width: 750px) {
@@ -374,14 +381,21 @@
 @media(max-width:430px){
   .account-login{
     position: relative;
-    left: 3%;
+    left: 5%;
   }
   .login-tab ion-icon{
     left: 6px;
   }
 }
-
+@media(max-width:380px){
+  .account-login{
+    left: 2%;
+  }
+}
 @media(max-width:355px){
+  .account-login{
+    left: 0%;
+  }
   .logo>a{
     font-size: 20px;
   }

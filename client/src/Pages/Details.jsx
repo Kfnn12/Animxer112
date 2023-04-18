@@ -70,7 +70,7 @@ export default function Details() {
                     {animeDetails.title.english && animeDetails.title.english ? (
                       <p className="anime-title">{animeDetails.title.english}</p>
                     ) : (
-                      <p> {animeDetails.title.romaji}</p>
+                      <p className="anime-title"> {animeDetails.title.romaji}</p>
                     )}
                     {watch && (
                       <Link to={`/watch/${watch}/${animeId}`}>
