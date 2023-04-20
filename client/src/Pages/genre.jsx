@@ -49,9 +49,9 @@ function OptionFetcher() {
 
   async function fetchMoreData() {
     try {
-      setPage(page + 1);
+      setPage(page => page + 1);
       const response = await fetch(
-        `https://api.consumet.org/meta/anilist/advanced-search?genres=["${selectedOption}"]&&page=${page}`
+        `https://api.consumet.org/meta/anilist/advanced-search?genres=["${selectedOption}"]&&page=${page + 1}`
       );
       const responseData = await response.json();
       setData([...data, ...responseData.results]);
@@ -59,7 +59,7 @@ function OptionFetcher() {
       console.error(error);
     }
   }
-
+  
 
   useEffect(() => {
     setPage(1);
