@@ -1,3 +1,4 @@
+
 .season-head{
   background: #162032;
   width: 100%;
@@ -34,6 +35,7 @@
   padding: 0px 7px;
   position: relative;
   border-radius: 3px;
+  color: #fff;
 }
 .season-title {
   font-size: 16px;

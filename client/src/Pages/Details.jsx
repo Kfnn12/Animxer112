@@ -82,8 +82,10 @@ export default function Details() {
                       <p>{ReactHtmlParser(animeDetails.description)}</p>
                     </div>
 
-                    <div className="list-box details">
-                      <div className="episode-list">
+                    <section className="episode-detail-container">
+
+                    <div className="anime-episodes">
+                      <div className="episodes-list">
                         {animeDetails.episodes.map((episodeWatch) => {
                           return (
                             <Link to={`/watch/${episodeWatch.id}/${animeId}`}>
@@ -93,10 +95,11 @@ export default function Details() {
                         })}
                       </div>
                     </div>
+                    </section>
                   </div>
                 </div>
 
-                <div className="recommended-anime">
+                <div className="anime-trailer">
                   <div className="trailer">
                   {animeDetails.trailer &&(
                     <iframe src={`https://www.youtube.com/embed/${animeDetails.trailer.id}`} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -108,7 +111,7 @@ export default function Details() {
                 <div className="recommended-anime">
                   <h1>Recommended Anime</h1>
                 </div>
-                <div className="movies-grid">
+                <div className="recommended-grid">
                   {animeDetails.recommendations.map((animerec, animerecid) => (
                     <div
                       className="movie-card" key={animerecid.id}>

@@ -55,9 +55,9 @@ function App() {
     try {
       setLoading(true);
       const Data = await axios.get(
-        `https://animetrix-api.onrender.com/recent-release?page=${id}`
+        `https://api.consumet.org/meta/anilist/popular?page=${id}&perPage=20`
       );
-      setRecent((recent) => [...recent, ...Data.data]);
+      setRecent((recent) => [...recent, ...Data.data.results]);
       setLoading(false);
     } catch (err) {
       console.log("error loading anime");

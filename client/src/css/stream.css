@@ -377,6 +377,7 @@
 }
 .comments-header{
   padding: 10px;
+  font-size: 30px;
 }
 .send-comment{
   padding: 10px;
@@ -415,13 +416,12 @@
 }
 .user-comment{
   display: flex;
-  gap: 10px;
   margin: 15px 0;
 }
 
 .user-img img{
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
 }
 .user-name-time-text{

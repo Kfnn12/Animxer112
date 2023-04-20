@@ -19,7 +19,7 @@ const ForYou = () => {
   }, [])
   return (
     <>
-      {forYou && (
+      {forYou&& (
 
         <section className='movies for'>
           <div className='filter-bar'>
@@ -48,7 +48,7 @@ const ForYou = () => {
                     <span>{(forYou.type
 )}</span>
                   </div>
-                  <h5 className="card-title">{forYou.title?.english}</h5>
+                  <h5 className="card-title">{forYou.title?.romaji}</h5>
                 </div>
               </div>
             </div>

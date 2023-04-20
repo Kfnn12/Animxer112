@@ -30,5 +30,5 @@ export{
     Profile,
     ForgotPassword,
     MovieDetails,
-    Watch
+    Watch,
 }

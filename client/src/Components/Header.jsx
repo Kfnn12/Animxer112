@@ -43,6 +43,20 @@ const Header = forwardRef((props, ref) => {
     }
   })
 
+  let profileRef = useRef();
+  useEffect(()=>{
+    let handler = (e)=>{
+      if(!profileRef.current.contains(e.target)){
+        setProfileActive(false);
+      }
+    };
+    document.addEventListener("mousedown", handler)
+
+    return()=>{
+      document.removeEventListener("mousedown", handler)
+    }
+  })
+
   const getUser = async () => {
     setUserId(Cookies.get("id"));
   }
@@ -119,7 +133,7 @@ const Header = forwardRef((props, ref) => {
       </li>)
     }
     return (
-      <div className="account-login" onClick={ProfileView}>
+      <div className="account-login" onClick={ProfileView} ref={profileRef}>
         <img src={img} alt="user-image" className='login-img' />
         <div className={`extra-options ${ProfileOpen}`}>
           <NavLink to="/profile">
@@ -146,11 +160,6 @@ const Header = forwardRef((props, ref) => {
           <li>
             <NavLink to={"/"} onClick={() => closeMenuWhenClickedLink()}>
               Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to={"/popular"} onClick={() => closeMenuWhenClickedLink()}>
-              Popular
             </NavLink>
           </li>
           <li>
