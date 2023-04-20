@@ -32,7 +32,7 @@ const ForYou = () => {
               className="movie-card">
               <div className="card-head">
                 <div className="bookmark-icon">
-                  <i class="fa-solid fa-bookmark"></i>
+                  <i class="fa-regular fa-bookmark"></i>
                 </div>
                 <Link to={`/anime-details/${forYou.id}`}>
                   <img

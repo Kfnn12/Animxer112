@@ -185,7 +185,7 @@ export default function Stream(props) {
           <div className="stream" key={episodeId}>
             <div className="stream-container">
               <div className="video-title">
-                <span>{detail.title.romaji}</span>
+                <span>{detail.title?.romaji}</span>
                 <p>
                 Note :- Refresh the page if the player doesnt load (server
                   except Vidstreaming might contain ads use an adblocker to

@@ -32,7 +32,7 @@ const NewSeason = () => {
 
                                 <div className="season-head">
                                     <div className="bookmark-icon">
-                                    <i class="fa-solid fa-bookmark"></i>
+                                    <i class="fa-regular fa-bookmark"></i>
                                     </div>
                                     <Link to={`/anime-details/${newSeason.id}`}>
                                         <img

@@ -25,7 +25,7 @@ const History = () => {
                     <div className="lastwatch-bar">
                         <div className="lastwatch-heading">
                             <h1><i class="fa-solid fa-clock-rotate-left lastwatch-icon continue-icon"></i> Continue Watching</h1>
-                            <div className="seasons-grid">
+                            <div className="lastwatch-grid">
                             <div className="lastwatch-card">
                                 <div className="lastwatch-close">
 
@@ -38,9 +38,9 @@ const History = () => {
                                     <img src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/nx20605-fmnHdfurM7m6.jpg" alt="its just an images" className="lastwatch-img" />
                                     <div className="lastwatch-details">
                                         <h5 className="lastwatch-title">
-                                            Title of the anime
+                                            Tokyo Ghoul
                                             <br />
-                                            <span className="last-ep">Episode:- 69</span>
+                                            <span className="last-ep">Episode:- 12</span>
                                         </h5>
                                     </div>
                                 </div>
@@ -57,12 +57,12 @@ const History = () => {
                                 </div>
                                 <div className="lastwatch-head">
 
-                                    <img src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/nx20605-fmnHdfurM7m6.jpg" alt="its just an images" className="lastwatch-img" />
+                                    <img src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx136430-f8Iza5GEynRW.jpg" alt="its just an images" className="lastwatch-img" />
                                     <div className="lastwatch-details">
                                         <h5 className="lastwatch-title">
-                                            Title of the anime
+                                            Vinland Saga
                                             <br />
-                                            <span className="last-ep">Episode:- 69</span>
+                                            <span className="last-ep">Episode:- 3</span>
                                         </h5>
                                     </div>
                                 </div>
@@ -70,93 +70,9 @@ const History = () => {
                                 
                             </div>
 
-                            <div className="lastwatch-card">
-                                <div className="lastwatch-close">
 
-                                    <i
-                                        className="fa-solid fa-xmark"
-                                    />
-                                </div>
-                                <div className="lastwatch-head">
 
-                                    <img src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/nx20605-fmnHdfurM7m6.jpg" alt="its just an images" className="lastwatch-img" />
-                                    <div className="lastwatch-details">
-                                        <h5 className="lastwatch-title">
-                                            Title of the anime
-                                            <br />
-                                            <span className="last-ep">Episode:- 69</span>
-                                        </h5>
-                                    </div>
-                                </div>
-
-                                
-                            </div>
-
-                            <div className="lastwatch-card">
-                                <div className="lastwatch-close">
-
-                                    <i
-                                        className="fa-solid fa-xmark"
-                                    />
-                                </div>
-                                <div className="lastwatch-head">
-
-                                    <img src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/nx20605-fmnHdfurM7m6.jpg" alt="its just an images" className="lastwatch-img" />
-                                    <div className="lastwatch-details">
-                                        <h5 className="lastwatch-title">
-                                            Title of the anime
-                                            <br />
-                                            <span className="last-ep">Episode:- 69</span>
-                                        </h5>
-                                    </div>
-                                </div>
-
-                                
-                            </div>
-
-                            <div className="lastwatch-card">
-                                <div className="lastwatch-close">
-
-                                    <i
-                                        className="fa-solid fa-xmark"
-                                    />
-                                </div>
-                                <div className="lastwatch-head">
-
-                                    <img src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/nx20605-fmnHdfurM7m6.jpg" alt="its just an images" className="lastwatch-img" />
-                                    <div className="lastwatch-details">
-                                        <h5 className="lastwatch-title">
-                                            Title of the anime
-                                            <br />
-                                            <span className="last-ep">Episode:- 69</span>
-                                        </h5>
-                                    </div>
-                                </div>
-
-                                
-                            </div>
-
-                            <div className="lastwatch-card">
-                                <div className="lastwatch-close">
-
-                                    <i
-                                        className="fa-solid fa-xmark"
-                                    />
-                                </div>
-                                <div className="lastwatch-head">
-
-                                    <img src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/nx20605-fmnHdfurM7m6.jpg" alt="its just an images" className="lastwatch-img" />
-                                    <div className="lastwatch-details">
-                                        <h5 className="lastwatch-title">
-                                            Title of the anime
-                                            <br />
-                                            <span className="last-ep">Episode:- 69</span>
-                                        </h5>
-                                    </div>
-                                </div>
-
-                                
-                            </div>
+          
                             </div>
                         </div>
                     </div>

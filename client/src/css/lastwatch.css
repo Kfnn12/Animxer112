@@ -1,5 +1,5 @@
 .lastwatch {
-  padding: 20px 0px;
+  /* padding: 20px 0px; */
   display: none;
   padding-bottom: 30px;
 }
@@ -44,11 +44,9 @@
 }
 
 .lastwatch-grid {
-  padding: 0px 20px;
   display: grid;
-  grid-column-gap: 40px;
-  grid-auto-flow: column;
-  overflow-x: scroll;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 10fr));
+  gap: 30px;
 }
 .continue-icon{
   font-size: 35px;
@@ -98,6 +96,11 @@
   .lastwatch-heading h1{
     font-size: 26px;
     padding-bottom: 20px;
+  }
+  .lastwatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 10fr));
+    gap: 30px;
   }
 }
 @media(max-width:350px){

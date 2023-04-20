@@ -78,7 +78,9 @@ const RecentAnime = (props) => {
 
                     <div className="season-head">
                       <div className="bookmark-icon">
-                        <i class="fa-solid fa-bookmark"></i>
+                        <i class="fa-regular fa-bookmark"></i>
+                        {/* if bookmark is applied */}
+                        {/* <i class="fa-solid fa-bookmark"></i> */}
                       </div>
                       <Link to={`/anime-details/${rec.id}`}>
                         <img

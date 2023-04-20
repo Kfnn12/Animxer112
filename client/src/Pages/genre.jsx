@@ -59,12 +59,12 @@ function OptionFetcher() {
       console.error(error);
     }
   }
-  
+
 
   useEffect(() => {
     setPage(1);
   }, [selectedOption]);
-  
+
 
   return (
     <>
@@ -106,12 +106,18 @@ function OptionFetcher() {
                   className="movie-card" key={item.id}>
                   <Link to={`/anime-details/${item.id}`}>
                     <div className="card-head">
-                        <img
-                          src={item.image}
-                          alt={item.id}
-                          className="card-img"
-                        />
+                      <div className="bookmark-icon">
+                        <i class="fa-regular fa-bookmark"></i>
+                      </div>
+                      <img
+                        src={item.image}
+                        alt={item.id}
+                        className="card-img"
+                      />
                       <div className="">
+                        <div className="release-date-season">
+                          <span className='season-relase'>{item.rating / 10}</span>
+                        </div>
                         <h5 className="card-title">{item.title?.userPreferred}</h5>
                       </div>
                     </div>

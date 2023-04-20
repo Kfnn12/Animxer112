@@ -23,10 +23,10 @@ const Profile = () => {
         <section className='profile-user-info'>
             <div className="login-container">
                 <div className="user-picture">
-                    <img src="https://i.pinimg.com/originals/b8/bf/ac/b8bfac2f45bdc9bfd3ac5d08be6e7de8.jpg" alt="user-image" className='user-img' />
-                    <div className="edit-user-profile">
+                    <img src="https://i.ibb.co/56w2WWV/images-q-tbn-ANd9-Gc-Qo-Wng-A9o-rk-TEZWKg-T3zgh-QCmh-DR-Q2-KFm-Q3dt-Pw-W0-Co-Hio-B-m-VFQ44rdxd9-FQM4.jpg" alt="user-image" className='user-img' />
+                    {/* <div className="edit-user-profile">
                     <i class="fa-solid fa-pen"></i>
-                    </div>
+                    </div> */}
                     <div className="profile-images-modal">
                         <img src="https://i.ibb.co/sJPVdF8/2wPVNZ.jpg" alt="" />
                         <img src="https://i.ibb.co/sJPVdF8/2wPVNZ.jpg" alt="" />
