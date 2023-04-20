@@ -6,20 +6,9 @@ const DiscussionSchema = new mongoose.Schema({
     required: true
   },
   comments: [{
-    sender: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-      ref: 'User'
-    },
-    comment: {
-      type: String,
-      required: true
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now
-    },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Comments'
   }]
 });
 
-module.exports = mongoose.model('Comments', DiscussionSchema);
+module.exports = mongoose.model('Discussion', DiscussionSchema);

@@ -7,6 +7,7 @@ const {Configuration, OpenAIApi}  = require("openai");
 
 const userRoutes = require("./routes/userRoutes");
 const discussionRoutes = require("./routes/discussionRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 const PORT = process.env.PORT;
 
@@ -18,6 +19,8 @@ app.use(cors({
 connectDB();
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/discussion", discussionRoutes);
+app.use("/api/v1/admin", adminRoutes);
+
 
 app.all("*", (req, res) => {
     res.status(500).json({error: "Invalid request"});

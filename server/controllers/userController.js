@@ -258,15 +258,5 @@ const getUser = async(req, res) => {
   }
 }
 
-const getAllUser = async(req, res) => {
-  try {
-        console.log("dvdv");
-        const users = await User.find({isVerified: true});
-        res.status(200).json({"users": users});
-    } catch(err) {
-        console.log(err);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-}
 
-module.exports = { addUser, loginUser,  changePassword,  verify, getBookmarks, toggleBookmark, changeName,  changeProfile, getHistory, addHistory, clearHistory, getUser, getAllUser };
+module.exports = { addUser, loginUser,  changePassword,  verify, getBookmarks, toggleBookmark, changeName,  changeProfile, getHistory, addHistory, clearHistory, getUser };

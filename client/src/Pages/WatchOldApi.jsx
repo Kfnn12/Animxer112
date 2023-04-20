@@ -6,6 +6,7 @@ import { Footer } from "../Components/";
 import ReplyIcon from '@mui/icons-material/Reply';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import Cookie from "js-cookie"
 
 export default function Watch(props) {
   const { episodeId } = useParams();
@@ -14,9 +15,31 @@ export default function Watch(props) {
   const location = useLocation();
   const animeId = location.state.animeID;
   const [lastwatch, setLastwatch] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState("");
 
   // Local Storage Key
   const LOCAL_STORAGE_KEY = "animetrix-vercel-app";
+
+  const getComments = async () => {
+      try {
+        axios.interceptors.response.use(response => {
+          return response;
+        }, error => {
+          alert(error.response.data.error);
+          return;
+        });
+        const res = await axios.get(`http://localhost:8000/api/v1/discussion/comments/${episodeId}`)
+        if (res.data.comments)
+          setComments(res.data.comments);
+        else
+          setComments([]);
+      } catch (err) {
+        console.log(err);
+        alert("Something went wrong please try again later.A")
+      }
+  }
+
   useEffect(() => {
     const getVideo = async () => {
       try {
@@ -53,6 +76,7 @@ export default function Watch(props) {
     };
     getDetail();
     getVideo();
+    getComments();
   }, [animeId, episodeId]);
 
   useEffect(() => {
@@ -66,7 +90,72 @@ export default function Watch(props) {
     setShowReplyTextArea(!showReplyTextArea)
   }
 
-  
+  const addComment = async (e) => {
+    e.preventDefault();
+    try {
+      const id = Cookie.get("id");
+      if (id) {
+        axios.interceptors.response.use(response => {
+          return response;
+        }, error => {
+          alert(error.response.data.error);
+          return;
+        });
+        const res = await axios.post(`http://localhost:8000/api/v1/discussion/comment`, {
+          sender: id,
+          _id: episodeId,
+          comment: comment
+        })
+        getComments();
+        return res;
+      }
+      alert("Login First");
+    } catch (err) {
+      console.log(err);
+      alert("Something went wrong please try again later.B")
+    }
+  }
+
+  function convertUTCDateToLocalDate(date) {
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const localTime = new Date(date.toLocaleString('en-US', { timeZone }));
+    return localTime;
+}
+
+  const printComments = () => {
+    console.log(comments);
+    if (comments.length != 0) {
+      return (
+        <>
+          {comments.map(comment => {
+            return (
+              <div className="user-comment">
+                <div className="user-img">
+                  <img src={comment.sender.profile ? comment.sender.profile : ""} alt="user-img" />
+                </div>
+                <div className="user-name-time-text">
+                  <div className="user-name-time">
+                    <span className="user-name">{comment.sender.name}</span>
+                    <span>{String(convertUTCDateToLocalDate(comment.createdAt)).substring(4, 21)}</span>
+                  </div>
+                  <div className="user-text">
+                    <p>
+                      {comment.comment}
+                    </p>
+                  </div>
+                  <div className="reply-like-replies">
+                    {/* <button><ThumbUpIcon /></button>
+                          <button><ThumbDownIcon /></button> */}
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </>)
+    } else {
+      return (<h1>No Comments Posted</h1>)
+    }
+  }
   
   return (
     <>
@@ -90,11 +179,11 @@ export default function Watch(props) {
             <div className="stream-container">
               <div className="video-title">
                 <span>{detail.animeTitle}</span>
-                <p>
+                {/* <p>
                   Note :- Refresh the page if the player doesnt load (server
                   except Vidstreaming might contain ads use an adblocker to
                   block ads)
-                </p>
+                </p> */}
               </div>
 
               <div className="video-player-list">
@@ -146,259 +235,16 @@ export default function Watch(props) {
                 <div className="comment-section">
                   <div className="send-comment">
                     <textarea
-                      name=""
-                      id=""
-                      placeholder="Leave a comment"
-                    ></textarea>
-                    <button>Comment</button>
+                    name=""
+                    id=""
+                    placeholder="Leave a comment"
+                    onChange={e => { setComment(e.target.value) }}
+                  ></textarea>
+                  <button onClick={e => { addComment(e) }}>Comment</button>
                   </div>
 
                   <div className="comment-field">
-
-                    <div className="user-comment">
-                      <div className="user-img">
-                        <img src="https://i.pinimg.com/originals/b8/bf/ac/b8bfac2f45bdc9bfd3ac5d08be6e7de8.jpg" alt="user" />
-                      </div>
-                      <div className="user-name-time-text">
-                        <div className="user-name-time">
-                          <span className="user-name">Guts</span>
-                          <span>12:00 AM</span>
-                        </div>
-                        <div className="user-text">
-                          <p>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing
-                            elit. Architecto exercitationem dicta quas quasi
-                            repellendus, voluptatem deserunt perferendis quam
-                            dolore molestiae quis commodi beatae accusantium
-                            minima veniam quibusdam, consequatur cupiditate
-                            aliquid?
-                          </p>
-                        </div>
-                        <div className="reply-like-replies">
-                          <button onClick={handleReplyClick}><ReplyIcon /></button>
-                          <button className="like-active"><ThumbUpIcon /></button>
-                          <button><ThumbDownIcon /></button>
-                          <button> 10 Replies</button>
-                        </div>
-
-                        <div className={showReplyTextArea ?  "reply-textarea" : 'hide' }>
-                          <textarea name="" id="" placeholder="Leave a comment"></textarea>
-                          <button>Send Comment</button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="user-comment">
-                      <div className="user-img">
-                        <img src="https://i.pinimg.com/originals/b8/bf/ac/b8bfac2f45bdc9bfd3ac5d08be6e7de8.jpg" alt="user-img" />
-                      </div>
-                      <div className="user-name-time-text">
-                        <div className="user-name-time">
-                          <span className="user-name">Girffith</span>
-                          <span>12:00 AM</span>
-                        </div>
-                        <div className="user-text">
-                          <p>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing
-                            elit. Architecto exercitationem dicta quas quasi
-                            repellendus, voluptatem deserunt perferendis quam
-                            dolore molestiae quis commodi beatae accusantium
-                            minima veniam quibusdam, consequatur cupiditate
-                            aliquid?
-                          </p>
-                        </div>
-                        <div className="reply-like-replies">
-                          <button  onClick={handleReplyClick}><ReplyIcon /></button>
-                          <button><ThumbUpIcon /></button>
-                          <button><ThumbDownIcon /></button>
-                          <button> 10 Replies</button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="user-comment">
-                      <div className="user-img">
-                        <img src="https://i.pinimg.com/originals/b8/bf/ac/b8bfac2f45bdc9bfd3ac5d08be6e7de8.jpg" alt="user-img" />
-                      </div>
-                      <div className="user-name-time-text">
-                        <div className="user-name-time">
-                          <span className="user-name">Casca</span>
-                          <span>12:00 AM</span>
-                        </div>
-                        <div className="user-text">
-                          <p>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing
-                            elit. Architecto exercitationem dicta quas quasi
-                            repellendus, voluptatem deserunt perferendis quam
-                            dolore molestiae quis commodi beatae accusantium
-                            minima veniam quibusdam, consequatur cupiditate
-                            aliquid?
-                          </p>
-                        </div>
-                        <div className="reply-like-replies">
-                          <button><ReplyIcon /></button>
-                          <button><ThumbUpIcon /></button>
-                          <button><ThumbDownIcon /></button>
-                          <button> 10 Replies</button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="user-comment">
-                      <div className="user-img">
-                        <img src="https://i.pinimg.com/originals/b8/bf/ac/b8bfac2f45bdc9bfd3ac5d08be6e7de8.jpg" alt="user-img" />
-                      </div>
-                      <div className="user-name-time-text">
-                        <div className="user-name-time">
-                          <span className="user-name">Casca</span>
-                          <span>12:00 AM</span>
-                        </div>
-                        <div className="user-text">
-                          <p>
-                            Big as paragraph cause why not?
-
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, exercitationem tempora ipsum atque nihil consequuntur, ad nulla voluptatem rem, voluptas mollitia eius! Iure, pariatur! Eaque, libero! Quidem incidunt obcaecati veritatis?
-                          </p>
-                        </div>
-                        <div className="reply-like-replies">
-                          <button><ReplyIcon /></button>
-                          <button><ThumbUpIcon /></button>
-                          <button><ThumbDownIcon /></button>
-                          <button> 10 Replies</button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="user-comment">
-                      <div className="user-img">
-                        <img src="https://i.pinimg.com/originals/b8/bf/ac/b8bfac2f45bdc9bfd3ac5d08be6e7de8.jpg" alt="user-img" />
-                      </div>
-                      <div className="user-name-time-text">
-                        <div className="user-name-time">
-                          <span className="user-name">Casca</span>
-                          <span>12:00 AM</span>
-                        </div>
-                        <div className="user-text">
-                          <p>
-                            Big as paragraph cause why not?
-
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, exercitationem tempora ipsum atque nihil consequuntur, ad nulla voluptatem rem, voluptas mollitia eius! Iure, pariatur! Eaque, libero! Quidem incidunt obcaecati veritatis?
-                          </p>
-                        </div>
-                        <div className="reply-like-replies">
-                          <button><ReplyIcon /></button>
-                          <button><ThumbUpIcon /></button>
-                          <button><ThumbDownIcon /></button>
-                          <button> 10 Replies</button>
-                        </div>
-                      </div>
-                    </div>
-
-
-                    <div className="user-comment">
-                      <div className="user-img">
-                        <img src="https://i.pinimg.com/originals/b8/bf/ac/b8bfac2f45bdc9bfd3ac5d08be6e7de8.jpg" alt="user-img" />
-                      </div>
-                      <div className="user-name-time-text">
-                        <div className="user-name-time">
-                          <span className="user-name">Casca</span>
-                          <span>12:00 AM</span>
-                        </div>
-                        <div className="user-text">
-                          <p>
-                            Big as paragraph cause why not?
-
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, exercitationem tempora ipsum atque nihil consequuntur, ad nulla voluptatem rem, voluptas mollitia eius! Iure, pariatur! Eaque, libero! Quidem incidunt obcaecati veritatis?
-                          </p>
-                        </div>
-                        <div className="reply-like-replies">
-                          <button><ReplyIcon /></button>
-                          <button><ThumbUpIcon /></button>
-                          <button><ThumbDownIcon /></button>
-                          <button> 10 Replies</button>
-                        </div>
-                      </div>
-                    </div>
-
-
-                    <div className="user-comment">
-                      <div className="user-img">
-                        <img src="https://i.pinimg.com/originals/b8/bf/ac/b8bfac2f45bdc9bfd3ac5d08be6e7de8.jpg" alt="user-img" />
-                      </div>
-                      <div className="user-name-time-text">
-                        <div className="user-name-time">
-                          <span className="user-name">Casca</span>
-                          <span>12:00 AM</span>
-                        </div>
-                        <div className="user-text">
-                          <p>
-                            Big as paragraph cause why not?
-
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, exercitationem tempora ipsum atque nihil consequuntur, ad nulla voluptatem rem, voluptas mollitia eius! Iure, pariatur! Eaque, libero! Quidem incidunt obcaecati veritatis?
-                          </p>
-                        </div>
-                        <div className="reply-like-replies">
-                          <button><ReplyIcon /></button>
-                          <button><ThumbUpIcon /></button>
-                          <button><ThumbDownIcon /></button>
-                          <button> 10 Replies</button>
-                        </div>
-                      </div>
-                    </div>
-
-
-                    <div className="user-comment">
-                      <div className="user-img">
-                        <img src="https://i.pinimg.com/originals/b8/bf/ac/b8bfac2f45bdc9bfd3ac5d08be6e7de8.jpg" alt="user-img" />
-                      </div>
-                      <div className="user-name-time-text">
-                        <div className="user-name-time">
-                          <span className="user-name">Casca</span>
-                          <span>12:00 AM</span>
-                        </div>
-                        <div className="user-text">
-                          <p>
-                            Big as paragraph cause why not?
-
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, exercitationem tempora ipsum atque nihil consequuntur, ad nulla voluptatem rem, voluptas mollitia eius! Iure, pariatur! Eaque, libero! Quidem incidunt obcaecati veritatis?
-                          </p>
-                        </div>
-                        <div className="reply-like-replies">
-                          <button><ReplyIcon /></button>
-                          <button><ThumbUpIcon /></button>
-                          <button><ThumbDownIcon /></button>
-                          <button> 10 Replies</button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="user-comment">
-                      <div className="user-img">
-                        <img src="https://i.pinimg.com/originals/b8/bf/ac/b8bfac2f45bdc9bfd3ac5d08be6e7de8.jpg" alt="user-img" />
-                      </div>
-                      <div className="user-name-time-text">
-                        <div className="user-name-time">
-                          <span className="user-name">Casca</span>
-                          <span>12:00 AM</span>
-                        </div>
-                        <div className="user-text">
-                          <p>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing
-                            elit. Architecto exercitationem dicta quas quasi
-                            repellendus, voluptatem deserunt perferendis quam
-                            dolore molestiae quis commodi beatae accusantium
-                            minima veniam quibusdam, consequatur cupiditate
-                            aliquid?
-                          </p>
-                        </div>
-                        <div className="reply-like-replies">
-                          <button><ReplyIcon /></button>
-                          <button><ThumbUpIcon /></button>
-                          <button><ThumbDownIcon /></button>
-                          <button> 10 Replies</button>
-                        </div>
-                      </div>
-                    </div>
+                  {printComments()}
                   </div>
                 </div>
               </div>

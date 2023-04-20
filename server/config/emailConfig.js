@@ -4,6 +4,6 @@ module.exports = {
   secure: false,
   auth: {
     user: 'animetrix013@gmail.com',
-    pass: process.env.EMAIL_PASSWORD || "zafeqslevatdefaw",
+    pass: process.env.EMAIL_PASSWORD,
   },
 };

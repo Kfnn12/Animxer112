@@ -13,7 +13,7 @@ function ForgotPassword() {
   const navigate = useNavigate()
 
   useEffect(()=>{
-    const id = Cookies.get("id");
+    const id = getCookie("id");
     if(id) {
       navigate("/");
     }
@@ -37,6 +37,18 @@ function ForgotPassword() {
             alert("Something went wrong please try again later.")
     }   
   }
+
+  function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].trim();
+    if (cookie.startsWith(name + '=')) {
+      return cookie.substring(name.length + 1);
+    }
+  }
+  return undefined;
+}
+
 
   const userVerification = async() => {
     try {
