@@ -10,6 +10,7 @@ import ChatBody from "./ChatBody";
 import ChatInput from "./ChatInput";
 import AiringSchedule from "./AiringSchedule";
 import ForYou from "./ForYou";
+import History from "./History";
 export {
     Card,
     Error404,
@@ -22,5 +23,6 @@ export {
     ChatBody,
     ChatInput,
     AiringSchedule,
-    ForYou
+    ForYou,
+    History
 }

@@ -373,7 +373,8 @@
 /* comments */
 .comments{
   padding-top: 120px;
-  width: 800px;
+  max-width: 800px;
+  width: 100%;
 }
 .comments-header{
   padding: 10px;
@@ -416,7 +417,7 @@
 }
 .user-comment{
   display: flex;
-  margin: 15px 0;
+  margin: 12px 0;
 }
 
 .user-img img{
@@ -431,7 +432,7 @@
 .user-name-time{
   padding: 0 10px;
   display: flex;
-  gap:  10px;
+  gap: 20px;
   align-items: center;
 }
 .user-name-time .user-name{

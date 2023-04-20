@@ -1,31 +1,48 @@
 import React from 'react'
 import '../css/Profile.css'
+import { Link } from 'react-router-dom'
 import { Footer } from '../Components'
 const Profile = () => {
     const user = "Shiva"
     return (
         <>
         <section className='profile-wrapper'>
-        <div className='top-navbar'>
+            <div className="profile-greeting">
+               <h1> Hi, {user}</h1>
+            </div>
+        <div className='profile-navbar'>
             <ul>
+                <Link to="/profile">
                 <li>Profile</li>
-                <li>History</li>
+                </Link>
+                <Link to="/history"><li>History</li></Link>
                 <li>Bookmark</li>
             </ul>
         </div>
         </section>
-        <section className='login profile'>
+        <section className='profile-user-info'>
             <div className="login-container">
                 <div className="user-picture">
                     <img src="https://i.pinimg.com/originals/b8/bf/ac/b8bfac2f45bdc9bfd3ac5d08be6e7de8.jpg" alt="user-image" className='user-img' />
-                    <input type="file" className='edit-profile' accept='image/png, image/jpeg, image/jpg' />
+                    <div className="edit-user-profile">
+                    <i class="fa-solid fa-pen"></i>
+                    </div>
+                    <div className="profile-images-modal">
+                        <img src="https://i.ibb.co/sJPVdF8/2wPVNZ.jpg" alt="" />
+                        <img src="https://i.ibb.co/sJPVdF8/2wPVNZ.jpg" alt="" />
+                        <img src="https://i.ibb.co/sJPVdF8/2wPVNZ.jpg" alt="" />
+                    </div>
                 </div>
-                <h1>Hello {user} </h1>
-                <form action="">
+                <form action="" autoComplete='false'>
+                    <label htmlFor="text">Your Name</label>
                     <input type="text" value={user} className='login-group-input' />
+                    {/* user cannot update email value its just here to diplay info */}
+                    <label htmlFor="email">Email</label>
                     <input type="email" value="user@gmail.com" className='login-group-input' />
-                    <div className='login-btn'>
-                        <button className='login-sign-in' >Save</button>
+                    <label htmlFor="text">Password</label>
+                    <input type="text" value="1234" className='login-group-input' />
+                    <div className='profile-btn'>
+                        <button className='profile-save' >Save</button>
                     </div>
                 </form>
             </div>
