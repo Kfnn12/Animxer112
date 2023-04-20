@@ -19,7 +19,7 @@ import './css/AiringSchedule.css'
 import './css/ForYou.css'
 
 import { Error404, Header, ScrollToTop, SearchJSX, History } from "./Components/";
-import { DubAnime, RecentAnime, Details, Stream, Popular, TopAnimeAiring, Movie, OptionFetcher, Login, Register, AIChat, Profile, ForgotPassword, MovieDetails, Watch } from "./Pages"
+import { DubAnime, RecentAnime, Details, Stream, Popular, TopAnimeAiring, Movie, OptionFetcher, Login, Register, AIChat, Profile, ForgotPassword } from "./Pages"
 
 
 
@@ -270,20 +270,9 @@ function App() {
           element={<Details handelClick={handelClick} />}
         />
         <Route
-
-          exact
-          path="/details/:animeId"
-          element={<MovieDetails handelClick={handelClick} />}
-        />
-        <Route
           exact
           path="/watch/:episodeId/:animeId"
           element={<Stream />}
-        />
-        <Route
-          exact
-          path="/vidcdn/watch/:episodeId"
-          element={<Watch />}
         />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />
