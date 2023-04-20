@@ -5,9 +5,9 @@ import spinner from "../img/spinner.svg";
 
 function OptionFetcher() {
 
-  const [selectedOption, setSelectedOption] = useState('action');
+  const [selectedOption, setSelectedOption] = useState('Action');
 
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
 
   const [page, setPage] = useState(1);
 
@@ -27,11 +27,11 @@ function OptionFetcher() {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `https://animetrix-api.onrender.com/genre/${selectedOption}?page=${page}`
+        `https://api.consumet.org/meta/anilist/advanced-search?genres=["${selectedOption}"]&&page=${page}`
       );
       const responseData = await response.json();
 
-      setData(responseData);
+      setData([...data, ...responseData.results]);
       setIsLoading(false);
     } catch (error) {
       console.error(error);
@@ -42,6 +42,8 @@ function OptionFetcher() {
   function handleChange(event) {
 
     setSelectedOption(event.target.value);
+    setPage(1);
+    setData([]);
   }
 
 
@@ -49,10 +51,10 @@ function OptionFetcher() {
     try {
       setPage(page + 1);
       const response = await fetch(
-        `https://animetrix-api.onrender.com/genre/${selectedOption}?page=${page}`
+        `https://api.consumet.org/meta/anilist/advanced-search?genres=["${selectedOption}"]&&page=${page}`
       );
       const responseData = await response.json();
-      setData([...data, ...responseData]);
+      setData([...data, ...responseData.results]);
     } catch (error) {
       console.error(error);
     }
@@ -62,6 +64,7 @@ function OptionFetcher() {
   useEffect(() => {
     setPage(1);
   }, [selectedOption]);
+  
 
   return (
     <>
@@ -79,48 +82,11 @@ function OptionFetcher() {
         <div className="filter-bar genre">
           <div className="filter-dropdowns">
             <select value={selectedOption} onChange={handleChange}>
-              <option value="action" >Action</option>
-              <option value="adventure">Adventure</option>
-              <option value="cars ">Cars </option>
-              <option value="comedy">Comedy</option>
-              <option value="crime">Crime</option>
-              <option value="dementia">Dementia</option>
-              <option value="demons">Demons</option>
-              <option value="drama">Drama</option>
-              <option value="ecchi">Ecchi</option>
-              <option value="family">Family</option>
-              <option value="fantasy">Fantasy</option>
-              <option value="game">Game</option>
-              <option value="gourmet">Gourmet</option>
-              <option value="harem">Harem</option>
-              <option value="historical">Historical</option>
-              <option value="horror">Horror</option>
-              <option value="josei">Josei</option>
-              <option value="kids">Kids</option>
-              <option value="magic">Magic</option>
-              <option value="mecha">Mecha</option>
-              <option value="martial-arts">Martial-arts</option>
-              <option value="military">Military</option>
-              <option value="mystery">Mystery</option>
-              <option value="parody">Parody</option>
-              <option value="police">Police</option>
-              <option value="psychological">Psychological</option>
-              <option value="romance">Romance</option>
-              <option value="samurai">Samurai</option>
-              <option value="school">School</option>
-              <option value="sci-fi">Sci-fi</option>
-              <option value="seinen">Seinen</option>
-              <option value="shoujo">Shoujo</option>
-              <option value="shounen">Shounen</option>
-              <option value="space">Space</option>
-              <option value="sports">Sports</option>
-              <option value="super-power">Super-power</option>
-              <option value="supernatural">Supernatural</option>
-              <option value="suspense">Suspense</option>
-              <option value="thriller">Thriller</option>
-              <option value="vampire">Vampire</option>
-              <option value="yaoi">Yaoi</option>
-              <option value="yuri">Yuri</option>
+              {["Action", "Adventure", "Comedy", "Drama", "Fantasy", "Horror", "Mecha", "Mystery", "Romance", "Sci-Fi", "Sports", "Supernatural", "Thriller"].map((genreItem) => {
+                return (
+                  <option value={genreItem} key={genreItem} >{genreItem}</option>
+                )
+              })}
             </select>
           </div>
           <div className="heading">
@@ -137,18 +103,16 @@ function OptionFetcher() {
             <div className='movies-grid'>
               {data.map(item => (
                 <div
-                  className="movie-card" key={item.animeId}>
-                  <Link to={`/anime-details/${item.animeId}`}>
+                  className="movie-card" key={item.id}>
+                  <Link to={`/anime-details/${item.id}`}>
                     <div className="card-head">
-                      <Link to={`/details/${item.animeId}`}>
-                      <img
-                        src={item.animeImg}
-                        alt={item.animeId}
-                        className="card-img"
-                      />
-                      </Link>
+                        <img
+                          src={item.image}
+                          alt={item.id}
+                          className="card-img"
+                        />
                       <div className="">
-                        <h5 className="card-title">{(item.animeTitle.substring(0, 35))}</h5>
+                        <h5 className="card-title">{item.title?.userPreferred}</h5>
                       </div>
                     </div>
                   </Link>

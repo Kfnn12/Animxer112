@@ -40,32 +40,28 @@ const Movie = (props) => {
             </div>
             <div className="movies-grid" ref={ref}>
               {props.recent.map((rec) => (
-                      <div
-                      className="movie-card" onClick={() => props.handelClick()} key={rec.animeId}>
-                      <div className="card-head">
-                        <div className="bookmark-icon">
-                          <i class="fa-solid fa-bookmark"></i>
-                        </div>
-                        <Link to={`/details/${rec.animeId}`}>
-                          <img
-                            src={rec.animeImg}
-                            alt={rec.animeId}
-                            className="card-img"
-                          />
-                          </Link>
-                        <div className="card-details">
-                          <div className="episode-total">
-                            <span>{(rec.subOrDub)}</span>
-                            <span>{(rec.episodeNum)}</span>
-                          </div>
-                          <h5 className="card-title">{(rec.animeTitle)}</h5>
-                          {props.ep !== "false" ? (
-                            <div className="card-info">
-                            </div>
-                          ) : null}
-                        </div>
-                      </div>
+                <div
+                  className="movie-card" onClick={() => props.handelClick()} key={rec.id}>
+                  <div className="card-head">
+                    <div className="bookmark-icon">
+                      <i class="fa-solid fa-bookmark"></i>
                     </div>
+                    <Link to={`/anime-details/${rec.id}`}>
+                      <img
+                        src={rec.image}
+                        alt={rec.title?.romanji}
+                        className="card-img"
+                      />
+                    </Link>
+                    <div className="card-details">
+                      <div className="episode-total">
+                        <span>{(rec.releaseDate)}</span>
+                        <span>{(rec.rating/10)}</span>
+                      </div>
+                      <h5 className="card-title">{(rec.title?.userPreferred)}</h5>
+                    </div>
+                  </div>
+                </div>
               ))}
             </div>
             <InfiniteScroll

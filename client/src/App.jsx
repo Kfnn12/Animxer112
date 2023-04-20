@@ -18,7 +18,7 @@ import './css/Chatbot.css'
 import './css/AiringSchedule.css'
 import './css/ForYou.css'
 
-import { Error404, Header, ScrollToTop, SearchJSX,History } from "./Components/";
+import { Error404, Header, ScrollToTop, SearchJSX, History } from "./Components/";
 import { DubAnime, RecentAnime, Details, Stream, Popular, TopAnimeAiring, Movie, OptionFetcher, Login, Register, AIChat, Profile, ForgotPassword, MovieDetails, Watch } from "./Pages"
 
 
@@ -94,9 +94,9 @@ function App() {
     try {
       setLoading(true);
       const Data = await axios.get(
-        `https://animetrix-api.onrender.com/anime-movies?page=${id}`
+        `https://api.consumet.org/meta/anilist/advanced-search?format=MOVIE&&page=${id}`
       );
-      setMovie((movie) => [...movie, ...Data.data]);
+      setMovie((movie) => [...movie, ...Data.data.results]);
       setLoading(false);
     } catch (err) {
       console.log("Error loading Movies");
@@ -289,7 +289,7 @@ function App() {
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/profile" element={<Profile />} />
         <Route exact path="/forgot-password" element={<ForgotPassword />} />
-        <Route exact path="/history" element={<History/>} />
+        <Route exact path="/history" element={<History />} />
         <Route path="/*" element={<Error404 />} />
       </Routes>
     </Router>
