@@ -31,7 +31,7 @@
 .lastwatch-head{
   background: #162032;
   width: 200px;
-  min-height: 200px;
+  height: 350px;
   display: grid;
   border-radius: 4px;
 }

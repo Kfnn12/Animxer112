@@ -18,7 +18,7 @@ import './css/Chatbot.css'
 import './css/AiringSchedule.css'
 import './css/ForYou.css'
 
-import { Error404, Header, ScrollToTop, SearchJSX, History } from "./Components/";
+import { Error404, Header, ScrollToTop, SearchJSX, History,Bookmark } from "./Components/";
 import { DubAnime, RecentAnime, Details, Stream, Popular, TopAnimeAiring, Movie, OptionFetcher, Login, Register, AIChat, Profile, ForgotPassword } from "./Pages"
 
 
@@ -279,6 +279,7 @@ function App() {
         <Route exact path="/profile" element={<Profile />} />
         <Route exact path="/forgot-password" element={<ForgotPassword />} />
         <Route exact path="/history" element={<History />} />
+        <Route exact path="/bookmark" element={<Bookmark />} />
         <Route path="/*" element={<Error404 />} />
       </Routes>
     </Router>

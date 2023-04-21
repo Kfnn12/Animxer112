@@ -16,7 +16,9 @@ const Profile = () => {
                 <li>Profile</li>
                 </Link>
                 <Link to="/history"><li>History</li></Link>
+                <Link to="/bookmark">
                 <li>Bookmark</li>
+                </Link>
             </ul>
         </div>
         </section>

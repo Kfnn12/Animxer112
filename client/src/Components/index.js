@@ -11,6 +11,7 @@ import ChatInput from "./ChatInput";
 import AiringSchedule from "./AiringSchedule";
 import ForYou from "./ForYou";
 import History from "./History";
+import Bookmark from './Bookmark'
 export {
     Card,
     Error404,
@@ -24,5 +25,6 @@ export {
     ChatInput,
     AiringSchedule,
     ForYou,
-    History
+    History,
+    Bookmark
 }
