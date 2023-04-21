@@ -22,7 +22,7 @@ export default function Card(props) {
               <span>{(props.rec.totalEpisodes)}</span>
               <span>{(props.rec.rating/10)}</span>
             </div>
-            <h5 className="card-title">{(props.rec.title.userPreferred)}</h5>
+            <h5 className="card-title">{props.rec.title.userPreferred||props.rec.title.english||props.rec.romaji}</h5>
           </div>
         </div>
       </div>

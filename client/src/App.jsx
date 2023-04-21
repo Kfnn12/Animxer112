@@ -17,9 +17,10 @@ import './css/Search.css'
 import './css/Chatbot.css'
 import './css/AiringSchedule.css'
 import './css/ForYou.css'
+import "./css/ImageSearch.css"
 
 import { Error404, Header, ScrollToTop, SearchJSX, History,Bookmark } from "./Components/";
-import { DubAnime, RecentAnime, Details, Stream, Popular, TopAnimeAiring, Movie, OptionFetcher, Login, Register, AIChat, Profile, ForgotPassword } from "./Pages"
+import { DubAnime, RecentAnime, Details, Stream, Popular, TopAnimeAiring, Movie, OptionFetcher, Login, Register, AIChat, Profile, ForgotPassword, AnimeImageSearch } from "./Pages"
 
 
 
@@ -274,6 +275,7 @@ function App() {
           path="/watch/:episodeId/:animeId"
           element={<Stream />}
         />
+           <Route exact path="/image-search" element={<AnimeImageSearch/>} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/profile" element={<Profile />} />

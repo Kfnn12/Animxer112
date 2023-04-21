@@ -12,6 +12,7 @@ import AiringSchedule from "./AiringSchedule";
 import ForYou from "./ForYou";
 import History from "./History";
 import Bookmark from './Bookmark'
+import AnimeImageSearchLayout from "./AnimeImageSearchLayout";
 export {
     Card,
     Error404,
@@ -26,5 +27,6 @@ export {
     AiringSchedule,
     ForYou,
     History,
-    Bookmark
+    Bookmark,
+    AnimeImageSearchLayout
 }

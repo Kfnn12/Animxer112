@@ -68,7 +68,7 @@ export default function Details() {
 
                   <div className="anime-info">
                     {animeDetails.title.english && animeDetails.title.english ? (
-                      <p className="anime-title">{animeDetails.title.english}</p>
+                      <p className="anime-title">{animeDetails.title.english ||animeDetails.title.romaji||animeDetails.title.romaji}</p>
                     ) : (
                       <p className="anime-title"> {animeDetails.title.romaji}</p>
                     )}

@@ -139,8 +139,12 @@ const Header = forwardRef((props, ref) => {
           <NavLink to="/profile">
           <li>Profile</li>
           </NavLink>
+          <NavLink to="/bookmark">
           <li>Bookmark</li>
+          </NavLink>
+          <NavLink to="/history">
           <li>History</li>
+          </NavLink>
         <li onClick={e => { logout(e) }}>Logout</li>
         </div>
       </div>
@@ -189,6 +193,11 @@ const Header = forwardRef((props, ref) => {
           <li>
             <NavLink to={"/ai-chat"} onClick={() => closeMenuWhenClickedLink()}>
               AI Chat
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to={"/image-search"} onClick={() => closeMenuWhenClickedLink()}>
+            Finder
             </NavLink>
           </li>
         </ul>
