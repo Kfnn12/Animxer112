@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import Cookies from "js-cookie";
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import {FiLogOut} from "react-icons/fi"
+import { FiLogOut } from "react-icons/fi"
 import { Link } from "react-router-dom";
 const Header = forwardRef((props, ref) => {
   const [togglemenu, setToggleMenu] = useState(true);
@@ -29,16 +29,28 @@ const Header = forwardRef((props, ref) => {
   })
 
   function getCookie(name) {
-  const cookies = document.cookie.split(';');
-  for (let i = 0; i < cookies.length; i++) {
-    const cookie = cookies[i].trim();
-    if (cookie.startsWith(name + '=')) {
-      return cookie.substring(name.length + 1);
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.startsWith(name + '=')) {
+        return cookie.substring(name.length + 1);
+      }
     }
+    return undefined;
   }
-  return undefined;
-}
+  let profileRef = useRef();
+  useEffect(() => {
+    let handler = (e) => {
+      if (!profileRef.current.contains(e.target)) {
+        setProfileActive(false);
+      }
+    };
+    document.addEventListener("mousedown", handler)
 
+    return () => {
+      document.removeEventListener("mousedown", handler)
+    }
+  })
   let toggleref = useRef();
   useEffect(() => {
     let handler = (e) => {
@@ -56,7 +68,7 @@ const Header = forwardRef((props, ref) => {
   const getUser = async () => {
     const id = getCookie("id");
     setImg(getCookie("img"));
-    if(id.length != 0) {
+    if (id.length != 0) {
       setIsLoggedIn(true);
     };
   }
@@ -69,10 +81,10 @@ const Header = forwardRef((props, ref) => {
   function scroll() {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
   }
-  function ProfileView(){
-    setProfileActive(profileActive=>!profileActive)
+  function ProfileView() {
+    setProfileActive(profileActive => !profileActive)
   }
-  const ProfileOpen = profileActive? 'active': 'gay';
+  const ProfileOpen = profileActive ? 'active' : 'gay';
   function MobileView() {
     setSearchActive(!searchActive);
     scroll()
@@ -166,28 +178,28 @@ const Header = forwardRef((props, ref) => {
           />
         </div>
         {!isLoggedIn ?
-      <li className="login-tab">
-        <NavLink to={"/login"}>
-          <ion-icon name="log-in-outline"></ion-icon>
-        </NavLink>
-      </li>
-      :
-    
-      <div className="account-login" onClick={ProfileView}>
-        <img src={img} alt="user-image" className='login-img' />
-        <div className={`extra-options ${ProfileOpen}`}>
-          <Link to="/profile">
-          <li>Profile</li>
-          </Link>
-          <Link to="/bookmark">        
-          <li>Bookmark</li>
-          </Link>
-          <Link to="/history">  
-          <li>History</li>
-          </Link>
-        <li onClick={e => { logout(e) }}>Logout</li>
-        </div>
-      </div>}
+          <li className="login-tab">
+            <NavLink to={"/login"}>
+              <ion-icon name="log-in-outline"></ion-icon>
+            </NavLink>
+          </li>
+          :
+
+          <div className="account-login" onClick={ProfileView} ref={profileRef}>
+            <img src={img} alt="user-image" className='login-img' />
+            <div className={`extra-options ${ProfileOpen}`}>
+              <Link to="/profile">
+                <li>Profile</li>
+              </Link>
+              <Link to="/bookmark">
+                <li>Bookmark</li>
+              </Link>
+              <Link to="/history">
+                <li>History</li>
+              </Link>
+              <li onClick={e => { logout(e) }}>Logout</li>
+            </div>
+          </div>}
         <div className="mobile-search" ref={menuRef}>
           <div className="search-field">
             <input type="text" className={`active-search-mobile ${searchActive ? 'active' : ''}`} placeholder="I am looking for" value={inputVal} onChange={handelChange} />
