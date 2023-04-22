@@ -141,7 +141,7 @@ function AnimeImageSearch() {
                                     </div><div class="white-orbit w3 leo">
                                     </div>
                                     <div className="text-message">
-                                    <h1 className="solar-text">Hunting the universe for an image, no luck yet</h1>
+                                    <h1 className="solar-text">Hunting the universe for the sauce, no luck yet</h1>
                                     </div>
                                 </div>
 
@@ -196,7 +196,7 @@ function AnimeImageSearch() {
                                     <div class="white-orbit w1 leo">
                                     </div><div class="white-orbit w2 leo">
                                     </div><div class="white-orbit w3 leo">
-                                        <h1>Hunting the universe for an image, no luck yet</h1>
+                                        <h1>Hunting the universe for the sauce, no luck yet</h1>
                                     </div>
                                 </div>
 

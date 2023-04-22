@@ -83,6 +83,9 @@ const Profile = () => {
                     {/* user cannot update email value its just here to diplay info */}
                     <label htmlFor="email">Email</label>
                     <input type="email" value="user@gmail.com" className='login-group-input' />
+                    <label htmlFor="text">Password
+                    <input type="text" value="password" className='login-group-input' />
+                    </label>
                     <div className='profile-btn'>
                         <button className='profile-save' >Save</button>
                     </div>

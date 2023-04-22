@@ -133,7 +133,7 @@
 
 .recommended-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(13%, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(15%, 1fr));
   gap: 30px;
   padding-top: 40px;
 }

@@ -164,7 +164,7 @@ const Header = forwardRef((props, ref) => {
 
           <li>
             <NavLink to={"/image-search"} onClick={() => closeMenuWhenClickedLink()}>
-              Finder
+            AniScan
             </NavLink>
           </li>
         </ul>

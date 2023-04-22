@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 
-import { Card, Lastwatch, Slider, AiringSchedule, ForYou, Footer } from "../Components"
+import { Card, Lastwatch, Slider, AiringSchedule, ForYou, Footer, UpcomingSeason } from "../Components"
 import { NewSeason } from "../Pages"
 import { Link } from "react-router-dom";
 import { useFetchInitialData } from "../utils/hooks";
@@ -107,6 +107,8 @@ const RecentAnime = (props) => {
               </div>
           </section>
           <ForYou />
+          <br /><br />
+          <UpcomingSeason/>
           <br /><br />
           <AiringSchedule airingList={airingList} ref={ref} />
           <Footer/>

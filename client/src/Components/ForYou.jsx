@@ -8,7 +8,6 @@ const ForYou = () => {
       const api = await fetch(`https://api.consumet.org/meta/anilist/random-anime`)
       const response = await api.json()
       setforYou(response)
-      console.log(response)
     }
     catch (error) {
       console.log("Error loading recommended for you")
