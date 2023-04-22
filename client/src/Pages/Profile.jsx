@@ -1,6 +1,9 @@
-import React from 'react'
+import {React, useState, useEffect} from 'react'
 import '../css/Profile.css'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import Cookies from 'js-cookie'
 import { Footer } from '../Components'
 const Profile = () => {
      const [userId, setUserId] = useState("");

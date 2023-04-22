@@ -4,14 +4,13 @@ import Cookies from "js-cookie";
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {FiLogOut} from "react-icons/fi"
-import axios from "axios";
+import { Link } from "react-router-dom";
 const Header = forwardRef((props, ref) => {
   const [togglemenu, setToggleMenu] = useState(true);
 
   const [searchActive, setSearchActive] = useState(false);
   const [profileActive, setProfileActive] = useState(false);
-  const [details, setDetails] = useState({});
-  const [userId, setUserId] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [img, setImg] = useState("https://i.pinimg.com/originals/b8/bf/ac/b8bfac2f45bdc9bfd3ac5d08be6e7de8.jpg");
 
   let menuRef = useRef();
@@ -29,7 +28,7 @@ const Header = forwardRef((props, ref) => {
     }
   })
 
-   function getCookie(name) {
+  function getCookie(name) {
   const cookies = document.cookie.split(';');
   for (let i = 0; i < cookies.length; i++) {
     const cookie = cookies[i].trim();
@@ -54,55 +53,18 @@ const Header = forwardRef((props, ref) => {
     }
   })
 
-  let profileRef = useRef();
-  useEffect(()=>{
-    let handler = (e)=>{
-      if(!profileRef.current.contains(e.target)){
-        setProfileActive(false);
-      }
-    };
-    document.addEventListener("mousedown", handler)
-
-    return()=>{
-      document.removeEventListener("mousedown", handler)
-    }
-  })
-
   const getUser = async () => {
-    setUserId(Cookies.get("id"));
     const id = getCookie("id");
     setImg(getCookie("img"));
-    console.log(id);
     if(id.length != 0) {
       setIsLoggedIn(true);
     };
-
   }
-  const getDetails = async () => {
-    try {
-        axios.interceptors.response.use(response => {
-            return response;
-        }, error => {
-            return;
-        });
-        console.log(userId);
-        const res = await axios.get(`http://localhost:8000/api/v1/user/${userId}`)
-        if (res.data) {
-            setDetails(res.data.user);
-            setImg(res.data.user.profile);
-        }
-        else
-            setDetails({});
-    } catch (err) {
-        console.log(err);
-    }
-}
 
   useEffect(() => {
-    getDetails();
     getUser();
     // console.log(userId);
-  },[userId]);
+  },);
 
   function scroll() {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
@@ -138,36 +100,10 @@ const Header = forwardRef((props, ref) => {
     const conf = window.confirm("Are you sure you want to logout??");
     if (conf) {
       Cookies.remove("id");
-      setUserId("");
+      setIsLoggedIn(false);
     }
   }
 
-  const toggleButton = () => {
-    if (userId == undefined || userId.length == 0) {
-      return (<li className="login-tab">
-        <NavLink to={"/login"}>
-          <ion-icon name="log-in-outline"></ion-icon>
-        </NavLink>
-      </li>)
-    }
-    return (
-      <div className="account-login" onClick={ProfileView} ref={profileRef}>
-        <img src={img} alt="user-image" className='login-img' />
-        <div className={`extra-options ${ProfileOpen}`}>
-          <NavLink to="/profile">
-          <li>Profile</li>
-          </NavLink>
-          <NavLink to="/bookmark">
-          <li>Bookmark</li>
-          </NavLink>
-          <NavLink to="/history">
-          <li>History</li>
-          </NavLink>
-        <li onClick={e => { logout(e) }}>Logout</li>
-        </div>
-      </div>
-)
-  }
   return (
     <>
       <nav className="header">
@@ -213,9 +149,10 @@ const Header = forwardRef((props, ref) => {
               AI Chat
             </NavLink>
           </li>
+
           <li>
             <NavLink to={"/image-search"} onClick={() => closeMenuWhenClickedLink()}>
-            Finder
+              Finder
             </NavLink>
           </li>
         </ul>
@@ -228,8 +165,29 @@ const Header = forwardRef((props, ref) => {
             onChange={handelChange}
           />
         </div>
-        {toggleButton()}
-
+        {!isLoggedIn ?
+      <li className="login-tab">
+        <NavLink to={"/login"}>
+          <ion-icon name="log-in-outline"></ion-icon>
+        </NavLink>
+      </li>
+      :
+    
+      <div className="account-login" onClick={ProfileView}>
+        <img src={img} alt="user-image" className='login-img' />
+        <div className={`extra-options ${ProfileOpen}`}>
+          <Link to="/profile">
+          <li>Profile</li>
+          </Link>
+          <Link to="/bookmark">        
+          <li>Bookmark</li>
+          </Link>
+          <Link to="/history">  
+          <li>History</li>
+          </Link>
+        <li onClick={e => { logout(e) }}>Logout</li>
+        </div>
+      </div>}
         <div className="mobile-search" ref={menuRef}>
           <div className="search-field">
             <input type="text" className={`active-search-mobile ${searchActive ? 'active' : ''}`} placeholder="I am looking for" value={inputVal} onChange={handelChange} />
@@ -238,9 +196,6 @@ const Header = forwardRef((props, ref) => {
             </div>
           </div>
         </div>
-
-
-
         <div
           className="toggle"
           onClick={() => {
