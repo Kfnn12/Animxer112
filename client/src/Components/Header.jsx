@@ -29,6 +29,17 @@ const Header = forwardRef((props, ref) => {
     }
   })
 
+   function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].trim();
+    if (cookie.startsWith(name + '=')) {
+      return cookie.substring(name.length + 1);
+    }
+  }
+  return undefined;
+}
+
   let toggleref = useRef();
   useEffect(() => {
     let handler = (e) => {
@@ -59,6 +70,13 @@ const Header = forwardRef((props, ref) => {
 
   const getUser = async () => {
     setUserId(Cookies.get("id"));
+    const id = getCookie("id");
+    setImg(getCookie("img"));
+    console.log(id);
+    if(id.length != 0) {
+      setIsLoggedIn(true);
+    };
+
   }
   const getDetails = async () => {
     try {

@@ -191,14 +191,12 @@ const changeName = async(req, res) => {
 
 const addHistory = async(req, res) => {
   try {
-    const {_id, animeId, epId, title, image} = req.body;
+    const {_id, animeId, epId} = req.body;
     const user = User.find({"_id": _id, isVerified: true})
     if(user) {
       const newAnime = {
         animeId: animeId,
-        epId: epId,
-        title: title,
-        image: image
+        epId: epId
       }
       user.history.push(newAnime);
       await user.save();
@@ -260,15 +258,5 @@ const getUser = async(req, res) => {
   }
 }
 
-const getAllUser = async(req, res) => {
-  try {
-        console.log("dvdv");
-        const users = await User.find({isVerified: true});
-        res.status(200).json({"users": users});
-    } catch(err) {
-        console.log(err);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-}
 
-module.exports = { addUser, loginUser,  changePassword,  verify, getBookmarks, toggleBookmark, changeName,  changeProfile, getHistory, addHistory, clearHistory, getUser, getAllUser };
+module.exports = { addUser, loginUser,  changePassword,  verify, getBookmarks, toggleBookmark, changeName,  changeProfile, getHistory, addHistory, clearHistory, getUser };

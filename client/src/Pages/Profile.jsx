@@ -3,12 +3,51 @@ import '../css/Profile.css'
 import { Link } from 'react-router-dom'
 import { Footer } from '../Components'
 const Profile = () => {
+     const [userId, setUserId] = useState("");
+    const [details, setDetails] = useState({});
+    const [img, setImg] = useState("https://i.pinimg.com/originals/b8/bf/ac/b8bfac2f45bdc9bfd3ac5d08be6e7de8.jpg");
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        const id = Cookies.get("id");
+        console.log(typeof(id));
+        if(id.length == 0) {
+            navigate("/");
+        } else {
+            setUserId(id);
+        }
+    });
+
+    useEffect(()=>{
+        getDetails();
+    }, [userId]);
+
+  const getDetails= async() => {
+    try {
+            axios.interceptors.response.use(response => {
+                return response;
+            }, error => {
+            return ;
+            });
+            console.log(userId);
+            const res = await axios.get(`http://localhost:8000/api/v1/user/${userId}`)
+            if(res.data) {
+              setDetails(res.data.user);
+              setImg(res.data.user.profile);
+            }
+            else
+              setDetails({});
+        } catch(err) {
+            console.log(err);
+    } 
+    }
+    
     const user = "Shiva"
     return (
         <>
         <section className='profile-wrapper'>
             <div className="profile-greeting">
-               <h1> Hi, {user}</h1>
+               <h1> Hello, {user}</h1>
             </div>
         <div className='profile-navbar'>
             <ul>
@@ -41,8 +80,6 @@ const Profile = () => {
                     {/* user cannot update email value its just here to diplay info */}
                     <label htmlFor="email">Email</label>
                     <input type="email" value="user@gmail.com" className='login-group-input' />
-                    <label htmlFor="text">Password</label>
-                    <input type="text" value="1234" className='login-group-input' />
                     <div className='profile-btn'>
                         <button className='profile-save' >Save</button>
                     </div>

@@ -11,9 +11,19 @@ function Register() {
   const [otp, setOtp] = useState("");
 
   const navigate = useNavigate()
+   function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].trim();
+    if (cookie.startsWith(name + '=')) {
+      return cookie.substring(name.length + 1);
+    }
+  }
+  return undefined;
+}
 
   useEffect(()=>{
-    const id = Cookies.get("id");
+    const id = getCookie("id");
     if(id) {
       navigate("/");
     }

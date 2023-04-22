@@ -27,10 +27,21 @@ function Login() {
     }
   }
 
+  function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].trim();
+    if (cookie.startsWith(name + '=')) {
+      return cookie.substring(name.length + 1);
+    }
+  }
+  return undefined;
+}
+
   const navigate = useNavigate();
 
   useEffect(()=>{
-    const id = Cookies.get("id");
+    const id = getCookie("id");
     if(id) {
       navigate("/");
     }
@@ -43,10 +54,12 @@ function Login() {
       console.log("Login Successfull");
       if (rememberMe) {
         Cookies.set("id", res.data._id, { expires: 7 });
-        navigate("/");
+        Cookies.set("img", res.data.profile, { expires: 7 });
+        window.location.reload();
       } else {
         Cookies.set("id", res.data._id, { expires: 1 });
-        navigate("/");
+        Cookies.set("img", res.data.profile, { expires: 1 });
+        window.location.reload();
       }
     }
     else {

@@ -1,12 +1,11 @@
 const express = require("express");
-const {addUser, loginUser, verify, changePassword, toggleBookmark, getBookmarks, changeName, changeProfile, getHistory, addHistory, clearHistory, getUser, getAllUser} = require("../controllers/userController");
+const {addUser, loginUser, verify, changePassword, toggleBookmark, getBookmarks, changeName, changeProfile, getHistory, addHistory, clearHistory, getUser} = require("../controllers/userController");
 const validateEmail = require("../middleware");
 
 const route = express.Router();
 
 route.get("/bookmark/:_id", getBookmarks);
 route.get("/history/:_id", getHistory);
-route.get("/all", getAllUser);
 route.get("/:_id", getUser);
 
 route.post("/register", validateEmail, addUser);

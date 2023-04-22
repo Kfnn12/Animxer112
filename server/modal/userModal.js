@@ -36,12 +36,6 @@ const userSchema = new mongoose.Schema({
     },
     epId: {
       type: String
-    },
-    image: {
-      type: String
-    },
-    title: {
-      type: String
     }
   }]
 })
