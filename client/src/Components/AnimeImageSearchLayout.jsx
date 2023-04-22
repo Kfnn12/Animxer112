@@ -115,7 +115,7 @@ function AnimeImageSearchLayout({ searchResult, setToggle }) {
 							 Another Image
 						</button>
 					</div>
-					<div className="expected-scene">
+					{/* <div className="expected-scene">
 						<div className="heading">
 							<h1>Expected Scene</h1>
 						</div>
@@ -127,7 +127,7 @@ function AnimeImageSearchLayout({ searchResult, setToggle }) {
 							playsInline
 							loop
 						/>
-					</div>
+					</div> */}
 				</div>
 			</div>
 		</>

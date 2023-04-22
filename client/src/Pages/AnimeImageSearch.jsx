@@ -85,9 +85,9 @@ function AnimeImageSearch() {
                         <h1 className="search-image">Search Anime by Scene</h1>
                         <div className="image-search-note">
                             <p className="image-note">
-                                    Disclaimer:{" "}
-                                     This feature may not be 100% accurate and only works with in-scene anime episodes, not anime wallpapers
-                                   
+                                Disclaimer:{" "}
+                                This feature may not be 100% accurate and only works with in-scene anime episodes, not anime wallpapers
+
                             </p>
                         </div>
                     </div>
@@ -126,14 +126,27 @@ function AnimeImageSearch() {
                                 </div>
                             ) : (
 
-                                <div className="spinner-box">
-                                    <div className="configure-border-1">
-                                        <div className="configure-core"></div>
+                                <div class="spinner-box">
+                                    <div class="blue-orbit leo">
                                     </div>
-                                    <div className="configure-border-2">
-                                        <div className="configure-core"></div>
+
+                                    <div class="green-orbit leo">
+                                    </div>
+
+                                    <div class="red-orbit leo">
+                                    </div>
+
+                                    <div class="white-orbit w1 leo">
+                                    </div><div class="white-orbit w2 leo">
+                                    </div><div class="white-orbit w3 leo">
+                                    </div>
+                                    <div className="text-message">
+                                    <h1 className="solar-text">Hunting the universe for an image, no luck yet</h1>
                                     </div>
                                 </div>
+
+
+
 
                             )}
                         </div>
@@ -170,12 +183,20 @@ function AnimeImageSearch() {
                                 </div>
                             ) : (
 
-                                <div className="spinner-box">
-                                    <div className="configure-border-1">
-                                        <div className="configure-core"></div>
+                                <div class="spinner-box">
+                                    <div class="blue-orbit leo">
                                     </div>
-                                    <div className="configure-border-2">
-                                        <div className="configure-core"></div>
+
+                                    <div class="green-orbit leo">
+                                    </div>
+
+                                    <div class="red-orbit leo">
+                                    </div>
+
+                                    <div class="white-orbit w1 leo">
+                                    </div><div class="white-orbit w2 leo">
+                                    </div><div class="white-orbit w3 leo">
+                                        <h1>Hunting the universe for an image, no luck yet</h1>
                                     </div>
                                 </div>
 
