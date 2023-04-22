@@ -5,7 +5,7 @@ function AiringSchedule(props) {
   return (
     <div className="airing-schedule">
       <div className="airing-schedule-heading">
-        <h3>Upcoming Animes</h3>
+        <h3>Airing Schedule</h3>
       </div>
 
       <div className="anime-airing">
