@@ -112,7 +112,7 @@ function AnimeImageSearchLayout({ searchResult, setToggle }) {
 							className="image-search-btn"
 							onClick={() => setToggle(true)}
 						>
-							Search Another Image
+							 Another Image
 						</button>
 					</div>
 					<div className="expected-scene">
