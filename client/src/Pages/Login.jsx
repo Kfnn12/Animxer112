@@ -54,10 +54,12 @@ function Login() {
       console.log("Login Successfull");
       if (rememberMe) {
         Cookies.set("id", res.data._id, { expires: 7 });
+        Cookies.set("category", res.data.category, { expires: 7 });
         Cookies.set("img", res.data.profile, { expires: 7 });
         window.location.reload();
       } else {
         Cookies.set("id", res.data._id, { expires: 1 });
+        Cookies.set("category", res.data.category, { expires: 1 });
         Cookies.set("img", res.data.profile, { expires: 1 });
         window.location.reload();
       }

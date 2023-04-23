@@ -1,22 +1,45 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-const user = "Shiva"
+import { Link, useNavigate } from 'react-router-dom'
+import {React, useEffect} from 'react';
+
+
+const user = "Shiva";
 const History = () => {
+        function getCookie(name) {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+            return undefined;
+    }
+
+  const navigate = useNavigate();
+
+    useEffect(()=>{
+        const id = getCookie("id");
+        if(!id) {
+        navigate("/");
+        }
+    });
 
     return (
         <>
             <section className='profile-wrapper'>
                 <div className="profile-greeting">
-                    <h1> Hi, {user}</h1>
+                    {/* <h1> Hi, {user}</h1> */}
+                    <h1><i class="fa-solid fa-clock-rotate-left lastwatch-icon continue-icon"></i> Continue Watching</h1>
                 </div>
                 <div className='profile-navbar'>
                     <ul>
                         <Link to="/profile">
                             <li>Profile</li>
                         </Link>
-                        <Link to="/history"><li>History</li></Link>
-                        <li>Bookmark</li>
+                        <li style={{cursor: "pointer"}}>History</li>
+                        <Link to="/bookmark">
+                            <li>Bookmark</li>
+                        </Link>
                     </ul>
                 </div>
             </section>
@@ -24,7 +47,7 @@ const History = () => {
                 <section className="movies">
                     <div className="lastwatch-bar">
                         <div className="lastwatch-heading">
-                            <h1><i class="fa-solid fa-clock-rotate-left lastwatch-icon continue-icon"></i> Continue Watching</h1>
+                            {/* <h1><i class="fa-solid fa-clock-rotate-left lastwatch-icon continue-icon"></i> Continue Watching</h1> */}
                             <div className="lastwatch-grid">
                             <div className="lastwatch-card">
                                 <div className="lastwatch-close">

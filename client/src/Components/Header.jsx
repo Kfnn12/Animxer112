@@ -11,6 +11,7 @@ const Header = forwardRef((props, ref) => {
   const [searchActive, setSearchActive] = useState(false);
   const [profileActive, setProfileActive] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [img, setImg] = useState("https://i.pinimg.com/originals/b8/bf/ac/b8bfac2f45bdc9bfd3ac5d08be6e7de8.jpg");
 
   let menuRef = useRef();
@@ -67,10 +68,12 @@ const Header = forwardRef((props, ref) => {
 
   const getUser = async () => {
     const id = getCookie("id");
+    const category = getCookie("category");
     setImg(getCookie("img"));
-    if (id.length != 0) {
+    if (id.length != 0) 
       setIsLoggedIn(true);
-    };
+    if(category == "admin")
+      setIsAdmin(true);
   }
 
   useEffect(() => {
@@ -197,6 +200,9 @@ const Header = forwardRef((props, ref) => {
               <Link to="/history">
                 <li>History</li>
               </Link>
+              {isAdmin?<Link to="/history">
+                <li>Admin</li>
+              </Link>:""}
               <li onClick={e => { logout(e) }}>Logout</li>
             </div>
           </div>}
