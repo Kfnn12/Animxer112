@@ -37,4 +37,50 @@ const storeComments = async(req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 }
-module.exports = {getComments, storeComments};
+
+const reportComment = async(req, res) => {
+    try {
+        const {userId, commentId} = req.body;
+
+        const comment = await Comments.findById(commentId);
+        if(comment) {
+            if(comment.reports.includes(userId)) {
+                res.status(200).json({message: "Already reported"});
+            } else {
+                comment.reports.push(userId);
+                await comment.save();
+                res.status(201).json({message: "Comment Reported successfully"});
+            }
+        } else {
+            res.status(201).json({message: "Comment Doesnt Exist"});
+        }
+    } catch(err) {
+        console.log(err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
+const deleteComment = async(req, res) => {
+    try {
+        const { _id, userId } = req.params;
+        const comment = await Comments.findById(_id);
+            if(comment) {
+                if(String(comment.sender) == userId) {
+                    const discussionId = comment.discussionId;
+                    await Comments.findOneAndDelete(_id);
+                    await Discussions.findOneAndUpdate({_id: discussionId},{$pull: {comments: _id}},{new: true});
+                    res.status(200).json({"message": "Comment deleted successfully"});
+                } else {
+                    res.status(200).json({"message": "Sender is not a user"});
+                }
+            } else {
+                res.status(200).json({"message": "Comment doesnt exist"});
+            }
+    } catch(err) {
+        console.log(err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+}
+
+
+module.exports = { getComments, storeComments, reportComment, deleteComment };

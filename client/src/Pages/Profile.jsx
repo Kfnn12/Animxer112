@@ -58,7 +58,7 @@ const Profile = () => {
         } catch(err) {
             console.log(err);
     } 
-    }
+}
 
     const changeName = async() => {
         try {

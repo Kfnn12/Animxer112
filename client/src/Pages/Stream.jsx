@@ -11,6 +11,7 @@ import Cookie from "js-cookie"
 export default function Stream(props) {
   const { episodeId } = useParams()
   const [data, setData] = useState([]);
+  const [userId, setUserId] = useState("");
   const { animeId } = useParams()
   const [loading, setLoading] = useState(true)
   const [stream, setstream] = useState([])
@@ -72,7 +73,7 @@ export default function Stream(props) {
       setLoading(false);
     }
     catch (err) {
-      console.log("Error loading streaming data")
+      console.log("Error loading streaming data");
     }
   }
 
@@ -88,7 +89,21 @@ export default function Stream(props) {
       console.log("Error loading details")
     }
   }
+
+  function getCookie(name) {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.startsWith(name + '=')) {
+        return cookie.substring(name.length + 1);
+      }
+    }
+    return undefined;
+}
   useEffect(() => {
+    const id = getCookie("id");
+    if(id) 
+      setUserId(id);
     getDetails();
     getStream();
     getComments();
@@ -105,8 +120,7 @@ export default function Stream(props) {
   const addComment = async (e) => {
     e.preventDefault();
     try {
-      const id = Cookie.get("id");
-      if (id) {
+      if (userId) {
         axios.interceptors.response.use(response => {
           return response;
         }, error => {
@@ -114,22 +128,70 @@ export default function Stream(props) {
           return;
         });
         const res = await axios.post(`http://localhost:8000/api/v1/discussion/comment`, {
-          sender: id,
+          sender: userId,
           _id: episodeId,
           comment: comment
         })
         getComments();
+        setComment("");
         return res;
       }
       alert("Login First");
     } catch (err) {
       console.log(err);
-      alert("Something went wrong please try again later.B")
+      alert("Something went wrong please try again later.")
     }
   }
 
+  const reportComment = async(comment) => {
+    try {
+      if (userId) {
+        axios.interceptors.response.use(response => {
+          return response;
+        }, error => {
+          alert(error.response.data.error);
+          return;
+        });
+        const res = await axios.post(`http://localhost:8000/api/v1/discussion/report`, {
+          userId: userId,
+          commentId: comment._id
+        })
+        getComments();
+        alert(res.data.message);
+        return res;
+      }
+      alert("Login First");
+    } catch (err) {
+      console.log(err);
+      alert("Something went wrong please try again later.")
+    } 
+  }
+
+  const deleteComment = async(comment) => {
+    try {
+      if (userId) {
+        const conf = window.confirm("Are you Sure??");
+        if(conf) {
+          axios.interceptors.response.use(response => {
+            return response;
+          }, error => {
+            alert(error.response.data.error);
+            return;
+          });
+          const res = await axios.delete(`http://localhost:8000/api/v1/discussion/comment/${comment._id}/${userId}`);
+          getComments();
+          alert(res.data.message);
+          return res;
+       }
+      }
+      alert("Login First");
+    } catch (err) {
+      console.log(err);
+      alert("Something went wrong please try again later.")
+    } 
+  }
+
   const printComments = () => {
-    console.log(comments);
     if (comments.length != 0) {
       return (
         <>
@@ -152,6 +214,8 @@ export default function Stream(props) {
                   <div className="reply-like-replies">
                     {/* <button><ThumbUpIcon /></button>
                           <button><ThumbDownIcon /></button> */}
+                    <button className={comment.reports.includes(userId)? "active": ""} onClick={e => reportComment(comment)}><i className="fa-solid fa-flag"></i>&nbsp;&nbsp;&nbsp;Report</button>
+                    {comment.sender._id == userId?<button onClick={e => {deleteComment(comment)}}><i className="fa-regular fa-trash-can"></i>&nbsp;&nbsp;&nbsp;Delete</button>:""}
                   </div>
                 </div>
               </div>
@@ -251,7 +315,6 @@ export default function Stream(props) {
                       onMouseUp={handleMouseUp} ref={containerRef}>
                       {
                         extra.characters.map((character) => {
-                          console.log(character)
                           return <div className="character">
                             <img src={character.image} alt="" />
                             <p>{character.name.full}</p>
@@ -275,6 +338,7 @@ export default function Stream(props) {
                     name=""
                     id=""
                     placeholder="Leave a comment"
+                    value={comment}
                     onChange={e => { setComment(e.target.value) }}
                   ></textarea>
                   <button onClick={e => { addComment(e) }}>Comment</button>
