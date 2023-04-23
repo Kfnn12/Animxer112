@@ -7,6 +7,7 @@ import { useFetchInitialData } from "../utils/hooks";
 
 const RecentAnime = (props) => {
   const renderAfterCalled = useRef(false);
+  const [isBookmark, setIsBookmark] = useState(false);
   const [airingList, setairingList] = useState([])
   const getAiring = async () => {
     try {
@@ -18,6 +19,12 @@ const RecentAnime = (props) => {
       console.log("Error loading top airing list")
     }
   }
+
+  //bookmark
+  function handleIconClick() {
+     setIsBookmark(!isBookmark);
+  }
+
   useEffect(() => {
     if (!renderAfterCalled.current) {
       getAiring()
@@ -77,8 +84,8 @@ const RecentAnime = (props) => {
                   <div className='season-card' key={rec.id}>
 
                     <div className="season-head">
-                      <div className="bookmark-icon">
-                        <i class="fa-regular fa-bookmark"></i>
+                      <div className="bookmark-icon" onClick={handleIconClick}>
+                        <i class = {isBookmark ? "fa-regular fa-bookmark" : "fa-solid fa-bookmark"}></i>
                         {/* if bookmark is applied */}
                         {/* <i class="fa-solid fa-bookmark"></i> */}
                       </div>

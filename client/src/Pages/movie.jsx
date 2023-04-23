@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import spinner from "../img/spinner.svg";
 import Card from "../Components/Card";
@@ -17,6 +17,11 @@ const Movie = (props) => {
 
   const { loading, movie, loadMoreMovies } = props;
 
+  const [isBookmark, setIsBookmark] = useState(false);
+  //bookmark
+function handleIconClick() {
+     setIsBookmark(!isBookmark);
+  }
   useFetchInitialData(loading, movie, loadMoreMovies, ref, window)
 
   return (
@@ -43,8 +48,8 @@ const Movie = (props) => {
                 <div
                   className="movie-card" onClick={() => props.handelClick()} key={rec.id}>
                   <div className="card-head">
-                    <div className="bookmark-icon">
-                      <i class="fa-regular fa-bookmark"></i>
+                    <div className="bookmark-icon" onClick={handleIconClick}>
+                      <i class={isBookmark ? "fa-regular fa-bookmark" : "fa-solid fa-bookmark"}></i>
                     </div>
                     <Link to={`/anime-details/${rec.id}`}>
                       <img

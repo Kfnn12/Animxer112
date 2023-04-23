@@ -12,7 +12,11 @@ function OptionFetcher() {
   const [page, setPage] = useState(2);
 
   const [isLoading, setIsLoading] = useState(false);
-
+const [isBookmark, setIsBookmark] = useState(false);
+  //bookmark
+  function handleIconClick() {
+     setIsBookmark(!isBookmark);
+  }
 
   useEffect(() => {
     fetchData();
@@ -106,8 +110,8 @@ function OptionFetcher() {
                   className="movie-card" key={item.id}>
                   <Link to={`/anime-details/${item.id}`}>
                     <div className="card-head">
-                      <div className="bookmark-icon">
-                        <i class="fa-regular fa-bookmark"></i>
+                      <div className="bookmark-icon" onClick={handleIconClick}>
+                        <i class={isBookmark ? "fa-regular fa-bookmark" : "fa-solid fa-bookmark"}></i>
                       </div>
                       <img
                         src={item.image}

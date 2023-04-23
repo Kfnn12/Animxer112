@@ -4,12 +4,17 @@ import { Link } from 'react-router-dom';
 
 const NewSeason = () => {
     const renderAfterCalled = useRef(false);
+    const [isBookmark, setIsBookmark] = useState(false);
     const [season, setSeason] = useState([])
     const getSeason = async (id = 1) => {
         const api = await fetch(`https://api.consumet.org/meta/anilist/recent-episodes?page=${id}`)
         const response = await api.json()
         setSeason(response.results)
     }
+    //bookmark
+    function handleIconClick() {
+     setIsBookmark(!isBookmark);
+  }
     useEffect(() => {
         if (!renderAfterCalled.current) {
             getSeason()
@@ -31,8 +36,8 @@ const NewSeason = () => {
                             <div className='season-card' key={newSeasonId.id}>
 
                                 <div className="season-head">
-                                    <div className="bookmark-icon">
-                                    <i class="fa-regular fa-bookmark"></i>
+                                    <div className="bookmark-icon" onClick={handleIconClick}>
+                                    <i class={isBookmark ? "fa-regular fa-bookmark" : "fa-solid fa-bookmark"}></i>
                                     </div>
                                     <Link to={`/anime-details/${newSeason.id}`}>
                                         <img

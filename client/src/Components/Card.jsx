@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 
 export default function Card(props) {
-  const [isLiked, setIsLiked] = useState(false);
+  const [isBookmark, setIsBookmark] = useState(false);
+  //bookmark
    function handleIconClick() {
-     setIsLiked(!isLiked);
-     {
-       
-     }
+     setIsBookmark(!isBookmark);
   }
   return (
    
@@ -18,7 +16,7 @@ export default function Card(props) {
           
           <div className="bookmark-icon" onClick={handleIconClick}>
             
-            <i class={isLiked ? "fa-regular fa-bookmark" : "fa-solid fa-bookmark"} ></i>
+            <i class={isBookmark ? "fa-regular fa-bookmark" : "fa-solid fa-bookmark"} ></i>
           </div>
           <Link to={`/anime-details/${props.rec.id}`}>
             <img

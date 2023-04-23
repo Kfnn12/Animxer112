@@ -3,6 +3,12 @@ import { Link } from "react-router-dom";
 
 const ForYou = () => {
   const [forYou, setforYou] = useState([])
+  const [isBookmark, setIsBookmark] = useState(false);
+  
+  //bookmark
+  function handleIconClick() {
+     setIsBookmark(!isBookmark);
+  }
   const getRandom = async () => {
     try {
       const api = await fetch(`https://api.consumet.org/meta/anilist/random-anime`)
@@ -30,8 +36,8 @@ const ForYou = () => {
             <div
               className="movie-card">
               <div className="card-head">
-                <div className="bookmark-icon">
-                  <i class="fa-regular fa-bookmark"></i>
+                <div className="bookmark-icon" onClick={handleIconClick}>
+                  <i class={isBookmark ? "fa-regular fa-bookmark" : "fa-solid fa-bookmark"}></i>
                 </div>
                 <Link to={`/anime-details/${forYou.id}`}>
                   <img

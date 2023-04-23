@@ -11,6 +11,12 @@ export default function Details() {
   const [detail, setDetail] = useState([]);
   const [watch, setWatch] = useState(" ");
   const [loading, setLoading] = useState(true)
+  const [isBookmark, setIsBookmark] = useState(false);
+  
+  //bookmark
+  function handleIconClick() {
+     setIsBookmark(!isBookmark);
+  }
 
   const getDetails = async () => {
     try {
@@ -116,8 +122,8 @@ export default function Details() {
                     <div
                       className="movie-card" key={animerecid.id}>
                       <div className="card-head">
-                        <div className="bookmark-icon">
-                          <i className="fa-solid fa-bookmark"></i>
+                        <div className="bookmark-icon" onClick={handleIconClick}>
+                          <i className={isBookmark ? "fa-regular fa-bookmark" : "fa-solid fa-bookmark"}></i>
                         </div>
                         <a href={`/anime-details/${animerec.id}`}>
                           <img
