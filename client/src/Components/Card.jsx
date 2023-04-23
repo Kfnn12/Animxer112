@@ -1,14 +1,24 @@
-import React from "react";
+import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 
 export default function Card(props) {
+  const [isLiked, setIsLiked] = useState(false);
+   function handleIconClick() {
+     setIsLiked(!isLiked);
+     {
+       
+     }
+  }
   return (
+   
     <>
       <div
         className="movie-card" onClick={() => props.handelClick()}>
         <div className="card-head">
-          <div className="bookmark-icon">
-            <i class="fa-regular fa-bookmark"></i>
+          
+          <div className="bookmark-icon" onClick={handleIconClick}>
+            
+            <i class={isLiked ? "fa-regular fa-bookmark" : "fa-solid fa-bookmark"} ></i>
           </div>
           <Link to={`/anime-details/${props.rec.id}`}>
             <img
