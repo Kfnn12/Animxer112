@@ -7,20 +7,17 @@ const UpcomingSeason = () => {
     const getFall = async () => {
         const api = await fetch("https://api.consumet.org/meta/anilist/advanced-search?season=FALL&&year=2023");
         const response = await api.json();
-        console.log("fall",response)
         setFall(response.results);
     }
     const getSpring = async () => {
         const api = await fetch("https://api.consumet.org/meta/anilist/advanced-search?season=SPRING&&year=2023");
         const response = await api.json();
         setSpring(response.results);
-        console.log("spring",response)
     }
     const getWinter = async () => {
         const api = await fetch("https://api.consumet.org/meta/anilist/advanced-search?season=WINTER&&year=2023");
         const response = await api.json();
         setWinter(response.results);
-        console.log("winter",response)
     }
     useEffect(() => {
         getSpring();

@@ -9,7 +9,7 @@ function OptionFetcher() {
 
   const [data, setData] = useState([]);
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(2);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -30,7 +30,7 @@ function OptionFetcher() {
         `https://api.consumet.org/meta/anilist/advanced-search?genres=["${selectedOption}"]&&page=${page}`
       );
       const responseData = await response.json();
-
+      console.log(responseData)
       setData([...data, ...responseData.results]);
       setIsLoading(false);
     } catch (error) {
