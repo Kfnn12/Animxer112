@@ -46,6 +46,29 @@ export default function Stream(props) {
   // Local Storage Key
   const LOCAL_STORAGE_KEY = "animetrix-vercel-app";
 
+  const addHistory = async() => {
+    try {
+      if (userId) {
+        axios.interceptors.response.use(response => {
+          return response;
+        }, error => {
+          alert(error.response.data.error);
+          return;
+        });
+        const res = await axios.post(`http://localhost:8000/api/v1/user/history`, {
+          _id: userId,
+          animeId: animeId,
+          epId: episodeId, 
+        })
+        console.log(res);
+        return res;
+      }
+    } catch (err) {
+      console.log(err);
+      alert("Something went wrong please try again later.")
+    }
+  }
+
   const getComments = async () => {
     try {
       axios.interceptors.response.use(response => {
@@ -61,7 +84,7 @@ export default function Stream(props) {
         setComments([]);
     } catch (err) {
       console.log(err);
-      alert("Error loading comments")
+      alert("Error loading comments");
     }
   }
   const getStream = async () => {
@@ -104,18 +127,21 @@ export default function Stream(props) {
     const id = getCookie("id");
     if(id) 
       setUserId(id);
+    addHistory();
     getDetails();
     getStream();
     getComments();
-
   }, [animeId, episodeId]);
 
+  useEffect(() => {
+    addHistory();
+  }, []);
   // reply logic
-  const [showReplyTextArea, setShowReplyTextArea] = useState(false)
+  // const [showReplyTextArea, setShowReplyTextArea] = useState(false)
 
-  const handleReplyClick = () => {
-    setShowReplyTextArea(!showReplyTextArea)
-  }
+  // const handleReplyClick = () => {
+  //   setShowReplyTextArea(!showReplyTextArea)
+  // }
 
   const addComment = async (e) => {
     e.preventDefault();

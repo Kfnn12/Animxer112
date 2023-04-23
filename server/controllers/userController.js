@@ -159,7 +159,7 @@ const getBookmarks = async(req, res) => {
 const changeProfile = async(req, res) => {
   try {
     const { _id, image } = req.body;
-    const user = await User.find({"_id": _id, isVerified: true});
+    const user = await User.findOne({"_id": _id, isVerified: true});
     if(user) {
       user.profile = image;
       await user.save();
@@ -176,7 +176,7 @@ const changeProfile = async(req, res) => {
 const changeName = async(req, res) => {
   try {
     const {_id, name} = req.body;
-    const user = User.find({"_id": _id, isVerified: true})
+    const user = User.findOne({"_id": _id, isVerified: true})
     if(user) {
       await User.updateOne({"_id": _id}, {"$set": {"name": name}});
       res.status(200).json({message: "name Updated"});
@@ -192,18 +192,27 @@ const changeName = async(req, res) => {
 const addHistory = async(req, res) => {
   try {
     const {_id, animeId, epId} = req.body;
-    const user = User.find({"_id": _id, isVerified: true})
+    const user = await User.findOne({"_id": _id, isVerified: true});
     if(user) {
-      const newAnime = {
-        animeId: animeId,
-        epId: epId
+      if(user.history.find(el => el.animeId == animeId)) {
+        let history = user.history.find(el => el.animeId == animeId);
+        const historyIndex = user.history.indexOf(history);
+        user.history.splice(historyIndex, 1);
+        history.epId = epId;
+        user.history.unshift(history);
+      } else { 
+        const newAnime = {
+          animeId: animeId,
+          epId: epId
+        } 
+        user.history.unshift(newAnime);
       }
-      user.history.push(newAnime);
       await user.save();
       res.status(200).json({message: "history updated"});
     } else {
       res.status(200).json({error: "User Doesnt exists"});
     }
+    
   } catch(err) {
     console.log(err);
     res.status(500).json({ error: 'Internal server error' });
@@ -213,7 +222,7 @@ const addHistory = async(req, res) => {
 const getHistory = async(req, res) => {
   try {
     const {_id} = req.params;
-    const user = User.find({"_id": _id, isVerified: true})
+    const user = User.findOne({"_id": _id, isVerified: true})
     if(user) {
       res.status(200).json(user.history);
     } else {
@@ -228,7 +237,7 @@ const getHistory = async(req, res) => {
 const clearHistory = async(req, res) => {
   try {
     const {_id} = req.params;
-    const user = User.find({"_id": _id, isVerified: true})
+    const user = User.findOne({"_id": _id, isVerified: true})
     if(user) {
       user.history = [];
       await user.save();
