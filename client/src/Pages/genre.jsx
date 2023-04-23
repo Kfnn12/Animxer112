@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Link } from "react-router-dom";
 import spinner from "../img/spinner.svg";
+import { Card } from '../Components';
 
 function OptionFetcher() {
 
@@ -9,7 +10,7 @@ function OptionFetcher() {
 
   const [data, setData] = useState([]);
 
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
 
   const [isLoading, setIsLoading] = useState(false);
 const [isBookmark, setIsBookmark] = useState(false);
@@ -105,28 +106,8 @@ const [isBookmark, setIsBookmark] = useState(false);
             loader={<img src={spinner} alt="spinner" className="spinner" />}
           >
             <div className='movies-grid'>
-              {data.map(item => (
-                <div
-                  className="movie-card" key={item.id}>
-                  <Link to={`/anime-details/${item.id}`}>
-                    <div className="card-head">
-                      <div className="bookmark-icon" onClick={handleIconClick}>
-                        <i class={isBookmark ? "fa-regular fa-bookmark" : "fa-solid fa-bookmark"}></i>
-                      </div>
-                      <img
-                        src={item.image}
-                        alt={item.id}
-                        className="card-img"
-                      />
-                      <div className="">
-                        <div className="release-date-season">
-                          <span className='season-relase'>{item.rating / 10}</span>
-                        </div>
-                        <h5 className="card-title">{item.title?.userPreferred}</h5>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
+              {data.map(rec => (
+                <Card rec={rec} key={rec.id}/>
               ))}
             </div>
           </InfiniteScroll>

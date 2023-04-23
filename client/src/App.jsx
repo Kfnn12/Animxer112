@@ -79,28 +79,31 @@ function App() {
       setLoading(false);
     }
   };
-  const getDub = async (id = 1) => {
-    try {
-      setLoading(true);
-      const Data = await axios.get(
-        `https://animetrix-api.onrender.com/recent-release?type=2&page=${id}`
-      );
-      setDub((dub) => [...dub, ...Data.data]);
-      setLoading(false);
-    } catch (err) {
-      console.log("Error loading Dubbed Anime");
-      setLoading(false);
-    }
-  };
+  // const getDub = async (id = 1) => {
+  //   try {
+  //     setLoading(true);
+  //     const Data = await axios.get(
+  //       `https://animetrix-api.onrender.com/recent-release?type=2&page=${id}`
+  //     );
+  //     setDub((dub) => [...dub, ...Data.data]);
+  //     setLoading(false);
+  //   } catch (err) {
+  //     console.log("Error loading Dubbed Anime");
+  //     setLoading(false);
+  //   }
+  // };
   const getMovie = async (id = 1) => {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://api.consumet.org/meta/anilist/advanced-search?format=MOVIE&page=${id}`
+        `https://api.consumet.org/meta/anilist/advanced-search?format=MOVIE`
       );
       const data = await response.json();
+      console.log(data)
       if (Array.isArray(data.results)) {
         setMovie((movie) => [...movie, ...data.results]);
+      }else{
+        console.log("Api down for movies")
       }
       setLoading(false);
     } catch (err) {
@@ -126,7 +129,7 @@ function App() {
     if (!renderAfterCalled.current) {
       getAnime(1);
       getPropular();
-      getDub();
+      // getDub();
       getMovie();
       getTopAiring();
     }
@@ -168,10 +171,10 @@ function App() {
     setidxPropular(idxPropular + 1);
   };
 
-  const loadMoreDub = () => {
-    getDub(idxdub + 1);
-    setIdxdub(idxdub + 1);
-  };
+  // const loadMoreDub = () => {
+  //   getDub(idxdub + 1);
+  //   setIdxdub(idxdub + 1);
+  // };
   const loadMoreMovies = () => {
     getMovie(idxmovie + 1);
     setIdxmovie(idxmovie + 1);
@@ -214,7 +217,7 @@ function App() {
             />
           }
         />
-        <Route
+        {/* <Route
           exact
           path="/dub-anime"
           element={
@@ -226,7 +229,7 @@ function App() {
               loading={loading}
             />
           }
-        />
+        /> */}
         <Route
           exact
           path="/top-airing"

@@ -4,7 +4,6 @@ import spinner from "../img/spinner.svg";
 import Card from "../Components/Card";
 
 import { useFetchInitialData } from "../utils/hooks";
-import { Link } from "react-router-dom";
 const Movie = (props) => {
   const ref = useRef(null);
 
@@ -17,13 +16,7 @@ const Movie = (props) => {
 
   const { loading, movie, loadMoreMovies } = props;
 
-  const [isBookmark, setIsBookmark] = useState(false);
-  //bookmark
-function handleIconClick() {
-     setIsBookmark(!isBookmark);
-  }
   useFetchInitialData(loading, movie, loadMoreMovies, ref, window)
-
   return (
     <>
       {Object.keys(props.recent).length === 0 ? (
@@ -45,28 +38,7 @@ function handleIconClick() {
             </div>
             <div className="movies-grid" ref={ref}>
               {props.recent.map((rec) => (
-                <div
-                  className="movie-card" onClick={() => props.handelClick()} key={rec.id}>
-                  <div className="card-head">
-                    <div className="bookmark-icon" onClick={handleIconClick}>
-                      <i class={isBookmark ? "fa-regular fa-bookmark" : "fa-solid fa-bookmark"}></i>
-                    </div>
-                    <Link to={`/anime-details/${rec.id}`}>
-                      <img
-                        src={rec.image}
-                        alt={rec.title?.romanji}
-                        className="card-img"
-                      />
-                    </Link>
-                    <div className="card-details">
-                      <div className="episode-total">
-                        <span>{(rec.releaseDate)}</span>
-                        <span>{(rec.rating/10)}</span>
-                      </div>
-                      <h5 className="card-title">{(rec.title?.userPreferred)}</h5>
-                    </div>
-                  </div>
-                </div>
+<Card rec={rec} key={rec.id}/>
               ))}
             </div>
             <InfiniteScroll

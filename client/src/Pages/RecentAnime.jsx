@@ -22,7 +22,7 @@ const RecentAnime = (props) => {
 
   //bookmark
   function handleIconClick() {
-     setIsBookmark(!isBookmark);
+    setIsBookmark(!isBookmark);
   }
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const RecentAnime = (props) => {
       ) : (
         <>
           <Lastwatch lastwatch={lastwatch} />
-          <NewSeason />
+          <NewSeason handelClick={handelClick} />
           <br /><br />
           <section className="movies">
             <div className="filter-bar">
@@ -81,44 +81,21 @@ const RecentAnime = (props) => {
             <div className="seasons-grid">
               {props.recent &&
                 props.recent.map((rec) => (
-                  <div className='season-card' key={rec.id}>
-
-                    <div className="season-head">
-                      <div className="bookmark-icon" onClick={handleIconClick}>
-                        <i class = {isBookmark ? "fa-regular fa-bookmark" : "fa-solid fa-bookmark"}></i>
-                        {/* if bookmark is applied */}
-                        {/* <i class="fa-solid fa-bookmark"></i> */}
-                      </div>
-                      <Link to={`/anime-details/${rec.id}`}>
-                        <img
-                          src={rec.image}
-                          alt="cover-image"
-                          className="season-img"
-                        />
-                      </Link>
-                      <div className="season-details">
-                        <div className="release-date-season">
-                          <span className='season-relase'>{rec.rating / 10}</span>
-                        </div>
-                        <h5 className="season-title">{rec.title?.userPreferred}</h5>
-
-                      </div>
-                    </div>
-                  </div>
+                  <Card rec={rec} key={rec.id} handelClick={handelClick}/>
                 ))}
             </div>
             <div className="loadmore-recent">
               <a href="/popular">
                 <button className="loadmore">View More</button>
-                </a>
-              </div>
+              </a>
+            </div>
           </section>
           <ForYou />
           <br /><br />
-          <UpcomingSeason/>
+          <UpcomingSeason />
           <br /><br />
           <AiringSchedule airingList={airingList} ref={ref} />
-          <Footer/>
+          <Footer />
         </>
       )}
     </>

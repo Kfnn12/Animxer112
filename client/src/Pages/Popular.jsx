@@ -45,7 +45,7 @@ const Popular = (props) => {
                 <Card
                   rec={rec}
                   key={rec.id} handelClick={handelClick}
-                  ep="false" />
+                />
               ))}
             </div>
             <InfiniteScroll
