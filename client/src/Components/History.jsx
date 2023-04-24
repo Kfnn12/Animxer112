@@ -1,28 +1,52 @@
 import { Link, useNavigate } from 'react-router-dom'
-import {React, useEffect} from 'react';
-
+import {React, useDebugValue, useEffect, useState} from 'react';
+import axios from "axios";
 
 const user = "Shiva";
-const History = () => {
-        function getCookie(name) {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.startsWith(name + '=')) {
-                    return cookie.substring(name.length + 1);
-                }
+function History() {
+  const [userId, setUserId] = useState("");
+  const [history, setHistory] = useState([]);
+    function getCookie(name) {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.startsWith(name + '=')) {
+                return cookie.substring(name.length + 1);
             }
-            return undefined;
+        }
+        return undefined;
     }
 
   const navigate = useNavigate();
 
+  const getHistory = async() => {
+    try {
+        if(userId) {
+      axios.interceptors.response.use(response => {
+        return response;
+      }, error => {
+        alert(error.response.data.error);
+        return;
+      });
+      const res = await axios.get(`http://localhost:8000/api/v1/user/history/${userId}`)
+        setHistory(res.data.history);
+        console.log(history);
+        debugger
+    }
+    } catch (err) {
+      console.log(err);
+      alert("Error loading history");
+    }
+  }
+
     useEffect(()=>{
         const id = getCookie("id");
-        if(!id) {
-        navigate("/");
-        }
+        setUserId(id);
     });
+
+    useEffect(() => {
+        getHistory();
+    }, [userId]);
 
     return (
         <>
@@ -47,6 +71,7 @@ const History = () => {
                 <section className="movies">
                     <div className="lastwatch-bar">
                         <div className="lastwatch-heading">
+                            <button>Clear History</button>
                             {/* <h1><i class="fa-solid fa-clock-rotate-left lastwatch-icon continue-icon"></i> Continue Watching</h1> */}
                             <div className="lastwatch-grid">
                             <div className="lastwatch-card">

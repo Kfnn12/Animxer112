@@ -221,10 +221,11 @@ const addHistory = async(req, res) => {
 
 const getHistory = async(req, res) => {
   try {
-    const {_id} = req.params;
-    const user = User.findOne({"_id": _id, isVerified: true})
+    console.log("fgfgfgfgfgffgffffgffgfgfgfg");
+    const _id = req.params._id;
+    const user = await User.findOne({"_id": _id, isVerified: true})
     if(user) {
-      res.status(200).json(user.history);
+      res.status(200).json({history: user.history});
     } else {
       res.status(200).json({error: "User Doesnt exists"});
     }
@@ -236,6 +237,7 @@ const getHistory = async(req, res) => {
 
 const clearHistory = async(req, res) => {
   try {
+    console.log("fgfgfgfgfgffgffffgffgfgfgfg2");
     const {_id} = req.params;
     const user = User.findOne({"_id": _id, isVerified: true})
     if(user) {
@@ -253,6 +255,7 @@ const clearHistory = async(req, res) => {
 
 const getUser = async(req, res) => {
   try {
+    console.log("fgfgfgfgfgffgffffgffgfgfgfg3");
     const {_id} = req.params;
     const user = await User.findOne({"_id": _id, isVerified: true});
     console.log(user);
