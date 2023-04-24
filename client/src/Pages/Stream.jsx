@@ -44,9 +44,9 @@ export default function Stream(props) {
     isMouseDown = false;
   };
   // Local Storage Key
-  const LOCAL_STORAGE_KEY = "animetrix-vercel-app";
+  // const LOCAL_STORAGE_KEY = "animetrix-vercel-app";
 
-  const addHistory = async() => {
+  const addHistory = async () => {
     try {
       if (userId) {
         axios.interceptors.response.use(response => {
@@ -58,7 +58,7 @@ export default function Stream(props) {
         const res = await axios.post(`http://localhost:8000/api/v1/user/history`, {
           _id: userId,
           animeId: animeId,
-          epId: episodeId, 
+          epId: episodeId,
         })
         console.log(res);
         return res;
@@ -122,10 +122,10 @@ export default function Stream(props) {
       }
     }
     return undefined;
-}
+  }
   useEffect(() => {
     const id = getCookie("id");
-    if(id) 
+    if (id)
       setUserId(id);
     addHistory();
     getDetails();
@@ -169,7 +169,7 @@ export default function Stream(props) {
     }
   }
 
-  const reportComment = async(comment) => {
+  const reportComment = async (comment) => {
     try {
       if (userId) {
         axios.interceptors.response.use(response => {
@@ -190,14 +190,14 @@ export default function Stream(props) {
     } catch (err) {
       console.log(err);
       alert("Something went wrong please try again later.")
-    } 
+    }
   }
 
-  const deleteComment = async(comment) => {
+  const deleteComment = async (comment) => {
     try {
       if (userId) {
         const conf = window.confirm("Are you Sure??");
-        if(conf) {
+        if (conf) {
           axios.interceptors.response.use(response => {
             return response;
           }, error => {
@@ -208,13 +208,13 @@ export default function Stream(props) {
           getComments();
           alert(res.data.message);
           return res;
-       }
+        }
       }
       alert("Login First");
     } catch (err) {
       console.log(err);
       alert("Something went wrong please try again later.")
-    } 
+    }
   }
 
   const printComments = () => {
@@ -240,8 +240,8 @@ export default function Stream(props) {
                   <div className="reply-like-replies">
                     {/* <button><ThumbUpIcon /></button>
                           <button><ThumbDownIcon /></button> */}
-                    <button className={comment.reports.includes(userId)? "active": ""} onClick={e => reportComment(comment)}><i className="fa-solid fa-flag"></i>&nbsp;&nbsp;&nbsp;Report</button>
-                    {comment.sender._id == userId?<button onClick={e => {deleteComment(comment)}}><i className="fa-regular fa-trash-can"></i>&nbsp;&nbsp;&nbsp;Delete</button>:""}
+                    <button className={comment.reports.includes(userId) ? "active" : ""} onClick={e => reportComment(comment)}><i className="fa-solid fa-flag"></i>&nbsp;&nbsp;&nbsp;Report</button>
+                    {comment.sender._id == userId ? <button onClick={e => { deleteComment(comment) }}><i className="fa-regular fa-trash-can"></i>&nbsp;&nbsp;&nbsp;Delete</button> : ""}
                   </div>
                 </div>
               </div>
@@ -277,7 +277,7 @@ export default function Stream(props) {
               <div className="video-title">
                 <span>{detail.title?.romaji}</span>
                 <p>
-                Note :- Refresh the page if the player doesnt load (server
+                  Note :- Refresh the page if the player doesnt load (server
                   except Vidstreaming might contain ads use an adblocker to
                   block ads)
                 </p>
@@ -332,6 +332,22 @@ export default function Stream(props) {
                       </h2>
                     )}
                   </div>
+                  <div className="previous-seasons">
+                    {detail?.relations?.map((relatedSeason) => {
+                      return (
+                        <div className="related-seasons">
+                          <Link to={`/anime-details/${relatedSeason?.id}`}>
+                          <img src={relatedSeason.image} alt="" className="image-related" />
+                          </Link>
+                          <div className="title-and-type">
+                            <h1>{relatedSeason?.title?.userPreferred}...</h1>
+                            <span>{relatedSeason?.type}</span>
+                          </div>
+                        </div>
+                      )
+
+                    })}
+                  </div>
                   <div className="characters-container">
                     <div className="characters-heading">
                       <h2>Characters</h2>
@@ -348,7 +364,7 @@ export default function Stream(props) {
                         })
                       }
                     </div>
-                    </div>
+                  </div>
                 </>
               )
             })}
