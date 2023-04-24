@@ -7,6 +7,7 @@ import { useFetchInitialData } from "../utils/hooks";
 
 const RecentAnime = (props) => {
   const renderAfterCalled = useRef(false);
+  const [isBookmark, setIsBookmark] = useState(false);
   const [airingList, setairingList] = useState([])
   const getAiring = async () => {
     try {
@@ -18,6 +19,12 @@ const RecentAnime = (props) => {
       console.log("Error loading top airing list")
     }
   }
+
+  //bookmark
+  function handleIconClick() {
+    setIsBookmark(!isBookmark);
+  }
+
   useEffect(() => {
     if (!renderAfterCalled.current) {
       getAiring()
@@ -29,9 +36,6 @@ const RecentAnime = (props) => {
   const handelClick = () => {
     props.handelClick();
   };
-
-
-
 
   const [lastwatch, setLastwatch] = useState(null);
 
@@ -63,7 +67,7 @@ const RecentAnime = (props) => {
       ) : (
         <>
           <Lastwatch lastwatch={lastwatch} />
-          <NewSeason />
+          <NewSeason handelClick={handelClick} />
           <br /><br />
           <section className="movies">
             <div className="filter-bar">
@@ -74,44 +78,21 @@ const RecentAnime = (props) => {
             <div className="seasons-grid">
               {props.recent &&
                 props.recent.map((rec) => (
-                  <div className='season-card' key={rec.id}>
-
-                    <div className="season-head">
-                      <div className="bookmark-icon">
-                        <i class="fa-regular fa-bookmark"></i>
-                        {/* if bookmark is applied */}
-                        {/* <i class="fa-solid fa-bookmark"></i> */}
-                      </div>
-                      <Link to={`/anime-details/${rec.id}`}>
-                        <img
-                          src={rec.image}
-                          alt="cover-image"
-                          className="season-img"
-                        />
-                      </Link>
-                      <div className="season-details">
-                        <div className="release-date-season">
-                          <span className='season-relase'>{rec.rating / 10}</span>
-                        </div>
-                        <h5 className="season-title">{rec.title?.userPreferred}</h5>
-
-                      </div>
-                    </div>
-                  </div>
+                  <Card rec={rec} key={rec.id} handelClick={handelClick}/>
                 ))}
             </div>
             <div className="loadmore-recent">
               <a href="/popular">
                 <button className="loadmore">View More</button>
-                </a>
-              </div>
+              </a>
+            </div>
           </section>
           <ForYou />
           <br /><br />
-          <UpcomingSeason/>
+          <UpcomingSeason />
           <br /><br />
           <AiringSchedule airingList={airingList} ref={ref} />
-          <Footer/>
+          <Footer />
         </>
       )}
     </>

@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
   bookmarks: {
     type: Array
   },
+  category: {
+    type: String,
+    default: "user",
+  },
   history: [{
     animeId: {
       type: String
@@ -41,5 +45,4 @@ const userSchema = new mongoose.Schema({
 })
 
 const User = mongoose.model('User', userSchema);
-
 module.exports = User;

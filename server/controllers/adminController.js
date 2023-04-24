@@ -15,7 +15,7 @@ const getAllUser = async(req, res) => {
 
 const getAllComment = async(req, res) => {
   try {
-        const comments = await Comments.find({});
+        const comments = await Comments.find({ reports: { $exists: true, $not: { $size: 0 } } });
         res.status(200).json({"comments": comments});
     } catch(err) {
         console.log(err);

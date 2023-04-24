@@ -11,6 +11,7 @@ import Cookie from "js-cookie"
 export default function Stream(props) {
   const { episodeId } = useParams()
   const [data, setData] = useState([]);
+  const [userId, setUserId] = useState("");
   const { animeId } = useParams()
   const [loading, setLoading] = useState(true)
   const [stream, setstream] = useState([])
@@ -43,7 +44,30 @@ export default function Stream(props) {
     isMouseDown = false;
   };
   // Local Storage Key
-  const LOCAL_STORAGE_KEY = "animetrix-vercel-app";
+  // const LOCAL_STORAGE_KEY = "animetrix-vercel-app";
+
+  const addHistory = async () => {
+    try {
+      if (userId) {
+        axios.interceptors.response.use(response => {
+          return response;
+        }, error => {
+          alert(error.response.data.error);
+          return;
+        });
+        const res = await axios.post(`http://localhost:8000/api/v1/user/history`, {
+          _id: userId,
+          animeId: animeId,
+          epId: episodeId,
+        })
+        console.log(res);
+        return res;
+      }
+    } catch (err) {
+      console.log(err);
+      alert("Something went wrong please try again later.")
+    }
+  }
 
   const getComments = async () => {
     try {
@@ -60,7 +84,7 @@ export default function Stream(props) {
         setComments([]);
     } catch (err) {
       console.log(err);
-      alert("Error loading comments")
+      alert("Error loading comments");
     }
   }
   const getStream = async () => {
@@ -72,7 +96,7 @@ export default function Stream(props) {
       setLoading(false);
     }
     catch (err) {
-      console.log("Error loading streaming data")
+      console.log("Error loading streaming data");
     }
   }
 
@@ -88,25 +112,50 @@ export default function Stream(props) {
       console.log("Error loading details")
     }
   }
+
+  function getCookie(name) {
+    const cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.startsWith(name + '=')) {
+        return cookie.substring(name.length + 1);
+      }
+    }
+    return undefined;
+  }
+
   useEffect(() => {
+    async function a() {
+      console.log("Yo1");
+      const a1 = addHistory;
+      debugger
+      await a1();
+    }
+    a();
+    console.log("Yo");
+  }, []);
+
+  useEffect(() => {
+    const id = getCookie("id");
+    if (id)
+      setUserId(id);
+    addHistory();
     getDetails();
     getStream();
     getComments();
-
   }, [animeId, episodeId]);
 
   // reply logic
-  const [showReplyTextArea, setShowReplyTextArea] = useState(false)
+  // const [showReplyTextArea, setShowReplyTextArea] = useState(false)
 
-  const handleReplyClick = () => {
-    setShowReplyTextArea(!showReplyTextArea)
-  }
+  // const handleReplyClick = () => {
+  //   setShowReplyTextArea(!showReplyTextArea)
+  // }
 
   const addComment = async (e) => {
     e.preventDefault();
     try {
-      const id = Cookie.get("id");
-      if (id) {
+      if (userId) {
         axios.interceptors.response.use(response => {
           return response;
         }, error => {
@@ -114,22 +163,70 @@ export default function Stream(props) {
           return;
         });
         const res = await axios.post(`http://localhost:8000/api/v1/discussion/comment`, {
-          sender: id,
+          sender: userId,
           _id: episodeId,
           comment: comment
         })
         getComments();
+        setComment("");
         return res;
       }
       alert("Login First");
     } catch (err) {
       console.log(err);
-      alert("Something went wrong please try again later.B")
+      alert("Something went wrong please try again later.")
+    }
+  }
+
+  const reportComment = async (comment) => {
+    try {
+      if (userId) {
+        axios.interceptors.response.use(response => {
+          return response;
+        }, error => {
+          alert(error.response.data.error);
+          return;
+        });
+        const res = await axios.post(`http://localhost:8000/api/v1/discussion/report`, {
+          userId: userId,
+          commentId: comment._id
+        })
+        getComments();
+        alert(res.data.message);
+        return res;
+      }
+      alert("Login First");
+    } catch (err) {
+      console.log(err);
+      alert("Something went wrong please try again later.")
+    }
+  }
+
+  const deleteComment = async (comment) => {
+    try {
+      if (userId) {
+        const conf = window.confirm("Are you Sure??");
+        if (conf) {
+          axios.interceptors.response.use(response => {
+            return response;
+          }, error => {
+            alert(error.response.data.error);
+            return;
+          });
+          const res = await axios.delete(`http://localhost:8000/api/v1/discussion/comment/${comment._id}/${userId}`);
+          getComments();
+          alert(res.data.message);
+          return res;
+        }
+      }
+      alert("Login First");
+    } catch (err) {
+      console.log(err);
+      alert("Something went wrong please try again later.")
     }
   }
 
   const printComments = () => {
-    console.log(comments);
     if (comments.length != 0) {
       return (
         <>
@@ -152,6 +249,8 @@ export default function Stream(props) {
                   <div className="reply-like-replies">
                     {/* <button><ThumbUpIcon /></button>
                           <button><ThumbDownIcon /></button> */}
+                    <button className={comment.reports.includes(userId) ? "active" : ""} onClick={e => reportComment(comment)}><i className="fa-solid fa-flag"></i>&nbsp;&nbsp;&nbsp;Report</button>
+                    {comment.sender._id == userId ? <button onClick={e => { deleteComment(comment) }}><i className="fa-regular fa-trash-can"></i>&nbsp;&nbsp;&nbsp;Delete</button> : ""}
                   </div>
                 </div>
               </div>
@@ -187,7 +286,7 @@ export default function Stream(props) {
               <div className="video-title">
                 <span>{detail.title?.romaji}</span>
                 <p>
-                Note :- Refresh the page if the player doesnt load (server
+                  Note :- Refresh the page if the player doesnt load (server
                   except Vidstreaming might contain ads use an adblocker to
                   block ads)
                 </p>
@@ -242,6 +341,22 @@ export default function Stream(props) {
                       </h2>
                     )}
                   </div>
+                  <div className="previous-seasons">
+                    {detail?.relations?.map((relatedSeason) => {
+                      return (
+                        <div className="related-seasons">
+                          <Link to={`/anime-details/${relatedSeason?.id}`}>
+                          <img src={relatedSeason.image} alt="" className="image-related" />
+                          </Link>
+                          <div className="title-and-type">
+                            <h1>{relatedSeason?.title?.userPreferred}...</h1>
+                            <span>{relatedSeason?.type}</span>
+                          </div>
+                        </div>
+                      )
+
+                    })}
+                  </div>
                   <div className="characters-container">
                     <div className="characters-heading">
                       <h2>Characters</h2>
@@ -251,7 +366,6 @@ export default function Stream(props) {
                       onMouseUp={handleMouseUp} ref={containerRef}>
                       {
                         extra.characters.map((character) => {
-                          console.log(character)
                           return <div className="character">
                             <img src={character.image} alt="" />
                             <p>{character.name.full}</p>
@@ -259,7 +373,7 @@ export default function Stream(props) {
                         })
                       }
                     </div>
-                    </div>
+                  </div>
                 </>
               )
             })}
@@ -275,6 +389,7 @@ export default function Stream(props) {
                     name=""
                     id=""
                     placeholder="Leave a comment"
+                    value={comment}
                     onChange={e => { setComment(e.target.value) }}
                   ></textarea>
                   <button onClick={e => { addComment(e) }}>Comment</button>

@@ -1,22 +1,70 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-const user = "Shiva"
-const History = () => {
+import { Link, useNavigate } from 'react-router-dom'
+import {React, useDebugValue, useEffect, useState} from 'react';
+import axios from "axios";
+
+const user = "Shiva";
+function History() {
+  const [userId, setUserId] = useState("");
+  const [history, setHistory] = useState([]);
+    function getCookie(name) {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.startsWith(name + '=')) {
+                return cookie.substring(name.length + 1);
+            }
+        }
+        return undefined;
+    }
+
+  const navigate = useNavigate();
+
+  const getHistory = async() => {
+    try {
+        if(userId) {
+      axios.interceptors.response.use(response => {
+        return response;
+      }, error => {
+        alert(error.response.data.error);
+        return;
+      });
+      const res = await axios.get(`http://localhost:8000/api/v1/user/history/${userId}`)
+      const history = res.data.history;
+        setHistory(history);
+        console.log(history);
+        debugger
+    }
+    } catch (err) {
+      console.log(err);
+      alert("Error loading history");
+    }
+  }
+
+    useEffect(()=>{
+        const id = getCookie("id");
+        setUserId(id);
+    });
+
+    useEffect(() => {
+        getHistory();
+    }, [userId]);
 
     return (
         <>
             <section className='profile-wrapper'>
                 <div className="profile-greeting">
-                    <h1> Hi, {user}</h1>
+                    {/* <h1> Hi, {user}</h1> */}
+                    <h1><i class="fa-solid fa-clock-rotate-left lastwatch-icon continue-icon"></i> Continue Watching</h1>
                 </div>
                 <div className='profile-navbar'>
                     <ul>
                         <Link to="/profile">
                             <li>Profile</li>
                         </Link>
-                        <Link to="/history"><li>History</li></Link>
-                        <li>Bookmark</li>
+                        <li style={{cursor: "pointer"}}>History</li>
+                        <Link to="/bookmark">
+                            <li>Bookmark</li>
+                        </Link>
                     </ul>
                 </div>
             </section>
@@ -24,7 +72,8 @@ const History = () => {
                 <section className="movies">
                     <div className="lastwatch-bar">
                         <div className="lastwatch-heading">
-                            <h1><i class="fa-solid fa-clock-rotate-left lastwatch-icon continue-icon"></i> Continue Watching</h1>
+                            <button>Clear History</button>
+                            {/* <h1><i class="fa-solid fa-clock-rotate-left lastwatch-icon continue-icon"></i> Continue Watching</h1> */}
                             <div className="lastwatch-grid">
                             <div className="lastwatch-card">
                                 <div className="lastwatch-close">
@@ -65,14 +114,8 @@ const History = () => {
                                             <span className="last-ep">Episode:- 3</span>
                                         </h5>
                                     </div>
-                                </div>
-
-                                
-                            </div>
-
-
-
-          
+                                </div>                                
+                            </div>          
                             </div>
                         </div>
                     </div>

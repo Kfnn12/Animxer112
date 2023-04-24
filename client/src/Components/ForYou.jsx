@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from "react-router-dom";
-
+import Card from './Card';
 const ForYou = () => {
   const [forYou, setforYou] = useState([])
+  const [isBookmark, setIsBookmark] = useState(false);
+
+  //bookmark
+  function handleIconClick() {
+    setIsBookmark(!isBookmark);
+  }
   const getRandom = async () => {
     try {
       const api = await fetch(`https://api.consumet.org/meta/anilist/random-anime`)
@@ -18,7 +24,7 @@ const ForYou = () => {
   }, [])
   return (
     <>
-      {forYou&& (
+      {forYou && (
 
         <section className='movies for'>
           <div className='filter-bar'>
@@ -27,30 +33,7 @@ const ForYou = () => {
             </div>
           </div>
           <div className="seasons-grid">
-            <div
-              className="movie-card">
-              <div className="card-head">
-                <div className="bookmark-icon">
-                  <i class="fa-regular fa-bookmark"></i>
-                </div>
-                <Link to={`/anime-details/${forYou.id}`}>
-                  <img
-                    src={forYou.image}
-                    alt={forYou.id}
-                    className="card-img"
-                  />
-                </Link>
-                <div className="card-details">
-                  <div className="episode-total">
-                    <span>{(forYou.currentEpisode
-                    )}</span>
-                    <span>{(forYou.type
-)}</span>
-                  </div>
-                  <h5 className="card-title">{forYou.title?.romaji}</h5>
-                </div>
-              </div>
-            </div>
+            <Card rec={forYou}></Card>
           </div>
         </section>
       )}

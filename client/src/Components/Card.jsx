@@ -1,14 +1,23 @@
-import React from "react";
+import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 
 export default function Card(props) {
+  const {rec} = props;
+  const [isBookmark, setIsBookmark] = useState(true);
+  //bookmark
+   function handleIconClick() {
+     setIsBookmark(!isBookmark);
+  }
   return (
+   
     <>
       <div
         className="movie-card" onClick={() => props.handelClick()}>
         <div className="card-head">
-          <div className="bookmark-icon">
-            <i class="fa-regular fa-bookmark"></i>
+          
+          <div className="bookmark-icon" onClick={handleIconClick}>
+            
+            <i class={isBookmark ? "fa-regular fa-bookmark" : "fa-solid fa-bookmark"} ></i>
           </div>
           <Link to={`/anime-details/${props.rec.id}`}>
             <img
@@ -19,10 +28,10 @@ export default function Card(props) {
           </Link>
           <div className="card-details">
             <div className="episode-total">
-              <span>{(props.rec.totalEpisodes)}</span>
+              <span>{(props.rec.type)}</span>
               <span>{(props.rec.rating/10)}</span>
             </div>
-            <h5 className="card-title">{props.rec.title.userPreferred||props.rec.title.english||props.rec.romaji}</h5>
+            <h5 className="card-title">{props?.rec?.title?.userPreferred||props?.rec?.title?.english||props?.rec?.romaji}</h5>
           </div>
         </div>
       </div>

@@ -4,13 +4,19 @@ import { Link, useParams } from "react-router-dom";
 import LoadingBar from 'react-top-loading-bar';
 import Footer from "../Components/Footer";
 import ReactHtmlParser from 'react-html-parser';
-
+import Card from "../Components/Card"
 export default function Details() {
 
   const { animeId } = useParams()
   const [detail, setDetail] = useState([]);
   const [watch, setWatch] = useState(" ");
   const [loading, setLoading] = useState(true)
+  const [isBookmark, setIsBookmark] = useState(false);
+  
+  //bookmark
+  function handleIconClick() {
+     setIsBookmark(!isBookmark);
+  }
 
   const getDetails = async () => {
     try {
@@ -112,29 +118,8 @@ export default function Details() {
                   <h1>Recommended Anime</h1>
                 </div>
                 <div className="recommended-grid">
-                  {animeDetails.recommendations.map((animerec, animerecid) => (
-                    <div
-                      className="movie-card" key={animerecid.id}>
-                      <div className="card-head">
-                        <div className="bookmark-icon">
-                          <i className="fa-solid fa-bookmark"></i>
-                        </div>
-                        <a href={`/anime-details/${animerec.id}`}>
-                          <img
-                            src={animerec.image}
-                            alt={animerec.title.userPreferred}
-                            className="card-img"
-                          />
-                        </a>
-                        <div className="card-details">
-                          <div className="episode-total">
-                            <span>{animerec.rating / 10}</span>
-                            <span>{animerec.episodes}</span>
-                          </div>
-                          <h5 className="card-title">{animerec.title.userPreferred}</h5>
-                        </div>
-                      </div>
-                    </div>
+                  {animeDetails.recommendations.map((rec) => (
+                    <Card rec={rec} key={rec.id}/>
                   ))}
                 </div>
               </div>

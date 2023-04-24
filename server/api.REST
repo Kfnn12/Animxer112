@@ -23,7 +23,7 @@
 #     "_id": "6415a1fc5960b32eed0eb259"
 # }
 
-GET http://localhost:8000/api/v1/user/643a69db15103b32eaaaaec9
+# GET http://localhost:8000/api/v1/user/643a69db15103b32eaaaaec9
 
 # PUT http://localhost:3000/api/v1/singleChat/message 
 # Content-Type: application/json
@@ -81,7 +81,7 @@ GET http://localhost:8000/api/v1/user/643a69db15103b32eaaaaec9
 #     "newMember": "64159fc37cbd82c531a727bb"
 # }
 
-# DELETE  http://localhost:3000/api/v1/groupChat/delete/member/6416e36e763cd2e17840ecf3/6415e888ea02f939fd789519
+DELETE  http://localhost:8000/api/v1/discussion/comment/6416e4d3627c4eae40af132d/6416e4d3627c4eae40af132d
 
 # POST http://localhost:3000/api/v1/groupChat/change/visibilty
 # Content-Type: application/json

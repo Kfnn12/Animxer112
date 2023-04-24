@@ -1,15 +1,21 @@
 import React from 'react'
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom';
+import { Card } from '../Components';
 
-const NewSeason = () => {
+const NewSeason = (props) => {
     const renderAfterCalled = useRef(false);
+    const [isBookmark, setIsBookmark] = useState(false);
     const [season, setSeason] = useState([])
     const getSeason = async (id = 1) => {
         const api = await fetch(`https://api.consumet.org/meta/anilist/recent-episodes?page=${id}`)
         const response = await api.json()
         setSeason(response.results)
     }
+    //bookmark
+    function handleIconClick() {
+     setIsBookmark(!isBookmark);
+  }
     useEffect(() => {
         if (!renderAfterCalled.current) {
             getSeason()
@@ -18,38 +24,17 @@ const NewSeason = () => {
     }, []);
 
     return (
-        <section className="movies">
+        <section className="movies" onClick={() => props.handelClick()}>
             <div className="filter-bar">
                 <div className="heading">
                     <h3>Recent Episodes</h3>
                 </div>
             </div>
             <div className="seasons-grid">
-                {season.map((newSeason,newSeasonId) => {
+                {season.map((rec) => {
                     return (
                         <>
-                            <div className='season-card' key={newSeasonId.id}>
-
-                                <div className="season-head">
-                                    <div className="bookmark-icon">
-                                    <i class="fa-regular fa-bookmark"></i>
-                                    </div>
-                                    <Link to={`/anime-details/${newSeason.id}`}>
-                                        <img
-                                            src={newSeason.image}
-                                            alt="pta nhi bhai"
-                                            className="season-img"
-                                        />
-                                    </Link>
-                                    <div className="season-details">
-                                        <div className="release-date-season">
-                                            <span className='season-relase'>{newSeason.rating/10}</span>
-                                        </div>
-                                        <h5 className="season-title">{newSeason.title.userPreferred}</h5>
-
-                                    </div>
-                                </div>
-                            </div>
+                            <Card rec={rec} key={rec.id}/>
                         </>
                     )
                 })}
