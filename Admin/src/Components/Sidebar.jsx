@@ -5,7 +5,7 @@ const Sidebar = () => {
         <div class="bg-white" id="sidebar-wrapper">
             <div className="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
                 <i className="fas fa-user-secret me-2"></i>
-                <a href="http://loacalhost:3000" className='text-decoration-none'>
+                <a href="http://localhost:3000" className='text-decoration-none'>
                 AnimeTrix
                 </a>
             </div>

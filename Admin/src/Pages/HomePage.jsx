@@ -41,11 +41,59 @@ const HomePage = () => {
     }
   }
 
+  const deleteUser = async(user) => {
+    const prompt = window.prompt("Enter master key");
+    try {
+      if (prompt) {
+        const conf = window.confirm("Are you Sure??");
+        if (conf) {
+          axios.interceptors.response.use(response => {
+            return response;
+          }, error => {
+            alert(error.response.data.error);
+            return;
+          });
+          const res = await axios.delete(`http://localhost:8000/api/v1/admin/user/${prompt}/${user._id}`);
+          await getUsers();
+          alert(res.data.message);
+          return res;
+        }
+      }
+    } catch (err) {
+      console.log(err);
+      alert("Something went wrong please try again later.")
+    }
+  }
+
+  const deleteComment = async(comment) => {
+    const prompt = window.prompt("Enter master key");
+    try {
+      if (prompt) {
+        const conf = window.confirm("Are you Sure??");
+        if (conf) {
+          axios.interceptors.response.use(response => {
+            return response;
+          }, error => {
+            alert(error.response.data.error);
+            return;
+          });
+          const res = await axios.delete(`http://localhost:8000/api/v1/admin/comment/${prompt}/${comment._id}`);
+          await getComments();
+          alert(res.data.message);
+          return res;
+        }
+      }
+    } catch (err) {
+      console.log(err);
+      alert("Something went wrong please try again later.")
+    }
+  }
+
   useEffect(() => {
     getUsers();
     // setUsers(user);
     getComments();
-    // console.log(user);
+    console.log(comments);
   }, []);
   useEffect(() => {
     const el = document.getElementById('wrapper');
@@ -98,6 +146,7 @@ const HomePage = () => {
             <th scope="col" width="50">#</th>
             <th scope="col">Sender E-mail</th>
             <th scope="col">Comment</th>
+            <th scope="col">Report Count</th>
             <th scope="col">Options</th>
           </tr>
         </thead>
@@ -105,9 +154,10 @@ const HomePage = () => {
           {comments.slice(0, 4).map(comment => {
             return <tr>
             <th scope="row">1</th>
-            <td>{comment.sender}</td>
+            <td>{comment.sender ? comment.sender.email: "User"}</td>
             <td>{comment.comment}</td>
-            <td><button class="btn btn-outline-danger border-0"><i class="fa-solid fa-trash p-2"></i></button></td>
+            <td>{comment.reports.length}</td>
+            <td><button onClick={e => deleteComment(comment)} class="btn btn-outline-danger border-0"><i class="fa-solid fa-trash p-2"></i></button></td>
           </tr>
           })
           }
@@ -124,6 +174,7 @@ const HomePage = () => {
             <th scope="col" width="50">#</th>
             <th scope="col">E-mail</th>
             <th scope="col">Name</th>
+            <th scope="col">Profile</th>
             <th scope="col">Options</th>
           </tr>
         </thead>
@@ -133,7 +184,8 @@ const HomePage = () => {
             <th scope="row">1</th>
             <td>{user.email}</td>
             <td>{user.name}</td>
-            <td><button class="btn btn-outline-danger border-0"><i class="fa-solid fa-trash p-2"></i></button></td>
+            <td>{user.profile}</td>
+            <td><button onClick={e => deleteUser(user)} class="btn btn-outline-danger border-0"><i class="fa-solid fa-trash p-2"></i></button></td>
           </tr>
           })
           }

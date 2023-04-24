@@ -15,11 +15,34 @@ const Users = () => {
             });
             const res = await axios.get(`http://localhost:8000/api/v1/admin/users`).then(res => {
               const a = res.data.users;
-              console.log(a); 
               setUsers(a);
             });
         } catch(err) {
             console.log(err);
+    }
+  }
+
+  const deleteUser = async(user) => {
+    const prompt = window.prompt("Enter master key");
+    try {
+      if (prompt) {
+        const conf = window.confirm("Are you Sure??");
+        if (conf) {
+          axios.interceptors.response.use(response => {
+            return response;
+          }, error => {
+            alert(error.response.data.error);
+            return;
+          });
+          const res = await axios.delete(`http://localhost:8000/api/v1/admin/user/${prompt}/${user._id}`);
+          await getUsers();
+          alert(res.data.message);
+          return res;
+        }
+      }
+    } catch (err) {
+      console.log(err);
+      alert("Something went wrong please try again later.")
     }
   }
 
@@ -53,7 +76,7 @@ const Users = () => {
             <th scope="row">{i++}</th>
             <td>{user.email}</td>
             <td>{user.name}</td>
-            <td><button class="btn btn-outline-danger border-0"><i class="fa-solid fa-trash p-2"></i></button></td>
+            <td><button onClick={e => deleteUser(user)}class="btn btn-outline-danger border-0"><i class="fa-solid fa-trash p-2"></i></button></td>
           </tr>
           })
           }

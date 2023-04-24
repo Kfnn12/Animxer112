@@ -15,7 +15,7 @@ const getAllUser = async(req, res) => {
 
 const getAllComment = async(req, res) => {
   try {
-        const comments = await Comments.find({ reports: { $exists: true, $not: { $size: 0 } } });
+        const comments = await Comments.find({ reports: { $exists: true, $not: { $size: 0 } } }).populate("sender");
         res.status(200).json({"comments": comments});
     } catch(err) {
         console.log(err);
@@ -30,7 +30,7 @@ const deleteComment = async(req, res) => {
         if(key == process.env.ADMIN_KEY) {
             if(comment) {
                 const discussionId = comment.discussionId;
-                await Comments.findOneAndDelete(_id);
+                const re = await Comments.findOneAndDelete(_id);
                 await Discussions.findOneAndUpdate({_id: discussionId},{$pull: {comments: _id}},{new: true});
                 res.status(200).json({"message": "Comment deleted successfully"});
             } else {

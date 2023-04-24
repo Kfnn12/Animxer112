@@ -125,14 +125,7 @@ export default function Stream(props) {
   }
 
   useEffect(() => {
-    async function a() {
-      console.log("Yo1");
-      const a1 = addHistory;
-      debugger
-      await a1();
-    }
-    a();
-    console.log("Yo");
+    addHistory();
   }, []);
 
   useEffect(() => {
@@ -234,11 +227,11 @@ export default function Stream(props) {
             return (
               <div className="user-comment">
                 <div className="user-img">
-                  <img src={comment.sender.profile ? comment.sender.profile : ""} alt="user-img" />
+                  <img src={comment.sender ? comment.sender.profile : "https://i.pinimg.com/originals/b8/bf/ac/b8bfac2f45bdc9bfd3ac5d08be6e7de8.jpg"} alt="user-img" />
                 </div>
                 <div className="user-name-time-text">
                   <div className="user-name-time">
-                    <span className="user-name">{comment.sender.name}</span>
+                    <span className="user-name">{comment.sender? comment.sender.name: "User"}</span>
                     <span>{String(comment.createdAt).substring(11, 16)}</span>
                   </div>
                   <div className="user-text">
@@ -250,7 +243,7 @@ export default function Stream(props) {
                     {/* <button><ThumbUpIcon /></button>
                           <button><ThumbDownIcon /></button> */}
                     <button className={comment.reports.includes(userId) ? "active" : ""} onClick={e => reportComment(comment)}><i className="fa-solid fa-flag"></i>&nbsp;&nbsp;&nbsp;Report</button>
-                    {comment.sender._id == userId ? <button onClick={e => { deleteComment(comment) }}><i className="fa-regular fa-trash-can"></i>&nbsp;&nbsp;&nbsp;Delete</button> : ""}
+                    {comment.sender && comment.sender._id == userId ? <button onClick={e => { deleteComment(comment) }}><i className="fa-regular fa-trash-can"></i>&nbsp;&nbsp;&nbsp;Delete</button> : ""}
                   </div>
                 </div>
               </div>

@@ -255,7 +255,6 @@ const clearHistory = async(req, res) => {
 
 const getUser = async(req, res) => {
   try {
-    console.log("fgfgfgfgfgffgffffgffgfgfgfg3");
     const {_id} = req.params;
     const user = await User.findOne({"_id": _id, isVerified: true});
     console.log(user);

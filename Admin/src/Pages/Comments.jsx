@@ -27,6 +27,31 @@ const Comments = () => {
             console.log(err);
     }
   }
+
+  const deleteComment = async(comment) => {
+    const prompt = window.prompt("Enter master key");
+    try {
+      if (prompt) {
+        const conf = window.confirm("Are you Sure??");
+        if (conf) {
+          axios.interceptors.response.use(response => {
+            return response;
+          }, error => {
+            alert(error.response.data.error);
+            return;
+          });
+          const res = await axios.delete(`http://localhost:8000/api/v1/admin/comment/${prompt}/${comment._id}`);
+          await getComments();
+          alert(res.data.message);
+          return res;
+        }
+      }
+    } catch (err) {
+      console.log(err);
+      alert("Something went wrong please try again later.")
+    }
+  }
+
   return (
     <div class="d-flex" id="wrapper">
 
@@ -43,6 +68,7 @@ const Comments = () => {
             <th scope="col" width="50">#</th>
             <th scope="col">Sender E-mail</th>
             <th scope="col">Comment</th>
+            <th scope="col">Report Count</th>
             <th scope="col">Options</th>
           </tr>
         </thead>
@@ -50,9 +76,10 @@ const Comments = () => {
           {comments.map(comment => {
             return <tr>
             <th scope="row">{i++}</th>
-            <td>{comment.sender}</td>
+            <td>{comment.sender? comment.sender.email: "User"}</td>
             <td>{comment.comment}</td>
-            <td><button class="btn btn-outline-danger border-0"><i class="fa-solid fa-trash p-2"></i></button></td>
+            <td>{comment.reports.length}</td>
+            <td><button onClick={ev => deleteComment(comment)} class="btn btn-outline-danger border-0"><i class="fa-solid fa-trash p-2"></i></button></td>
           </tr>
           })
           }
