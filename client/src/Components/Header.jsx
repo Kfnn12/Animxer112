@@ -200,9 +200,8 @@ const Header = forwardRef((props, ref) => {
               <Link to="/history">
                 <li>History</li>
               </Link>
-              {isAdmin?<Link to="/history">
-                <li>Admin</li>
-              </Link>:""}
+              {isAdmin?
+                <a href="http://localhost:3001"><li>Admin</li></a>:""}
               <li onClick={e => { logout(e) }}>Logout</li>
             </div>
           </div>}

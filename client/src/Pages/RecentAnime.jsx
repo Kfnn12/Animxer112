@@ -37,9 +37,6 @@ const RecentAnime = (props) => {
     props.handelClick();
   };
 
-
-
-
   const [lastwatch, setLastwatch] = useState(null);
 
   const LOCAL_STORAGE_KEY = "animetrix-vercel-app"

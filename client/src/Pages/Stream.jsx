@@ -123,6 +123,18 @@ export default function Stream(props) {
     }
     return undefined;
   }
+
+  useEffect(() => {
+    async function a() {
+      console.log("Yo1");
+      const a1 = addHistory;
+      debugger
+      await a1();
+    }
+    a();
+    console.log("Yo");
+  }, []);
+
   useEffect(() => {
     const id = getCookie("id");
     if (id)
@@ -133,9 +145,6 @@ export default function Stream(props) {
     getComments();
   }, [animeId, episodeId]);
 
-  useEffect(() => {
-    addHistory();
-  }, []);
   // reply logic
   // const [showReplyTextArea, setShowReplyTextArea] = useState(false)
 

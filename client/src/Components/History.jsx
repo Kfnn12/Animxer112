@@ -29,7 +29,8 @@ function History() {
         return;
       });
       const res = await axios.get(`http://localhost:8000/api/v1/user/history/${userId}`)
-        setHistory(res.data.history);
+      const history = res.data.history;
+        setHistory(history);
         console.log(history);
         debugger
     }
@@ -113,14 +114,8 @@ function History() {
                                             <span className="last-ep">Episode:- 3</span>
                                         </h5>
                                     </div>
-                                </div>
-
-                                
-                            </div>
-
-
-
-          
+                                </div>                                
+                            </div>          
                             </div>
                         </div>
                     </div>
