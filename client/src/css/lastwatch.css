@@ -77,8 +77,18 @@
     font-size: 25px;
   }
 }
-
+.history-head{
+  font-size: 40px;
+}
+@media(max-width:600px){
+  .history-head{
+    font-size: 30px;
+  }
+}
 @media(max-width:440px){
+  .history-head{
+    font-size: 20px;
+  }
   .continue-icon{
     font-size: 25px;
     color: rgb(33,150,243);
@@ -90,7 +100,7 @@
     border-radius: 4px;
   }
   .lastwatch-img {
-    width: 100%;
+    width: 300px;
     height: 250px;
     object-fit: cover;
   }

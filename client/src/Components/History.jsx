@@ -98,7 +98,7 @@ function History() {
             <section className='profile-wrapper'>
                 <div className="profile-greeting">
                     {/* <h1> Hi, {user}</h1> */}
-                    <h1><i class="fa-solid fa-clock-rotate-left lastwatch-icon continue-icon"></i> Continue Watching</h1>
+                    <h1 className='history-head'><i class="fa-solid fa-clock-rotate-left lastwatch-icon continue-icon"></i> Continue Watching</h1>
                 </div>
                 <div className='profile-navbar'>
                     <ul>
@@ -120,23 +120,23 @@ function History() {
                                 <button onClick={deleteHistory}>Clear all</button>
                             </div>
                             {/* <h1><i class="fa-solid fa-clock-rotate-left lastwatch-icon continue-icon"></i> Continue Watching</h1> */}
-                            <div className="lastwatch-grid">
+                            <div className="movies-grid">
 
                                 {animeData?.slice(0, 18).map((animeDataHis) => {
                                     return (
-                                        <div className="lastwatch-card">
+                                        <div className="movie-card">
                                             <div className="lastwatch-close">
 
                                                 <i
                                                     className="fa-solid fa-xmark"
                                                 />
                                             </div>
-                                            <div className="lastwatch-head">
+                                            <div className="card-head">
                                                 <Link to={`/anime-details/${animeDataHis.id}`}>
-                                                    <img src={animeDataHis?.image} alt="its just an images" className="lastwatch-img" />
+                                                    <img src={animeDataHis?.image} alt="its just an images" className="card-img" />
                                                 </Link>
-                                                <div className="lastwatch-details">
-                                                    <h5 className="lastwatch-title">
+                                                <div className="card-details">
+                                                    <h5 className="card-title">
                                                         {animeDataHis.title?.userPreferred || animeDataHis.title?.english || animeDataHis.romaji}
                                                     </h5>
                                                 </div>
