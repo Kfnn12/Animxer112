@@ -122,7 +122,7 @@ function History() {
                             {/* <h1><i class="fa-solid fa-clock-rotate-left lastwatch-icon continue-icon"></i> Continue Watching</h1> */}
                             <div className="movies-grid">
 
-                                {animeData?.slice(0, 18).map((animeDataHis) => {
+                                {animeData?.slice(0, 18).map((animeDataHis, index) => {
                                     return (
                                         <div className="movie-card">
                                             <div className="lastwatch-close">
@@ -132,7 +132,7 @@ function History() {
                                                 />
                                             </div>
                                             <div className="card-head">
-                                                <Link to={`/anime-details/${animeDataHis.id}`}>
+                                                <Link to={`/watch/${history[index].epId}/${history[index].animeId}`}>
                                                     <img src={animeDataHis?.image} alt="its just an images" className="card-img" />
                                                 </Link>
                                                 <div className="card-details">

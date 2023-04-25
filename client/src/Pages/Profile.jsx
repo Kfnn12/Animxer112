@@ -51,15 +51,16 @@ const Profile = () => {
       }, error => {
         return;
       });
-      console.log(userId);
-      const res = await axios.get(`http://localhost:8000/api/v1/user/${userId}`);
-      if (res.data) {
-        setDetails(res.data.user);
-        setUserName(res.data.user.name);
-        setImg(res.data.user.profile);
+      if(userId) {
+        const res = await axios.get(`http://localhost:8000/api/v1/user/${userId}`);
+        if (res.data) {
+          setDetails(res.data.user);
+          setUserName(res.data.user.name);
+          setImg(res.data.user.profile);
+        }
+        else
+          setDetails({});
       }
-      else
-        setDetails({});
     } catch (err) {
       console.log(err);
     }
