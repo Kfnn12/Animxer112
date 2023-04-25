@@ -4,7 +4,7 @@ import { Card, Lastwatch, Slider, AiringSchedule, ForYou, Footer, UpcomingSeason
 import { NewSeason } from "../Pages"
 import { Link } from "react-router-dom";
 import { useFetchInitialData } from "../utils/hooks";
-
+// import History from "../Components/History";
 const RecentAnime = (props) => {
   const renderAfterCalled = useRef(false);
   const [isBookmark, setIsBookmark] = useState(false);
@@ -66,7 +66,7 @@ const RecentAnime = (props) => {
         </div>
       ) : (
         <>
-          <Lastwatch lastwatch={lastwatch} />
+          {/* <History/> */}
           <NewSeason handelClick={handelClick} />
           <br /><br />
           <section className="movies">

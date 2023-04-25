@@ -49,25 +49,24 @@ export default function Stream(props) {
   const addHistory = async () => {
     try {
       if (userId) {
-        axios.interceptors.response.use(response => {
-          return response;
-        }, error => {
-          alert(error.response.data.error);
-          return;
-        });
-        const res = await axios.post(`http://localhost:8000/api/v1/user/history`, {
-          _id: userId,
-          animeId: animeId,
-          epId: episodeId,
-        })
-        console.log(res);
-        return res;
+        const response = await axios.post(
+          "http://localhost:8000/api/v1/user/history",
+          {
+            _id: userId,
+            animeId: animeId,
+            epId: episodeId,
+          }
+        );
+
+        console.log(response.data);
+        return response.data;
       }
-    } catch (err) {
-      console.log(err);
-      alert("Something went wrong please try again later.")
+    } catch (error) {
+      console.log(error);
+      alert("Something went wrong. Please try again later.");
     }
-  }
+  };
+
 
   const getComments = async () => {
     try {
@@ -231,7 +230,7 @@ export default function Stream(props) {
                 </div>
                 <div className="user-name-time-text">
                   <div className="user-name-time">
-                    <span className="user-name">{comment.sender? comment.sender.name: "User"}</span>
+                    <span className="user-name">{comment.sender ? comment.sender.name : "User"}</span>
                     <span>{String(comment.createdAt).substring(11, 16)}</span>
                   </div>
                   <div className="user-text">
@@ -339,7 +338,7 @@ export default function Stream(props) {
                       return (
                         <div className="related-seasons">
                           <Link to={`/anime-details/${relatedSeason?.id}`}>
-                          <img src={relatedSeason.image} alt="" className="image-related" />
+                            <img src={relatedSeason.image} alt="" className="image-related" />
                           </Link>
                           <div className="title-and-type">
                             <h1>{relatedSeason?.title?.userPreferred}...</h1>

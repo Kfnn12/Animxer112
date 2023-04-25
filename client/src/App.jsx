@@ -70,7 +70,7 @@ function App() {
     try {
       setLoading(true);
       const propu = await axios.get(
-        `https://api.consumet.org/meta/anilist/popular?page=${id}&perPage=20`
+        `https://api.consumet.org/meta/anilist/popular`
       );
       setPopular((popular) => [...popular, ...propu.data.results]);
       setLoading(false);
