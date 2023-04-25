@@ -55,33 +55,33 @@ function History() {
 
     const deleteHistory = async () => {
         try {
-          const conf = window.confirm("Are you sure you want to delete your history?");
-          if (conf) {
-            axios.interceptors.response.use(
-              (response) => {
-                return response;
-              },
-              (error) => {
-                alert(error.response.data.error);
-                return;
-              }
-            );
-            const res = await axios.delete(
-              `localhost:8000/api/v1/user/history/${userId}`
-            );
-            await getHistory();
-            if (res && res.data) {
-              alert(res.data.message);
-              return res;
+            const conf = window.confirm("Are you sure you want to delete your history?");
+            if (conf) {
+                axios.interceptors.response.use(
+                    (response) => {
+                        return response;
+                    },
+                    (error) => {
+                        alert(error.response.data.error);
+                        return;
+                    }
+                );
+                const res = await axios.delete(
+                    `localhost:8000/api/v1/user/history/${userId}`
+                );
+                await getHistory();
+                if (res && res.data) {
+                    alert(res.data.message);
+                    return res;
+                }
             }
-          }
         } catch (err) {
-          console.log(err);
-          alert("Something went wrong. Please try again later.");
+            console.log(err);
+            alert("Something went wrong. Please try again later.");
         }
-      };
-      
-    
+    };
+
+
 
 
     useEffect(() => {
@@ -122,7 +122,7 @@ function History() {
                             {/* <h1><i class="fa-solid fa-clock-rotate-left lastwatch-icon continue-icon"></i> Continue Watching</h1> */}
                             <div className="lastwatch-grid">
 
-                                {animeData?.slice(0,18).map((animeDataHis) => {
+                                {animeData?.slice(0, 18).map((animeDataHis) => {
                                     return (
                                         <div className="lastwatch-card">
                                             <div className="lastwatch-close">
@@ -146,10 +146,8 @@ function History() {
                                 })}
                             </div>
                             <div className="loadmore-recent">
-              <a href="/popular">
-                <button className="loadmore">View More</button>
-              </a>
-            </div>
+                                <button className="loadmore">View More</button>
+                            </div>
                         </div>
                     </div>
                 </section >

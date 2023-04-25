@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useId } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Footer } from "../Components/";
 import LoadingBar from "react-top-loading-bar";
@@ -135,7 +135,7 @@ export default function Stream(props) {
     getDetails();
     getStream();
     getComments();
-  }, [animeId, episodeId]);
+  }, [animeId, episodeId,userId]);
 
   // reply logic
   // const [showReplyTextArea, setShowReplyTextArea] = useState(false)
