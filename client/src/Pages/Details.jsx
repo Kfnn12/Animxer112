@@ -5,6 +5,8 @@ import LoadingBar from 'react-top-loading-bar';
 import Footer from "../Components/Footer";
 import ReactHtmlParser from 'react-html-parser';
 import Card from "../Components/Card"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function Details() {
 
   const { animeId } = useParams()
@@ -33,7 +35,16 @@ export default function Details() {
       setLoading(false);
     }
     catch (error) {
-      console.log("Error loading details")
+      toast.error("Error loading details", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   }
   useEffect(() => {
@@ -42,6 +53,7 @@ export default function Details() {
  
   return (
     <>
+    <ToastContainer/>
       <LoadingBar
         color='#0000FF'
         progress={100}

@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { Footer } from '../Components'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Profile = () => {
   const [userId, setUserId] = useState("");
   const [userName, setUserName] = useState("");
@@ -13,7 +15,7 @@ const Profile = () => {
   const [changeAvatar, setChangeAvatar] = useState(false);
   const [userImg, setUserImg] = useState("");
   const [comp, setComp] = useState(1);
-
+  const [loading, setLoading] = useState(true)
   const navigate = useNavigate();
 
   function getCookie(name) {
@@ -49,14 +51,25 @@ const Profile = () => {
       axios.interceptors.response.use(response => {
         return response;
       }, error => {
+        toast.error("Something went wrong", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         return;
       });
-      if(userId) {
+      if (userId) {
         const res = await axios.get(`http://localhost:8000/api/v1/user/${userId}`);
         if (res.data) {
           setDetails(res.data.user);
           setUserName(res.data.user.name);
           setImg(res.data.user.profile);
+          setLoading(false)
         }
         else
           setDetails({});
@@ -71,7 +84,16 @@ const Profile = () => {
       axios.interceptors.response.use(response => {
         return response;
       }, error => {
-        alert(error.response.data.error);
+        toast.error(error.response.data.error, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         return;
       });
       const res = await axios.post(`http://localhost:8000/api/v1/user/change/name`, {
@@ -81,7 +103,16 @@ const Profile = () => {
       return res;
     } catch (err) {
       console.log(err);
-      alert("Something went wrong please try again later.")
+      toast.error("Something went wrong", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   }
 
@@ -90,9 +121,27 @@ const Profile = () => {
     if (isUpdating) {
       if (details.name != userName) {
         const res = await changeName();
-        alert(res.data.message);
+        toast.error(res.data.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       } else {
-        alert("Type different Username");
+        toast.error("Username already exists try another", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       }
     }
     setIsUpdating(!isUpdating);
@@ -134,54 +183,68 @@ const Profile = () => {
   };
   return (
     <>
-      <section className='profile-wrapper'>
-        <div className="profile-greeting">
-          <h1> Hello, {details ? details.name : "User"}</h1>
-        </div>
-        <div className='profile-navbar'>
-          <ul>
-            <li style={{ cursor: "pointer" }}>Profile</li>
-            <Link to="/history"><li>History</li></Link>
-            <Link to="/bookmark">
-              <li>Bookmark</li>
-            </Link>
-          </ul>
-        </div>
-      </section>
-      <section className='profile-user-info'>
-        <div className="login-container">
-          <div className="user-picture"  onClick={() => setChangeAvatar(!changeAvatar)}>
-            <img src={img} alt="user-image" className='user-img' />
-            <div className={changeAvatar ? "image-list" : "hide-image-list"}>
-              {profileImages.map((profileImg) => {
-                return (
-                  <div
-                    className="single-img"
-                    key={profileImg.id}
-                    onClick={() => setImageHandler(profileImg.imgUrl)}
-                  >
-                    <img src={profileImg.imgUrl} alt="" />
-                  </div>
-                );
-              })}
-            </div>
-            </div>
-            <form action="" autoComplete='false' onSubmit={e => sumbitHandler(e)}>
-              <label htmlFor="text">Your Name</label>
-              <input type="text" value={userName} className='login-group-input' onChange={e => { isUpdating ? setUserName(e.target.value) : setUserName(userName) }} />
-              {/* user cannot update email value its just here to diplay info */}
-              <label htmlFor="email">Email</label>
-              <input type="email" value={details ? details.email : "user@gmail.com"} className='login-group-input' />
-              {/* <label htmlFor="text">Password
-                    <input type="text" value="password" className='login-group-input' />
-                    </label> */}
-              <div className='profile-btn'>
-                <button type="submit" className='profile-save'>{isUpdating ? "Save" : "update"}</button>
-              </div>
-            </form>
+      {loading ? (
+        <div className="spinner-box">
+          <div className="configure-border-1">
+            <div className="configure-core"></div>
           </div>
-      </section>
-      <Footer />
+          <div className="configure-border-2">
+            <div className="configure-core"></div>
+          </div>
+        </div>
+      ) : (
+        <>
+          <section className='profile-wrapper'>
+            <div className="profile-greeting">
+              <h1> Hello, {details ? details.name : "User"}</h1>
+            </div>
+            <div className='profile-navbar'>
+              <ul>
+                <li style={{ cursor: "pointer" }}>Profile</li>
+                <Link to="/history"><li>History</li></Link>
+                <Link to="/bookmark">
+                  <li>Bookmark</li>
+                </Link>
+              </ul>
+            </div>
+          </section>
+          <section className='profile-user-info'>
+            <div className="login-container">
+              <div className="user-picture" onClick={() => setChangeAvatar(!changeAvatar)}>
+                <img src={img} alt="user-image" className='user-img' />
+                <div className={changeAvatar ? "image-list" : "hide-image-list"}>
+                  {profileImages.map((profileImg) => {
+                    return (
+                      <div
+                        className="single-img"
+                        key={profileImg.id}
+                        onClick={() => setImageHandler(profileImg.imgUrl)}
+                      >
+                        <img src={profileImg.imgUrl} alt="" />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <form action="" autoComplete='false' onSubmit={e => sumbitHandler(e)}>
+                <label htmlFor="text">Your Name</label>
+                <input type="text" value={userName} className='login-group-input' onChange={e => { isUpdating ? setUserName(e.target.value) : setUserName(userName) }} />
+                {/* user cannot update email value its just here to diplay info */}
+                <label htmlFor="email">Email</label>
+                <input type="email" value={details ? details.email : "user@gmail.com"} className='login-group-input' />
+                {/* <label htmlFor="text">Password
+            <input type="text" value="password" className='login-group-input' />
+            </label> */}
+                <div className='profile-btn'>
+                  <button type="submit" className='profile-save'>{isUpdating ? "Save" : "update"}</button>
+                </div>
+              </form>
+            </div>
+          </section>
+          <Footer />
+        </>
+      )}
+
     </>
   )
 }

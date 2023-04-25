@@ -22,7 +22,8 @@ import "./css/UpcomingSeason.css"
 
 import { Error404, Header, ScrollToTop, SearchJSX, History, Bookmark } from "./Components/";
 import { DubAnime, RecentAnime, Details, Stream, Popular, TopAnimeAiring, Movie, OptionFetcher, Login, Register, AIChat, Profile, ForgotPassword, AnimeImageSearch } from "./Pages"
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 import {
@@ -62,7 +63,17 @@ function App() {
       setRecent((recent) => [...recent, ...Data.data.results]);
       setLoading(false);
     } catch (err) {
-      console.log("error loading anime");
+      toast.error("Error loading anime", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnFocusLoss: true,
+        draggable: true,
+        pauseOnHover: true,
+        theme: "dark",
+      });
       setLoading(false);
     }
   };
@@ -75,7 +86,17 @@ function App() {
       setPopular((popular) => [...popular, ...propu.data.results]);
       setLoading(false);
     } catch (err) {
-      console.log("Error loading Popular Anime");
+      toast.error("Error loading popular anime", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnFocusLoss: true,
+        draggable: true,
+        pauseOnHover: true,
+        theme: "dark",
+      });
       setLoading(false);
     }
   };
@@ -103,11 +124,32 @@ function App() {
       if (Array.isArray(data.results)) {
         setMovie((movie) => [...movie, ...data.results]);
       }else{
+        toast.error("Error loading movies", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnFocusLoss: true,
+          draggable: true,
+          pauseOnHover: true,
+          theme: "dark",
+        });
         console.log("Api down for movies")
       }
       setLoading(false);
     } catch (err) {
-      console.log("Error loading Movies");
+      toast.error("Error loading movies", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnFocusLoss: true,
+        draggable: true,
+        pauseOnHover: true,
+        theme: "dark",
+      });
       setLoading(false);
     }
   };
@@ -120,7 +162,17 @@ function App() {
       setTop((topAiring) => [...topAiring, ...Data.data.results]);
       setLoading(false);
     } catch (err) {
-      console.log("Error loading top-airing");
+      toast.error("Error loading top airing", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnFocusLoss: true,
+        draggable: true,
+        pauseOnHover: true,
+        theme: "dark",
+      });
       setLoading(false);
     }
   };
@@ -186,6 +238,7 @@ function App() {
 
   return (
     <Router className="App">
+      <ToastContainer/>
       <ScrollToTop />
       <Header handelChanges={handelChanges} ref={childRef} />
       {searchResult ? (

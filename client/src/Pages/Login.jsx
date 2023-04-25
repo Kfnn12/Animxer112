@@ -2,7 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,7 +14,17 @@ function Login() {
       axios.interceptors.response.use(response => {
         return response;
       }, error => {
-        alert(error.response.data.error);
+        toast.error(error.response.data.error, {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          rtl: false,
+          pauseOnFocusLoss: true,
+          draggable: true,
+          pauseOnHover: true,
+          theme: "dark",
+        });
         return;
       });
       const res = await axios.post(`http://localhost:8000/api/v1/user/login`, {
@@ -23,7 +34,16 @@ function Login() {
       return res;
     } catch (err) {
       console.log(err);
-      alert("Something went wrong please try again later.")
+      toast.error("Something went wrong", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   }
 
@@ -51,7 +71,17 @@ function Login() {
     e.preventDefault();
     const res = await userLogin();
     if (res) {
-      console.log("Login Successfull");
+      toast.success("Welcome to AnimeTrix", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnFocusLoss: true,
+        draggable: true,
+        pauseOnHover: true,
+        theme: "dark",
+      });
       if (rememberMe) {
         Cookies.set("id", res.data._id, { expires: 7 });
         Cookies.set("category", res.data.category, { expires: 7 });
@@ -69,7 +99,9 @@ function Login() {
     }
   }
   return (
+    <>
     <section className="login">
+      <ToastContainer/>
       <div className="login-container">
         <h1>Log In</h1>
         <form autoComplete="false" onSubmit={e => { submitHandler(e) }}>
@@ -105,6 +137,7 @@ function Login() {
         </div>
       </div>
     </section>
+    </>
   );
 }
 

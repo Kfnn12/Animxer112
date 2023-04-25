@@ -7,7 +7,8 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import Cookie from "js-cookie"
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function Stream(props) {
   const { episodeId } = useParams()
   const [data, setData] = useState([]);
@@ -63,7 +64,16 @@ export default function Stream(props) {
       }
     } catch (error) {
       console.log(error);
-      alert("Something went wrong. Please try again later.");
+      toast.error("Something went wrong ", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
 
@@ -73,7 +83,16 @@ export default function Stream(props) {
       axios.interceptors.response.use(response => {
         return response;
       }, error => {
-        alert(error.response.data.error);
+        toast.error(error.response.data.error, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         return;
       });
       const res = await axios.get(`http://localhost:8000/api/v1/discussion/comments/${episodeId}`)
@@ -83,7 +102,16 @@ export default function Stream(props) {
         setComments([]);
     } catch (err) {
       console.log(err);
-      alert("Error loading comments");
+      toast.error("Error loading comments", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   }
   const getStream = async () => {
@@ -135,7 +163,7 @@ export default function Stream(props) {
     getDetails();
     getStream();
     getComments();
-  }, [animeId, episodeId,userId]);
+  }, [animeId, episodeId, userId]);
 
   // reply logic
   // const [showReplyTextArea, setShowReplyTextArea] = useState(false)
@@ -151,7 +179,16 @@ export default function Stream(props) {
         axios.interceptors.response.use(response => {
           return response;
         }, error => {
-          alert(error.response.data.error);
+          toast.error(error.response.data.error, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
           return;
         });
         const res = await axios.post(`http://localhost:8000/api/v1/discussion/comment`, {
@@ -162,11 +199,29 @@ export default function Stream(props) {
         getComments();
         setComment("");
         return res;
-      }
-      alert("Login First");
+      } 
+      toast.error("Login first", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     } catch (err) {
       console.log(err);
-      alert("Something went wrong please try again later.")
+      toast.error("Something went wrong please try again later", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   }
 
@@ -176,7 +231,16 @@ export default function Stream(props) {
         axios.interceptors.response.use(response => {
           return response;
         }, error => {
-          alert(error.response.data.error);
+          toast.error(error.response.data.error, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
           return;
         });
         const res = await axios.post(`http://localhost:8000/api/v1/discussion/report`, {
@@ -184,13 +248,40 @@ export default function Stream(props) {
           commentId: comment._id
         })
         getComments();
-        alert(res.data.message);
+        toast.error(res.data.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         return res;
       }
-      alert("Login First");
+      toast.error("Login first", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     } catch (err) {
       console.log(err);
-      alert("Something went wrong please try again later.")
+      toast.error("Something went wrong please try again later", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   }
 
@@ -202,19 +293,55 @@ export default function Stream(props) {
           axios.interceptors.response.use(response => {
             return response;
           }, error => {
-            alert(error.response.data.error);
+               toast.error(error.response.data.error, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
             return;
           });
           const res = await axios.delete(`http://localhost:8000/api/v1/discussion/comment/${comment._id}/${userId}`);
           getComments();
-          alert(res.data.message);
+          toast.error(res.data.message, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
           return res;
         }
       }
-      alert("Login First");
+      toast.error("Login first", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     } catch (err) {
       console.log(err);
-      alert("Something went wrong please try again later.")
+      toast.error("Something went wrong please try again later", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   }
 
@@ -255,6 +382,7 @@ export default function Stream(props) {
   }
   return (
     <>
+    <ToastContainer/>
       <LoadingBar
         color='#0000FF'
         progress={100}

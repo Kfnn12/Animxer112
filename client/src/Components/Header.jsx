@@ -4,6 +4,8 @@ import Cookies from "js-cookie";
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { FiLogOut } from "react-icons/fi"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Link } from "react-router-dom";
 const Header = forwardRef((props, ref) => {
   const [togglemenu, setToggleMenu] = useState(true);
@@ -113,15 +115,23 @@ const Header = forwardRef((props, ref) => {
   };
 
   const logout = (e) => {
-    const conf = window.confirm("Are you sure you want to logout??");
-    if (conf) {
       Cookies.remove("id");
       setIsLoggedIn(false);
-    }
+      toast('Goodbye see you soon', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
   }
 
   return (
     <>
+    <ToastContainer/>
       <nav className="header">
         <div className="logo">
           <a href="/">
