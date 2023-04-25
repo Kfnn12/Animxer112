@@ -152,14 +152,14 @@ function Register() {
           />
           <input
             type="text"
-            className="login-group-input"
+            className="login-group-input-otp"
             placeholder="OTP"
             onChange={e => {setOtp(e.target.value)}}
           />
           <button type="submit" className="login-sign-in">
             Get OTP
           </button>
-          <button type="button" className="login-sign-in" onClick={e => {submitHandler(e)}}>
+          <button type="button" className="login-sign-reg" onClick={e => {submitHandler(e)}}>
             Register
           </button>
         </div>
