@@ -3,7 +3,8 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { Link } from "react-router-dom";
 import spinner from "../img/spinner.svg";
 import { Card } from '../Components';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function OptionFetcher() {
 
   const [selectedOption, setSelectedOption] = useState('Action');
@@ -40,6 +41,18 @@ const [isBookmark, setIsBookmark] = useState(false);
       setIsLoading(false);
     } catch (error) {
       console.error(error);
+      toast.error("Error loading genre", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnFocusLoss: true,
+        draggable: true,
+        pauseOnHover: true,
+        theme: "dark",
+      });
+      
     }
   }
 
@@ -73,6 +86,7 @@ const [isBookmark, setIsBookmark] = useState(false);
 
   return (
     <>
+           <ToastContainer/>
       {isLoading && (
         <div className="spinner-box">
           <div className="configure-border-1">

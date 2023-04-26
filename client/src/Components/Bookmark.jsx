@@ -68,9 +68,9 @@ const removeBookmark = (animeId) => {
                     console.log(animeRes.data);
                     const animeDataItem = animeRes.data;
                     animeDataArray.push(animeDataItem);
+                    setLoading(false)
                 }
                 setAnimeData(animeDataArray);
-                setLoading(false)
             }
         } catch (err) {
             console.log(err);
