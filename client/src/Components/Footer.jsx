@@ -14,7 +14,7 @@ function Footer() {
         <a href="https://t.me/animetrix013" target="_blank"><i class="fa-brands fa-telegram"></i></a>
         </div>
         <div className="join-social">
-        <a href="https://instagram.com/animetrix013" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://instagram.com/animetrix.200" target="_blank"><i class="fa-brands fa-instagram"></i></a>
         </div>
         </div>
       </div>
