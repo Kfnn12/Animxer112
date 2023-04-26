@@ -346,6 +346,13 @@ export default function Stream(props) {
     }
   }
 
+  const getLocalDate = (mongoTimestamp) => {
+    const date = new Date(mongoTimestamp);
+    const localDate = date.toLocaleString();
+    const [dateStr, timeStr] = localDate.split(", ");
+    return dateStr+" "+timeStr;
+  }
+
   const printComments = () => {
     if (comments.length != 0) {
       return (
@@ -359,7 +366,7 @@ export default function Stream(props) {
                 <div className="user-name-time-text">
                   <div className="user-name-time">
                     <span className="user-name">{comment.sender ? comment.sender.name : "User"}</span>
-                    <span>{String(comment.createdAt).substring(11, 16)}</span>
+                    <span>{getLocalDate(comment.createdAt)}</span>
                   </div>
                   <div className="user-text">
                     <p>
