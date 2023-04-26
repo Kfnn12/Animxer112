@@ -117,7 +117,7 @@ function App() {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://api.consumet.org/meta/anilist/advanced-search?format=MOVIE`
+        `https://api.consumet.org/meta/anilist/advanced-search?format=OVA`
       );
       const data = await response.json();
       console.log(data)

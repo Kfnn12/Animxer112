@@ -221,7 +221,6 @@ const addHistory = async(req, res) => {
 
 const getHistory = async(req, res) => {
   try {
-    console.log("fgfgfgfgfgffgffffgffgfgfgfg");
     const _id = req.params._id;
     const user = await User.findOne({"_id": _id, isVerified: true})
     if(user) {
@@ -237,12 +236,10 @@ const getHistory = async(req, res) => {
 
 const clearHistory = async(req, res) => {
   try {
-    console.log("fgfgfgfgfgffgffffgffgfgfgfg2");
     const {_id} = req.params;
     const user = User.findOne({"_id": _id, isVerified: true})
     if(user) {
-      user.history = [];
-      await user.save();
+      await User.updateOne({ _id: _id }, { $set: { history: [] } });
       res.status(200).json({message: "history deleted"});
     } else {
       res.status(200).json({error: "User Doesnt exists"});

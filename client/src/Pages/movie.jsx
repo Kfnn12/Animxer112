@@ -17,6 +17,7 @@ const Movie = (props) => {
   const { loading, movie, loadMoreMovies } = props;
 
   useFetchInitialData(loading, movie, loadMoreMovies, ref, window)
+  console.log(props);
   return (
     <>
       {Object.keys(props.recent).length === 0 ? (

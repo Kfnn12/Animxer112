@@ -81,7 +81,7 @@
 #     "newMember": "64159fc37cbd82c531a727bb"
 # }
 
-DELETE  http://localhost:8000/api/v1/discussion/comment/6416e4d3627c4eae40af132d/6416e4d3627c4eae40af132d
+DELETE  localhost:8000/api/v1/user/history//6446cfb3a61a1116cc1a9aaf
 
 # POST http://localhost:3000/api/v1/groupChat/change/visibilty
 # Content-Type: application/json
