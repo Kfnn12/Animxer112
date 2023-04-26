@@ -96,7 +96,7 @@ function History() {
                 console.log(res);
                 await getHistory();
                 if (res && res.data) {
-                    toast.error(res.data.message, {
+                    toast.success(res.data.message, {
                         position: "top-right",
                         autoClose: 5000,
                         hideProgressBar: false,
@@ -154,7 +154,7 @@ function History() {
                 console.log(res);
                 await getHistory();
                 if (res && res.data) {
-                    toast.error(res.data.message, {
+                    toast.success(res.data.message, {
                         position: "top-right",
                         autoClose: 5000,
                         hideProgressBar: false,

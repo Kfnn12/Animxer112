@@ -121,7 +121,7 @@ const Profile = () => {
     if (isUpdating) {
       if (details.name != userName) {
         const res = await changeName();
-        toast.error(res.data.message, {
+        toast.success(res.data.message, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,

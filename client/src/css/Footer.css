@@ -55,7 +55,7 @@ p {
   font-size: 50px;
   transition: .5s;
 }
-.join-social ion-icon:hover{
+.join-social a:hover{
   color: rgb(33, 150, 243);
 }
 

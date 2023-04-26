@@ -127,7 +127,17 @@ function Register() {
       if (!(password.length < 8 && password.length >= 12)) {
         const res = await userVerification(email, otp);
         if (res) {
-          alert("Registration Successfull");
+          toast.success("Registration successful", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            rtl: false,
+            pauseOnFocusLoss: true,
+            draggable: true,
+            pauseOnHover: true,
+            theme: "dark",
+          });
           navigate("/login");
         }
       } else {

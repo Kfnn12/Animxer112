@@ -308,7 +308,7 @@ export default function Stream(props) {
           });
           const res = await axios.delete(`http://localhost:8000/api/v1/discussion/comment/${comment._id}/${userId}`);
           getComments();
-          toast.error(res.data.message, {
+          toast.success(res.data.message, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
