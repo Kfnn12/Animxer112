@@ -266,5 +266,21 @@ const getUser = async(req, res) => {
   }
 }
 
+const removeHistory = async(req, res) => {
+  try {
+    const {_id, animeId} = req.params;
+    const user = User.findOne({"_id": _id, isVerified: true})
+    if(user) {
+      await User.findOneAndUpdate({"_id": _id}, {"$pull": {"history": {"animeId": animeId}}});
+      res.status(200).json({message: "history deleted"});
+    } else {
+      res.status(200).json({error: "User Doesnt exists"});
+    }
+  } catch(err) {
+    console.log(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+} 
 
-module.exports = { addUser, loginUser,  changePassword,  verify, getBookmarks, toggleBookmark, changeName,  changeProfile, getHistory, addHistory, clearHistory, getUser };
+
+module.exports = { addUser, loginUser,  changePassword,  verify, getBookmarks, toggleBookmark, changeName,  changeProfile, getHistory, addHistory, clearHistory, getUser, removeHistory };

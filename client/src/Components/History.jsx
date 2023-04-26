@@ -124,6 +124,64 @@ function History() {
             });
         }
     };
+
+    const removeHistory = async(animeId) => {
+        try {
+            const conf = window.confirm("Are you sure you want to delete your history?");
+            if (conf) {
+                axios.interceptors.response.use(
+                    (response) => {
+                        return response;
+                    },
+                    (error) => {
+                        toast.error(error.response.data.error, {
+                            position: toast.POSITION.TOP_RIGHT,
+                            autoClose: 5000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            rtl: false,
+                            pauseOnFocusLoss: true,
+                            draggable: true,
+                            pauseOnHover: true,
+                            theme: "dark",
+                        });
+                        return;
+                    }
+                );
+                const res = await axios.delete(
+                    `http://localhost:8000/api/v1/user/single/history/${userId}/${animeId}`
+                );
+                console.log(res);
+                await getHistory();
+                if (res && res.data) {
+                    toast.error(res.data.message, {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    });
+                    return res;
+                }
+            }
+        } catch (err) {
+            console.log(err);
+            toast.error("Something went wrong", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                rtl: false,
+                pauseOnFocusLoss: true,
+                draggable: true,
+                pauseOnHover: true,
+                theme: "dark",
+            });
+        }
+    }
     
     useEffect(() => {
         const id = getCookie("id");
@@ -178,7 +236,7 @@ function History() {
                                         {animeData?.slice(0, 18).map((animeDataHis, index) => {
                                             return (
                                                 <div className="movie-card">
-                                                    <div className="lastwatch-close">
+                                                    <div className="lastwatch-close" onClick={ev => removeHistory(history[index].animeId)}>
 
                                                         <i
                                                             className="fa-solid fa-xmark"
