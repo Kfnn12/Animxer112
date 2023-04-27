@@ -5,6 +5,7 @@ import spinner from "../img/spinner.svg";
 import { Card } from '../Components';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { HomeApi } from '../Components/constants';
 function OptionFetcher() {
 
   const [selectedOption, setSelectedOption] = useState('Action');
@@ -14,10 +15,10 @@ function OptionFetcher() {
   const [page, setPage] = useState(1);
 
   const [isLoading, setIsLoading] = useState(false);
-const [isBookmark, setIsBookmark] = useState(false);
+  const [isBookmark, setIsBookmark] = useState(false);
   //bookmark
   function handleIconClick() {
-     setIsBookmark(!isBookmark);
+    setIsBookmark(!isBookmark);
   }
 
   useEffect(() => {
@@ -33,7 +34,7 @@ const [isBookmark, setIsBookmark] = useState(false);
     try {
       setIsLoading(true);
       const response = await fetch(
-        `https://animetrix-api.vercel.app/meta/anilist/advanced-search?genres=["${selectedOption}"]&&page=${page}`
+        `${HomeApi}/meta/anilist/advanced-search?genres=["${selectedOption}"]&&page=${page}`
       );
       const responseData = await response.json();
       console.log(responseData)
@@ -52,7 +53,7 @@ const [isBookmark, setIsBookmark] = useState(false);
         pauseOnHover: true,
         theme: "dark",
       });
-      
+
     }
   }
 
@@ -69,7 +70,7 @@ const [isBookmark, setIsBookmark] = useState(false);
     try {
       setPage(page => page + 1);
       const response = await fetch(
-        `https://animetrix-api.vercel.app/meta/anilist/advanced-search?genres=["${selectedOption}"]&&page=${page + 1}`
+        `${HomeApi}/meta/anilist/advanced-search?genres=["${selectedOption}"]&&page=${page + 1}`
       );
       const responseData = await response.json();
       setData([...data, ...responseData.results]);
@@ -86,7 +87,7 @@ const [isBookmark, setIsBookmark] = useState(false);
 
   return (
     <>
-           <ToastContainer/>
+      <ToastContainer />
       {isLoading && (
         <div className="spinner-box">
           <div className="configure-border-1">
@@ -121,7 +122,7 @@ const [isBookmark, setIsBookmark] = useState(false);
           >
             <div className='movies-grid'>
               {data.map(rec => (
-                <Card rec={rec} key={rec.id}/>
+                <Card rec={rec} key={rec.id} />
               ))}
             </div>
           </InfiniteScroll>

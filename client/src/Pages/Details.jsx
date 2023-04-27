@@ -7,6 +7,7 @@ import ReactHtmlParser from 'react-html-parser';
 import Card from "../Components/Card"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { HomeApi } from "../Components/constants";
 export default function Details() {
 
   const { animeId } = useParams()
@@ -14,18 +15,24 @@ export default function Details() {
   const [watch, setWatch] = useState(" ");
   const [loading, setLoading] = useState(true)
   const [isBookmark, setIsBookmark] = useState(false);
-  
+
   //bookmark
   function handleIconClick() {
-     setIsBookmark(!isBookmark);
+    setIsBookmark(!isBookmark);
   }
 
   const getDetails = async () => {
     try {
-      const api = await fetch(`https://animetrix-api.vercel.app/meta/anilist/info/${animeId}`)
+      const api = await fetch(`${HomeApi}/meta/anilist/info/${animeId}`)
       const response = await api.json()
       const responseArray = [response];
       setDetail(responseArray);
+      const [firstEpisode] = response.episodes;
+      if (firstEpisode) {
+        setWatch(firstEpisode.id);
+      } else {
+        setWatch("");
+      }
       console.log(responseArray)
       setLoading(false);
     }
@@ -45,10 +52,10 @@ export default function Details() {
   useEffect(() => {
     getDetails()
   }, [animeId]);
- 
+
   return (
     <>
-    <ToastContainer/>
+      <ToastContainer />
       <LoadingBar
         color='#0000FF'
         progress={100}
@@ -81,7 +88,7 @@ export default function Details() {
 
                   <div className="anime-info">
                     {animeDetails.title.english && animeDetails.title.english ? (
-                      <p className="anime-title">{animeDetails.title.english ||animeDetails.title.romaji||animeDetails.title.romaji}</p>
+                      <p className="anime-title">{animeDetails.title.english || animeDetails.title.romaji || animeDetails.title.romaji}</p>
                     ) : (
                       <p className="anime-title"> {animeDetails.title.romaji}</p>
                     )}
@@ -97,27 +104,27 @@ export default function Details() {
 
                     <section className="episode-detail-container">
 
-                    <div className="anime-episodes">
-                      <div className="episodes-list">
-                        {animeDetails.episodes.map((episodeWatch) => {
-                          return (
-                            <Link to={`/watch/${episodeWatch.id}/${animeId}`}>
-                              <button>{episodeWatch.number}</button>
-                            </Link>
-                          )
-                        })}
+                      <div className="anime-episodes">
+                        <div className="episodes-list">
+                          {animeDetails.episodes.map((episodeWatch) => {
+                            return (
+                              <Link to={`/watch/${episodeWatch.id}/${animeId}`}>
+                                <button>{episodeWatch.number}</button>
+                              </Link>
+                            )
+                          })}
+                        </div>
                       </div>
-                    </div>
                     </section>
                   </div>
                 </div>
 
                 <div className="anime-trailer">
                   <div className="trailer">
-                  {animeDetails.trailer &&(
-                    <iframe src={`https://www.youtube.com/embed/${animeDetails.trailer.id}`} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen></iframe>
-                  )}
+                    {animeDetails.trailer && (
+                      <iframe src={`https://www.youtube.com/embed/${animeDetails.trailer.id}`} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen></iframe>
+                    )}
                   </div>
                 </div>
 
@@ -126,7 +133,7 @@ export default function Details() {
                 </div>
                 <div className="recommended-grid">
                   {animeDetails.recommendations.map((rec) => (
-                    <Card rec={rec} key={rec.id}/>
+                    <Card rec={rec} key={rec.id} />
                   ))}
                 </div>
               </div>

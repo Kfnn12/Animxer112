@@ -35,7 +35,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
 
-
+import { HomeApi } from "./Components/constants";
 
 function App() {
   const childRef = useRef();
@@ -58,7 +58,7 @@ function App() {
     try {
       setLoading(true);
       const Data = await axios.get(
-        `https://animetrix-api.vercel.app/meta/anilist/popular?page=${id}&perPage=20`
+        `${HomeApi}/meta/anilist/popular?page=${id}&perPage=20`
       );
       setRecent((recent) => [...recent, ...Data.data.results]);
       setLoading(false);
@@ -81,7 +81,7 @@ function App() {
     try {
       setLoading(true);
       const propu = await axios.get(
-        `https://animetrix-api.vercel.app/meta/anilist/popular`
+        `${HomeApi}/meta/anilist/popular`
       );
       setPopular((popular) => [...popular, ...propu.data.results]);
       setLoading(false);
@@ -117,7 +117,7 @@ function App() {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://animetrix-api.vercel.app/meta/anilist/advanced-search?format=MOVIE`
+        `${HomeApi}/meta/anilist/advanced-search?format=MOVIE`
       );
       const data = await response.json();
       console.log(data)
@@ -157,7 +157,7 @@ function App() {
   const getTopAiring = async (id = 1) => {
     try {
       setLoading(true);
-      const Data = await axios.get(`https://animetrix-api.vercel.app/meta/anilist/trending?page=${id}&perPage=20`
+      const Data = await axios.get(`${HomeApi}/meta/anilist/trending?page=${id}&perPage=20`
       );
       setTop((topAiring) => [...topAiring, ...Data.data.results]);
       setLoading(false);
@@ -192,7 +192,7 @@ function App() {
   const handelChanges = async (val) => {
     try {
       const searchRes = await axios
-        .get(`https://animetrix-api.vercel.app/meta/anilist/${val}`)
+        .get(`${HomeApi}/meta/anilist/${val}`)
       if (val === "") {
         setSearchResult(null);
       } else {
@@ -202,6 +202,17 @@ function App() {
     }
     catch (err) {
       console.log("Search failed")
+      toast.error("Search Failed", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnFocusLoss: true,
+        draggable: true,
+        pauseOnHover: true,
+        theme: "dark",
+      });
     }
   };
 

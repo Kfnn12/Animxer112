@@ -3,6 +3,7 @@ import { React, useDebugValue, useEffect, useState } from 'react';
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { HomeApi } from './constants';
 // const user = "Shiva";
 function History() {
     const [animeData, setAnimeData] = useState([])
@@ -46,7 +47,7 @@ function History() {
 
                 const animeDataArray = [];
                 for (const historyItem of history) {
-                    const animeRes = await axios.get(`https://animetrix-api.vercel.app/meta/anilist/info/${historyItem.animeId}`);
+                    const animeRes = await axios.get(`${HomeApi}/meta/anilist/info/${historyItem.animeId}`);
                     const animeDataItem = animeRes.data;
                     animeDataArray.push(animeDataItem);
                 }

@@ -9,6 +9,8 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import Cookie from "js-cookie"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { HomeApi,StreamApi } from "../Components/constants";
+
 
 export default function Stream(props) {
   const { episodeId } = useParams()
@@ -118,7 +120,7 @@ export default function Stream(props) {
   const getStream = async () => {
     try {
       const Video = await axios.get(
-        `https://animetrix-api.onrender.com/vidcdn/watch/${episodeId}`
+        `${StreamApi}/vidcdn/watch/${episodeId}`
       );
       setData(Video.data.Referer);
       setLoading(false);
@@ -130,7 +132,7 @@ export default function Stream(props) {
 
   const getDetails = async () => {
     try {
-      const api = await fetch(`https://animetrix-api.vercel.app/meta/anilist/info/${animeId}`)
+      const api = await fetch(`${HomeApi}/meta/anilist/info/${animeId}`)
       const response = await api.json()
       setDetail(response);
       const responseArray = [response];

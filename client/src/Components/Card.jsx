@@ -64,7 +64,7 @@ export default function Card(props) {
         });
         const res = await axios.get(`http://localhost:8000/api/v1/user/bookmark/${userId}`)
         const bookmark = res.data;
-        console.log(bookmark);
+        // console.log(bookmark);
         setBookmark(bookmark);
         bookmark.includes(props.rec.id) ? setIsBookmark(true) : setIsBookmark(false);
       }

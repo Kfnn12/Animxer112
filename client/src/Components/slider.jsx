@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import {HomeApi} from "./constants"
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -17,7 +18,7 @@ export default function Slider() {
   const renderAfterCalled = useRef(false);
   const [sliderinfo, setSlider] = useState([]);
   const getSlider = async () => {
-    const api = await fetch("https://animetrix-api.vercel.app/meta/anilist/trending?page=1");
+    const api = await fetch(`${HomeApi}/meta/anilist/trending?page=1`);
     const response = await api.json();
     setSlider(response.results);
   }
