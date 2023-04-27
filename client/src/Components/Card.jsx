@@ -112,7 +112,7 @@ export default function Card(props) {
 
     <>
       <div
-        className="movie-card">
+        className="movie-card" onClick={() => props.handelClick()}>
         <ToastContainer/>
         <div className="card-head">
 
