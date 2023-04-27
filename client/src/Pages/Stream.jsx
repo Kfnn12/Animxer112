@@ -130,7 +130,7 @@ export default function Stream(props) {
 
   const getDetails = async () => {
     try {
-      const api = await fetch(`https://api.consumet.org/meta/anilist/info/${animeId}`)
+      const api = await fetch(`https://animetrix-api.vercel.app/meta/anilist/info/${animeId}`)
       const response = await api.json()
       setDetail(response);
       const responseArray = [response];

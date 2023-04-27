@@ -64,7 +64,7 @@ const removeBookmark = (animeId) => {
 
                 const animeDataArray = [];
                 for (const bookmarkItem of bookmark) {
-                    const animeRes = await axios.get(`https://api.consumet.org/meta/anilist/info/${bookmarkItem}`);
+                    const animeRes = await axios.get(`https://animetrix-api.vercel.app/meta/anilist/info/${bookmarkItem}`);
                     console.log(animeRes.data);
                     const animeDataItem = animeRes.data;
                     animeDataArray.push(animeDataItem);

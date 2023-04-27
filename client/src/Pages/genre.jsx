@@ -33,7 +33,7 @@ const [isBookmark, setIsBookmark] = useState(false);
     try {
       setIsLoading(true);
       const response = await fetch(
-        `https://api.consumet.org/meta/anilist/advanced-search?genres=["${selectedOption}"]&&page=${page}`
+        `https://animetrix-api.vercel.app/meta/anilist/advanced-search?genres=["${selectedOption}"]&&page=${page}`
       );
       const responseData = await response.json();
       console.log(responseData)
@@ -69,7 +69,7 @@ const [isBookmark, setIsBookmark] = useState(false);
     try {
       setPage(page => page + 1);
       const response = await fetch(
-        `https://api.consumet.org/meta/anilist/advanced-search?genres=["${selectedOption}"]&&page=${page + 1}`
+        `https://animetrix-api.vercel.app/meta/anilist/advanced-search?genres=["${selectedOption}"]&&page=${page + 1}`
       );
       const responseData = await response.json();
       setData([...data, ...responseData.results]);

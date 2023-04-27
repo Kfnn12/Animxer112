@@ -46,7 +46,7 @@ function History() {
 
                 const animeDataArray = [];
                 for (const historyItem of history) {
-                    const animeRes = await axios.get(`https://api.consumet.org/meta/anilist/info/${historyItem.animeId}`);
+                    const animeRes = await axios.get(`https://animetrix-api.vercel.app/meta/anilist/info/${historyItem.animeId}`);
                     const animeDataItem = animeRes.data;
                     animeDataArray.push(animeDataItem);
                 }

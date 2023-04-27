@@ -5,19 +5,19 @@ const UpcomingSeason = () => {
     const [spring, setSpring] = useState([])
     const [winter, setWinter] = useState([])
     const getFall = async () => {
-        const api = await fetch("https://api.consumet.org/meta/anilist/advanced-search?season=FALL&&year=2023", { timeout: 10000 });
+        const api = await fetch("https://animetrix-api.vercel.app/meta/anilist/advanced-search?season=FALL&&year=2023", { timeout: 10000 });
         const response = await api.json();
         console.log(response)
         setFall(response.results);
     }
     const getSpring = async () => {
-        const api = await fetch("https://api.consumet.org/meta/anilist/advanced-search?season=SPRING&&year=2023",{timeout: 1000});
+        const api = await fetch("https://animetrix-api.vercel.app/meta/anilist/advanced-search?season=SPRING&&year=2023",{timeout: 1000});
         const response = await api.json();
         console.log(response)
         setSpring(response.results);
     }
     const getWinter = async () => {
-        const api = await fetch("https://api.consumet.org/meta/anilist/advanced-search?season=WINTER&&year=2023",{timeout:1000});
+        const api = await fetch("https://animetrix-api.vercel.app/meta/anilist/advanced-search?season=WINTER&&year=2023",{timeout:1000});
         const response = await api.json();
         console.log(response)
         setWinter(response.results);

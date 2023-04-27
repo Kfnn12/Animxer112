@@ -17,7 +17,7 @@ export default function Slider() {
   const renderAfterCalled = useRef(false);
   const [sliderinfo, setSlider] = useState([]);
   const getSlider = async () => {
-    const api = await fetch("https://api.consumet.org/meta/anilist/trending?page=1");
+    const api = await fetch("https://animetrix-api.vercel.app/meta/anilist/trending?page=1");
     const response = await api.json();
     setSlider(response.results);
   }

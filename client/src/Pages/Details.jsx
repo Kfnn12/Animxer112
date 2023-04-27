@@ -22,16 +22,11 @@ export default function Details() {
 
   const getDetails = async () => {
     try {
-      const api = await fetch(`https://api.consumet.org/meta/anilist/info/${animeId}`)
+      const api = await fetch(`https://animetrix-api.vercel.app/meta/anilist/info/${animeId}`)
       const response = await api.json()
       const responseArray = [response];
       setDetail(responseArray);
-      const [firstEpisode] = response.episodes;
-      if (firstEpisode) {
-        setWatch(firstEpisode.id);
-      } else {
-        setWatch("");
-      }
+      console.log(responseArray)
       setLoading(false);
     }
     catch (error) {
