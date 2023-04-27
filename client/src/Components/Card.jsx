@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import axios from "axios";
 // import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ServerApi } from "./constants";
 export default function Card(props) {
   const { rec } = props;
   const [isBookmark, setIsBookmark] = useState(false);
@@ -62,7 +63,7 @@ export default function Card(props) {
           });
           return;
         });
-        const res = await axios.get(`http://localhost:8000/api/v1/user/bookmark/${userId}`)
+        const res = await axios.get(`${ServerApi}/user/bookmark/${userId}`)
         const bookmark = res.data;
         // console.log(bookmark);
         setBookmark(bookmark);
@@ -80,7 +81,7 @@ export default function Card(props) {
         props.removeBookmark(props.rec.id);
       if (userId) {
         const response = await axios.post(
-          "http://localhost:8000/api/v1/user/bookmark",
+          `${ServerApi}/user/bookmark`,
           {
             _id: userId,
             animeId: props.rec.id,
@@ -112,19 +113,18 @@ export default function Card(props) {
 
     <>
       <div
-        className="movie-card" onClick={() => props.handelClick()}>
+        className="movie-card" >
         <ToastContainer/>
         <div className="card-head">
 
           <div className="bookmark-icon" onClick={toggleBookmark}>
             <i class={isLoading ? "fas fa-spinner fa-pulse" : (isBookmark ? "fa-solid fa-bookmark" : "fa-regular fa-bookmark")} ></i>
           </div>
-          <Link to={`/anime-details/${props.rec.id}`}>
+          <Link to={`/anime-details/${props.rec.id}`} onClick={() => props.handelClick()}>
             <img
               src={props.rec.image}
               alt={props.rec.id}
               className="card-img"
-              onClick={() => props.handelClick()}
             />
           </Link>
           <div className="card-details">

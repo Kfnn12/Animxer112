@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import axios from "axios"
 import { Link } from "react-router-dom"
+import { HomeApi } from "./constants"
 function AnimeImageSearchLayout({ searchResult, setToggle }) {
 	const [loading, setLoading] = useState(true)
 	const [view, setView] = useState([])
@@ -11,7 +12,7 @@ function AnimeImageSearchLayout({ searchResult, setToggle }) {
 		try{
 		if (prevAnilist.current !== searchResult.result[number].anilist.id) {
 			const url = await fetch(
-				`https://api.consumet.org/meta/anilist/info/${searchResult.result[number].anilist.id}`
+				`${HomeApi}/meta/anilist/info/${searchResult.result[number].anilist.id}`
 			)
 			const response = await url.json();
 			const responseArray = [response]

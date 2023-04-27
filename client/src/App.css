@@ -6,7 +6,9 @@
   list-style-type: none;
   -webkit-tap-highlight-color: transparent;
 }
-
+.art-setting-quality {
+  display: block !important;
+}
 *,
 *::before,
 *::after {

@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Cookies from "js-cookie";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ServerApi } from '../Components/constants';
 function Register() {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -39,7 +40,7 @@ function Register() {
         alert(error.response.data.error);
         return;
       });
-      const res = await axios.post(`http://localhost:8000/api/v1/user/register`, {
+      const res = await axios.post(`${ServerApi}/user/register`, {
         name: name,
         email: email,
         password: password
@@ -69,7 +70,7 @@ function Register() {
         alert(error.response.data.error);
         return;
       });
-      const res = await axios.post(`http://localhost:8000/api/v1/user/verify`, {
+      const res = await axios.post(`${ServerApi}/user/verify`, {
         email: email,
         verificationCode: otp
       })

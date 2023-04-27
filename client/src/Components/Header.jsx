@@ -134,10 +134,10 @@ const Header = forwardRef((props, ref) => {
     <ToastContainer/>
       <nav className="header">
         <div className="logo">
-          <a href="/">
+          <NavLink to="/">
             <span className="white">Anime</span>{" "}
             <span className="blue">Trix</span>
-          </a>
+          </NavLink>
         </div>
 
         <ul onClick={scroll} className={togglemenu ? "nav-links" : "toggle-links"} ref={toggleref}>

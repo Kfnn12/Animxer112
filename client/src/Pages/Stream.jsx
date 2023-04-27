@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState, useRef, useId } from "react";
+import React, { useEffect, useState, useRef, useId, useCallback } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Footer } from "../Components/";
 import LoadingBar from "react-top-loading-bar";
@@ -9,12 +9,14 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import Cookie from "js-cookie"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { HomeApi,StreamApi } from "../Components/constants";
+import Hls from 'hls.js';
+import Artplayer from "../Components/ArtPlayer";
+import { HomeApi, ServerApi, StreamApi } from "../Components/constants";
 
 
 export default function Stream(props) {
   const { episodeId } = useParams()
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
   const [userId, setUserId] = useState("");
   const { animeId } = useParams()
   const [loading, setLoading] = useState(true)
@@ -23,7 +25,10 @@ export default function Stream(props) {
   const [extraDetail, setextraDetail] = useState([]);
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
-
+  const [download, setDownload] = useState("")
+  const [quality, setQuality] = useState([])
+  const [external,setExternal] = useState([])
+  const [displayArtPlayer, setDisplayArtPlayer] = useState(true);
   const navigate = useNavigate();
   const containerRef = useRef(null);
   let isMouseDown = false;
@@ -54,7 +59,7 @@ export default function Stream(props) {
     try {
       if (userId) {
         const response = await axios.post(
-          "http://localhost:8000/api/v1/user/history",
+          `${ServerApi}/user/history`,
           {
             _id: userId,
             animeId: animeId,
@@ -98,7 +103,7 @@ export default function Stream(props) {
         });
         return;
       });
-      const res = await axios.get(`http://localhost:8000/api/v1/discussion/comments/${episodeId}`)
+      const res = await axios.get(`${ServerApi}/discussion/comments/${episodeId}`)
       if (res.data.comments)
         setComments(res.data.comments);
       else
@@ -117,19 +122,36 @@ export default function Stream(props) {
       });
     }
   }
-  const getStream = async () => {
+  const getStream = useCallback(async () => {
     try {
       const Video = await axios.get(
-        `${StreamApi}/vidcdn/watch/${episodeId}`
+        `${HomeApi}/anime/gogoanime/watch/${episodeId}`
       );
-      setData(Video.data.Referer);
+      setData(Video?.data?.sources[0]?.url);
+      console.log(episodeId)
+      setDownload(Video?.data?.download)
+      setQuality(Video?.data?.sources)
+      setExternal(Video?.data?.headers?.Referer)
       setLoading(false);
     }
     catch (err) {
       console.log("Error loading streaming data");
     }
+  },[episodeId])
+  function playM3u8(video, url, art) {
+    if (Hls.isSupported()) {
+      if (art.hls) art.hls.destroy();
+      const hls = new Hls();
+      hls.loadSource(url);
+      hls.attachMedia(video);
+      art.hls = hls;
+      art.on('destroy', () => hls.destroy());
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = url;
+    } else {
+      art.notice.show = 'Unsupported playback format: m3u8';
+    }
   }
-
   const getDetails = async () => {
     try {
       const api = await fetch(`${HomeApi}/meta/anilist/info/${animeId}`)
@@ -174,7 +196,13 @@ export default function Stream(props) {
   // const handleReplyClick = () => {
   //   setShowReplyTextArea(!showReplyTextArea)
   // }
+  const handleInternalClick = () => {
+    setDisplayArtPlayer(true);
+  };
 
+  const handleExternalClick = () => {
+    setDisplayArtPlayer(false);
+  };
   const addComment = async (e) => {
     e.preventDefault();
     try {
@@ -194,7 +222,7 @@ export default function Stream(props) {
           });
           return;
         });
-        const res = await axios.post(`http://localhost:8000/api/v1/discussion/comment`, {
+        const res = await axios.post(`${ServerApi}/discussion/comment`, {
           sender: userId,
           _id: episodeId,
           comment: comment
@@ -202,7 +230,7 @@ export default function Stream(props) {
         getComments();
         setComment("");
         return res;
-      } 
+      }
       toast.error("Login first", {
         position: "top-right",
         autoClose: 5000,
@@ -246,7 +274,7 @@ export default function Stream(props) {
           });
           return;
         });
-        const res = await axios.post(`http://localhost:8000/api/v1/discussion/report`, {
+        const res = await axios.post(`${ServerApi}/discussion/report`, {
           userId: userId,
           commentId: comment._id
         })
@@ -296,7 +324,7 @@ export default function Stream(props) {
           axios.interceptors.response.use(response => {
             return response;
           }, error => {
-               toast.error(error.response.data.error, {
+            toast.error(error.response.data.error, {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -308,7 +336,7 @@ export default function Stream(props) {
             });
             return;
           });
-          const res = await axios.delete(`http://localhost:8000/api/v1/discussion/comment/${comment._id}/${userId}`);
+          const res = await axios.delete(`${ServerApi}/discussion/comment/${comment._id}/${userId}`);
           getComments();
           toast.success(res.data.message, {
             position: "top-right",
@@ -352,7 +380,7 @@ export default function Stream(props) {
     const date = new Date(mongoTimestamp);
     const localDate = date.toLocaleString();
     const [dateStr, timeStr] = localDate.split(", ");
-    return dateStr+" "+timeStr;
+    return dateStr + " " + timeStr;
   }
 
   const printComments = () => {
@@ -392,7 +420,7 @@ export default function Stream(props) {
   }
   return (
     <>
-    <ToastContainer/>
+      <ToastContainer />
       <LoadingBar
         color='#0000FF'
         progress={100}
@@ -416,30 +444,94 @@ export default function Stream(props) {
               <div className="video-title">
                 <span>{detail.title?.romaji}</span>
                 <p>
-                  Note :- Refresh the page if the player doesnt load (server
-                  except Vidstreaming might contain ads use an adblocker to
-                  block ads)
+                  New note will be added soon
                 </p>
               </div>
               <div className="video-player-list">
                 {/* Video Player */}
                 <div className="video-player">
-                  <iframe
-                    src={data}
+                  {displayArtPlayer ? <Artplayer
+                    option={{
+                      container: '.artplayer-app',
+                      url: `${data}`,
+                      title: `${episodeId}`,
+                      type: 'm3u8',
+                      // poster: 'https://artworks.thetvdb.com/banners/v4/episode/9734759/screencap/6444c0490de38.jpg',
+                      volume: 1,
+                      controlBar: true,
+                      isLive: false,
+                      muted: false,
+                      autoplay: false,
+                      pip: true,
+                      autoSize: true,
+                      autoMini: true,
+                      screenshot: true,
+                      setting: true,
+                      loop: true,
+                      flip: false,
+                      playbackRate: true,
+                      aspectRatio: true,
+                      fullscreen: true,
+                      fullscreenWeb: true,
+                      subtitleOffset: false,
+                      miniProgressBar: true,
+                      mutex: true,
+                      backdrop: true,
+                      playsInline: true,
+                      autoPlayback: true,
+                      airplay: true,
+                      theme: '#2196F3',
+                      customType: {
+                        m3u8: playM3u8,
+                      },
+                      lang: navigator.language.toLowerCase(),
+                      whitelist: ['*'],
+                      moreVideoAttr: {
+                        crossOrigin: 'anonymous',
+                      },
+                      quality: quality.map((q) => ({
+                        html: `${q.quality}`,
+                        url: `${q.url}`,
+                      })),
+                      controls: [
+                        {
+                          position: 'right',
+                          html: '<i class="fa-solid fa-download"></i>',
+                          index: 1,
+                          tooltip: 'Download',
+                          style: {
+                            marginRight: '10px',
+                          },
+                          click: function () {
+                            window.open(download)
+                          },
+                        },
+                      ],
+
+                    }}
+                    style={{
+                      width: '600px',
+                      height: '400px',
+                      margin: '60px auto 0',
+                    }}
+                  // getInstance={(art) => console.info(art)}
+                  /> : <iframe
+                    src={external}
                     scrolling="no"
                     frameBorder="0"
                     allowFullScreen="allowfullscreen"
                     webkitallowfullscreen="true"
                     title={episodeId}
-                  />
+                  />}
                 </div>
+
 
                 {/* Episode List */}
                 <div className="list-box">
                   <div className="episode-list">
-                    {detail.episodes.map((ep) => (
+                    {detail?.episodes?.map((ep) => (
                       <>
-                        <Link to={`/watch/${ep.id}/${animeId}`}>
+                        <Link to={`/watch/${ep.id}/${animeId}`} onClick={() => getStream(ep.id)}>
                           {ep.id === episodeId ? (
                             <button className="active">
                               {ep.number}
@@ -459,6 +551,10 @@ export default function Stream(props) {
             {extraDetail.map((extra) => {
               return (
                 <>
+                  <div className="loadmore-recent">
+                    <button className="loadmore" onClick={handleInternalClick}>Internel Player</button>
+                    <button className="loadmore" onClick={handleExternalClick}>External Player</button>
+                  </div>
                   <div className="airing-extra-info">
                     {extra.nextAiringEpisode == undefined ? (
                       <h1></h1>

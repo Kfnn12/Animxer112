@@ -3,7 +3,7 @@ import { React, useDebugValue, useEffect, useState } from 'react';
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { HomeApi } from './constants';
+import { HomeApi, ServerApi } from './constants';
 // const user = "Shiva";
 function History() {
     const [animeData, setAnimeData] = useState([])
@@ -40,7 +40,7 @@ function History() {
                     });
                     return;
                 });
-                const res = await axios.get(`http://localhost:8000/api/v1/user/history/${userId}`)
+                const res = await axios.get(`${ServerApi}/user/history/${userId}`)
                 const history = res.data.history;
                 console.log(history)
                 setHistory(history);
@@ -92,7 +92,7 @@ function History() {
                     }
                 );
                 const res = await axios.delete(
-                    `http://localhost:8000/api/v1/user/history/${userId}`
+                    `${ServerApi}/user/history/${userId}`
                 );
                 console.log(res);
                 await getHistory();
@@ -150,7 +150,7 @@ function History() {
                     }
                 );
                 const res = await axios.delete(
-                    `http://localhost:8000/api/v1/user/single/history/${userId}/${animeId}`
+                    `${ServerApi}/user/single/history/${userId}/${animeId}`
                 );
                 console.log(res);
                 await getHistory();

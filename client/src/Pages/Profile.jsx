@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { Footer } from '../Components'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ServerApi } from '../Components/constants'
 const Profile = () => {
   const [userId, setUserId] = useState("");
   const [userName, setUserName] = useState("");
@@ -64,7 +65,7 @@ const Profile = () => {
         return;
       });
       if (userId) {
-        const res = await axios.get(`http://localhost:8000/api/v1/user/${userId}`);
+        const res = await axios.get(`${ServerApi}/user/${userId}`);
         if (res.data) {
           setDetails(res.data.user);
           setUserName(res.data.user.name);
@@ -96,7 +97,7 @@ const Profile = () => {
         });
         return;
       });
-      const res = await axios.post(`http://localhost:8000/api/v1/user/change/name`, {
+      const res = await axios.post(`${ServerApi}/user/change/name`, {
         name: userName,
         _id: userId
       })

@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Cookies from "js-cookie";
-
+import { ServerApi } from '../Components/constants';
 
 function ForgotPassword() {
   const [password, setPassword] = useState("");
@@ -27,7 +27,7 @@ function ForgotPassword() {
                     alert(error.response.data.error);
             return ;
             });
-            const res = await axios.post(`http://localhost:8000/api/v1/user/change/password`, {
+            const res = await axios.post(`${ServerApi}/user/change/password`, {
                 email: email,
                 password: password
             })
@@ -57,7 +57,7 @@ function ForgotPassword() {
                     alert(error.response.data.error);
             return ;
             });
-            const res = await axios.post(`http://localhost:8000/api/v1/user/verify`, {
+            const res = await axios.post(`${ServerApi}/user/verify`, {
                 email: email,
                 verificationCode: otp
             })

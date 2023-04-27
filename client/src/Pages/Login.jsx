@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ServerApi } from "../Components/constants";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +28,7 @@ function Login() {
         });
         return;
       });
-      const res = await axios.post(`http://localhost:8000/api/v1/user/login`, {
+      const res = await axios.post(`${ServerApi}/user/login`, {
         email: email,
         password: password
       })

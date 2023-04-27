@@ -4,6 +4,7 @@ import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Card from './Card';
+import { ServerApi } from './constants';
 
 const Bookmark = () => {
     const [animeData, setAnimeData] = useState([])
@@ -57,7 +58,7 @@ const removeBookmark = (animeId) => {
                     });
                     return;
                 });
-                const res = await axios.get(`http://localhost:8000/api/v1/user/bookmark/${userId}`)
+                const res = await axios.get(`${ServerApi}/user/bookmark/${userId}`)
                 const bookmark = res.data;
                 console.log(bookmark);
                 setBookmark(bookmark);
