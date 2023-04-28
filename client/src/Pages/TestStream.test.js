@@ -58,9 +58,11 @@ export default function Stream(props) {
         `${HomeApi}/anime/gogoanime/watch/${episodeId}`
       );
       setData(Video?.data?.sources[0]?.url);
+      console.log("Current video URL:", Video?.data?.sources[0]?.url);
       console.log(episodeId)
       setDownload(Video?.data?.download)
       setQuality(Video?.data?.sources)
+      console.log("Current episodeId:", episodeId);
       setExternal(Video?.data?.headers?.Referer)
       setLoading(false);
     }

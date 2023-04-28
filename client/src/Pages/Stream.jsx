@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState, useRef, useId, useCallback } from "react";
+import React, { useEffect, useState, useRef, useId } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Footer } from "../Components/";
 import LoadingBar from "react-top-loading-bar";
@@ -9,14 +9,13 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import Cookie from "js-cookie"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { HomeApi, ServerApi, StreamApi } from "../Components/constants";
 import Hls from 'hls.js';
 import Artplayer from "../Components/ArtPlayer";
-import { HomeApi, ServerApi, StreamApi } from "../Components/constants";
-
 
 export default function Stream(props) {
   const { episodeId } = useParams()
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [userId, setUserId] = useState("");
   const { animeId } = useParams()
   const [loading, setLoading] = useState(true)
@@ -27,8 +26,8 @@ export default function Stream(props) {
   const [comment, setComment] = useState("");
   const [download, setDownload] = useState("")
   const [quality, setQuality] = useState([])
-  const [external,setExternal] = useState([])
   const [displayArtPlayer, setDisplayArtPlayer] = useState(true);
+  const [external, setExternal] = useState([])
   const navigate = useNavigate();
   const containerRef = useRef(null);
   let isMouseDown = false;
@@ -128,7 +127,6 @@ export default function Stream(props) {
         `${HomeApi}/anime/gogoanime/watch/${episodeId}`
       );
       setData(Video?.data?.sources[0]?.url);
-      console.log(episodeId)
       setDownload(Video?.data?.download)
       setQuality(Video?.data?.sources)
       setExternal(Video?.data?.headers?.Referer)
@@ -138,6 +136,7 @@ export default function Stream(props) {
       console.log("Error loading streaming data");
     }
   }
+
   function playM3u8(video, url, art) {
     if (Hls.isSupported()) {
       if (art.hls) art.hls.destroy();
@@ -152,6 +151,7 @@ export default function Stream(props) {
       art.notice.show = 'Unsupported playback format: m3u8';
     }
   }
+
   const getDetails = async () => {
     try {
       const api = await fetch(`${HomeApi}/meta/anilist/info/${animeId}`)
@@ -190,12 +190,6 @@ export default function Stream(props) {
     getComments();
   }, [animeId, episodeId, userId]);
 
-  // reply logic
-  // const [showReplyTextArea, setShowReplyTextArea] = useState(false)
-
-  // const handleReplyClick = () => {
-  //   setShowReplyTextArea(!showReplyTextArea)
-  // }
   const handleInternalClick = () => {
     setDisplayArtPlayer(true);
   };
@@ -203,6 +197,7 @@ export default function Stream(props) {
   const handleExternalClick = () => {
     setDisplayArtPlayer(false);
   };
+
   const addComment = async (e) => {
     e.preventDefault();
     try {
@@ -444,7 +439,9 @@ export default function Stream(props) {
               <div className="video-title">
                 <span>{detail.title?.romaji}</span>
                 <p>
-                  New note will be added soon
+                  Note :- Refresh the page if the player doesnt load (server
+                  except Vidstreaming might contain ads use an adblocker to
+                  block ads)
                 </p>
               </div>
               <div className="video-player-list">
@@ -456,7 +453,6 @@ export default function Stream(props) {
                       url: `${data}`,
                       title: `${episodeId}`,
                       type: 'm3u8',
-                      poster: "https://artworks.thetvdb.com/banners/v4/episode/9734759/screencap/6444c0490de38.jpg",
                       // poster: 'https://artworks.thetvdb.com/banners/v4/episode/9734759/screencap/6444c0490de38.jpg',
                       volume: 1,
                       controlBar: true,
@@ -509,12 +505,6 @@ export default function Stream(props) {
                         },
                       ],
 
-                      thumbnails: {
-                        url: 'https://artworks.thetvdb.com/banners/v4/episode/9734759/screencap/6444c0490de38.jpg',
-                        number: 60,
-                        column: 10,
-                    },
-
                     }}
                     style={{
                       width: '600px',
@@ -532,13 +522,12 @@ export default function Stream(props) {
                   />}
                 </div>
 
-
                 {/* Episode List */}
                 <div className="list-box">
                   <div className="episode-list">
-                    {detail?.episodes?.map((ep) => (
+                    {detail.episodes.map((ep) => (
                       <>
-                        <Link to={`/watch/${ep.id}/${animeId}`}>
+                        <a href={`/watch/${ep.id}/${animeId}`}>
                           {ep.id === episodeId ? (
                             <button className="active">
                               {ep.number}
@@ -548,7 +537,7 @@ export default function Stream(props) {
                           ) : (
                             <button>{ep.number}</button>
                           )}
-                        </Link>
+                        </a>
                       </>
                     ))}
                   </div>
