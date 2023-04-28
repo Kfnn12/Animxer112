@@ -122,7 +122,7 @@ export default function Stream(props) {
       });
     }
   }
-  const getStream = useCallback(async () => {
+  const getStream = async () => {
     try {
       const Video = await axios.get(
         `${HomeApi}/anime/gogoanime/watch/${episodeId}`
@@ -137,7 +137,7 @@ export default function Stream(props) {
     catch (err) {
       console.log("Error loading streaming data");
     }
-  },[episodeId])
+  }
   function playM3u8(video, url, art) {
     if (Hls.isSupported()) {
       if (art.hls) art.hls.destroy();
@@ -456,6 +456,7 @@ export default function Stream(props) {
                       url: `${data}`,
                       title: `${episodeId}`,
                       type: 'm3u8',
+                      poster: "https://artworks.thetvdb.com/banners/v4/episode/9734759/screencap/6444c0490de38.jpg",
                       // poster: 'https://artworks.thetvdb.com/banners/v4/episode/9734759/screencap/6444c0490de38.jpg',
                       volume: 1,
                       controlBar: true,
@@ -508,6 +509,12 @@ export default function Stream(props) {
                         },
                       ],
 
+                      thumbnails: {
+                        url: 'https://artworks.thetvdb.com/banners/v4/episode/9734759/screencap/6444c0490de38.jpg',
+                        number: 60,
+                        column: 10,
+                    },
+
                     }}
                     style={{
                       width: '600px',
@@ -531,7 +538,7 @@ export default function Stream(props) {
                   <div className="episode-list">
                     {detail?.episodes?.map((ep) => (
                       <>
-                        <Link to={`/watch/${ep.id}/${animeId}`} onClick={() => getStream(ep.id)}>
+                        <Link to={`/watch/${ep.id}/${animeId}`}>
                           {ep.id === episodeId ? (
                             <button className="active">
                               {ep.number}
