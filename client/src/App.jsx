@@ -39,6 +39,7 @@ import { HomeApi } from "./Components/constants";
 
 function App() {
   const childRef = useRef();
+  const [slider,setSlider]= useState([]);
   const [recent, setRecent] = useState([]);
   const [popular, setPopular] = useState([]);
   const [movie, setMovie] = useState([]);
@@ -56,6 +57,29 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   // Fetch Functions
+  const getSlider = async (id = 1) => {
+    try {
+      setLoading(true);
+      const Data = await axios.get(
+        `${HomeApi}/meta/anilist/trending?page=1`
+      );
+      setSlider((slider) => [...slider, ...Data.data.results]);
+      setLoading(false);
+    } catch (err) {
+      toast.error("Error loading slider", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        rtl: false,
+        pauseOnFocusLoss: true,
+        draggable: true,
+        pauseOnHover: true,
+        theme: "dark",
+      });
+      setLoading(false);
+    }
+  };
   const getAnime = async (id = 1) => {
     try {
       setLoading(true);
@@ -205,6 +229,7 @@ function App() {
   useEffect(() => {
     if (!renderAfterCalled.current) {
       getAnime(1);
+      getSlider();
       getPropular();
       // getDub();
       getMovie();
@@ -298,6 +323,7 @@ function App() {
               handelClick={handelClick}
               loadMoreRecent={loadMoreRecent}
               loading={loading}
+              slider={slider}
             />
           }
         />

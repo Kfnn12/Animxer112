@@ -33,7 +33,7 @@ function VideoPlayer({
                 airplay: true,
                 autoPlayback: true,
                 theme: '#2196F3',
-                quality: quality.map((q) => ({
+                quality: quality?.map((q) => ({
                     html: `${q.quality}`,
                     url: `${q.url}`,
                 })),

@@ -5,6 +5,15 @@ import { NewSeason } from "../Pages"
 import { Link } from "react-router-dom";
 import { useFetchInitialData } from "../utils/hooks";
 import { HomeApi } from "../Components/constants";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation"
+
+import "../css/slider.css";
+import { Autoplay, Pagination, Navigation } from "swiper";
 // import History from "../Components/History";
 const RecentAnime = (props) => {
   const renderAfterCalled = useRef(false);
@@ -21,10 +30,7 @@ const RecentAnime = (props) => {
     }
   }
 
-  //bookmark
-  function handleIconClick() {
-    setIsBookmark(!isBookmark);
-  }
+
 
   useEffect(() => {
     if (!renderAfterCalled.current) {
@@ -58,7 +64,36 @@ const RecentAnime = (props) => {
         </div>
       ) : (
         <>
-        <Slider/>
+          <Swiper
+            spaceBetween={30}
+            centeredSlides={true}
+            autoplay={{
+              delay: 3500,
+              disableOnInteraction: false,
+            }}
+            pagination={{
+              clickable: true,
+            }}
+            navigation={true}
+            modules={[Autoplay, Pagination, Navigation]}
+            className="mySwiper"
+          >
+            {props.slider &&
+              props.slider.map((rec) => (
+                <div className="banner-card" key={rec.id}>
+                  <SwiperSlide >
+                    <img src={rec?.cover} alt={rec.id} />
+                    <div className="banner-text">
+                      <Link to={`/anime-details/${rec.id}`}>
+                        <h4>{rec.title.english}</h4>
+
+                        <button className="watch">Watch Now</button>
+                      </Link>
+                    </div>
+                  </SwiperSlide>
+                </div>
+              ))}
+          </Swiper>
           {/* <History/> */}
           <br /><br />
           <section className="movies">
