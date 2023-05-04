@@ -4,6 +4,7 @@ import { Card, Lastwatch, Slider, AiringSchedule, ForYou, Footer, UpcomingSeason
 import { NewSeason } from "../Pages"
 import { Link } from "react-router-dom";
 import { useFetchInitialData } from "../utils/hooks";
+import { HomeApi } from "../Components/constants";
 // import History from "../Components/History";
 const RecentAnime = (props) => {
   const renderAfterCalled = useRef(false);
@@ -11,7 +12,7 @@ const RecentAnime = (props) => {
   const [airingList, setairingList] = useState([])
   const getAiring = async () => {
     try {
-      const api = await fetch(`https://api.consumet.org/meta/anilist/airing-schedule?notYetAired=true`)
+      const api = await fetch(`${HomeApi}/meta/anilist/airing-schedule?notYetAired=true`)
       const response = await api.json()
       setairingList(response.results)
     }
@@ -67,12 +68,11 @@ const RecentAnime = (props) => {
       ) : (
         <>
           {/* <History/> */}
-          <NewSeason handelClick={handelClick} />
           <br /><br />
           <section className="movies">
             <div className="filter-bar">
               <div className="heading">
-                <h3>Popular</h3>
+                <h3>Recent-Anime</h3>
               </div>
             </div>
             <div className="seasons-grid">
@@ -80,6 +80,27 @@ const RecentAnime = (props) => {
                 props.recent.map((rec) => (
                   <Card rec={rec} key={rec.id} handelClick={handelClick}/>
                 ))}
+            </div>
+            <div className="loadmore-recent">
+              <a href="/recent-anime">
+                <button className="loadmore">View More</button>
+              </a>
+            </div>
+          </section>
+
+          <section className="movies">
+            <div className="filter-bar">
+              <div className="heading">
+                <h3>Popular</h3>
+              </div>
+            </div>
+            <div className="seasons-grid">
+              {props.popular.map((rec) => (
+                <Card
+                  rec={rec}
+                  key={rec.id} handelClick={handelClick}
+                />
+              ))}
             </div>
             <div className="loadmore-recent">
               <a href="/popular">

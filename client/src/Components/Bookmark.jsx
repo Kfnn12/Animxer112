@@ -60,13 +60,13 @@ const removeBookmark = (animeId) => {
                 });
                 const res = await axios.get(`${ServerApi}/user/bookmark/${userId}`)
                 const bookmark = res.data;
-                console.log(bookmark);
+                // console.log(bookmark);
                 setBookmark(bookmark);
 
                 const animeDataArray = [];
                 for (const bookmarkItem of bookmark) {
                     const animeRes = await axios.get(`https://animetrix-api.vercel.app/meta/anilist/info/${bookmarkItem}`);
-                    console.log(animeRes.data);
+                    // console.log(animeRes.data);
                     const animeDataItem = animeRes.data;
                     animeDataArray.push(animeDataItem);
                 }

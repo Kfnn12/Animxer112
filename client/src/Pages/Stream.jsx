@@ -525,9 +525,9 @@ export default function Stream(props) {
                 {/* Episode List */}
                 <div className="list-box">
                   <div className="episode-list">
-                    {detail.episodes.map((ep) => (
+                    {detail?.episodes?.map((ep) => (
                       <>
-                        <a href={`/watch/${ep.id}/${animeId}`}>
+                        <Link to={`/watch/${ep.id}/${animeId}`}>
                           {ep.id === episodeId ? (
                             <button className="active">
                               {ep.number}
@@ -537,7 +537,7 @@ export default function Stream(props) {
                           ) : (
                             <button>{ep.number}</button>
                           )}
-                        </a>
+                        </Link>
                       </>
                     ))}
                   </div>
@@ -567,7 +567,7 @@ export default function Stream(props) {
                     {detail?.relations?.map((relatedSeason) => {
                       return (
                         <div className="related-seasons">
-                          <Link to={`/anime-details/${relatedSeason?.id}`}>
+                          <Link to={`/anime-details/${relatedSeason?.id}`} onClick={()=>alert(episodeId)}>
                             <img src={relatedSeason.image} alt="" className="image-related" />
                           </Link>
                           <div className="title-and-type">
