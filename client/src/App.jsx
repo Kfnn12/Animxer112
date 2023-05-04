@@ -36,7 +36,6 @@ import axios from "axios";
 
 
 import { HomeApi } from "./Components/constants";
-import TestStrem from "./Pages/TestStream.test";
 
 function App() {
   const childRef = useRef();
@@ -400,7 +399,6 @@ function App() {
         <Route exact path="/forgot-password" element={<ForgotPassword />} />
         <Route exact path="/history" element={<History />} />
         <Route exact path="/bookmark" element={<Bookmark />} />
-        <Route exact path="/test-stream" element={<TestStrem />} />
         <Route path="/*" element={<Error404 />} />
       </Routes>
     </Router>

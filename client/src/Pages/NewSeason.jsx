@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import spinner from "../img/spinner.svg";
 import { Card } from '../Components';
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -20,7 +20,7 @@ const NewSeason = (props) => {
 
     return (
         <>
-            {Object.keys(recent).length === 0 ? (
+            {Object?.keys(recent).length === 0 ? (
                 <div class="spinner-box">
                     <div class="configure-border-1">
                         <div class="configure-core"></div>
@@ -34,7 +34,7 @@ const NewSeason = (props) => {
                     <section className="movies">
                         <div className="filter-bar">
                             <div className="heading">
-                                <h3>Recent-Anime</h3>
+                                <h3>Recent Anime</h3>
                             </div>
                         </div>
                         <div className="movies-grid" ref={ref}>

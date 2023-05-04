@@ -37,17 +37,9 @@ const RecentAnime = (props) => {
   const handelClick = () => {
     props.handelClick();
   };
-
-  const [lastwatch, setLastwatch] = useState(null);
-
-  const LOCAL_STORAGE_KEY = "animetrix-vercel-app"
-
-  useState(() => {
-    const fetchLastWatch = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-    if (fetchLastWatch) {
-      setLastwatch(fetchLastWatch);
-    }
-  }, []);
+  function scroll() {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+  }
 
   const { loading, recent, loadMoreRecent } = props;
 
@@ -72,7 +64,7 @@ const RecentAnime = (props) => {
           <section className="movies">
             <div className="filter-bar">
               <div className="heading">
-                <h3>Recent-Anime</h3>
+                <h3>Recent Anime</h3>
               </div>
             </div>
             <div className="seasons-grid">
@@ -82,9 +74,9 @@ const RecentAnime = (props) => {
                 ))}
             </div>
             <div className="loadmore-recent">
-              <a href="/recent-anime">
+              <Link to="/recent-anime" onClick={scroll}>
                 <button className="loadmore">View More</button>
-              </a>
+              </Link>
             </div>
           </section>
 
@@ -103,9 +95,9 @@ const RecentAnime = (props) => {
               ))}
             </div>
             <div className="loadmore-recent">
-              <a href="/popular">
+              <Link to="/popular" onClick={scroll}>
                 <button className="loadmore">View More</button>
-              </a>
+              </Link>
             </div>
           </section>
           <ForYou />
