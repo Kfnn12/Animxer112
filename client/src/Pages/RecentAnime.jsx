@@ -41,13 +41,12 @@ const RecentAnime = (props) => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
   }
 
-  const { loading, recent, loadMoreRecent } = props;
+  const { loading, recent, loadMoreRecent, slider } = props;
 
-  useFetchInitialData(loading, recent, loadMoreRecent, ref, window)
+  useFetchInitialData(loading, recent, loadMoreRecent, ref, window, slider)
 
   return (
     <>
-      <Slider />
       {Object.keys(props.recent).length === 0 ? (
         <div className="spinner-box">
           <div className="configure-border-1">
@@ -59,6 +58,7 @@ const RecentAnime = (props) => {
         </div>
       ) : (
         <>
+        <Slider/>
           {/* <History/> */}
           <br /><br />
           <section className="movies">
@@ -70,7 +70,7 @@ const RecentAnime = (props) => {
             <div className="seasons-grid">
               {props.recent &&
                 props.recent.map((rec) => (
-                  <Card rec={rec} key={rec.id} handelClick={handelClick}/>
+                  <Card rec={rec} key={rec.id} handelClick={handelClick} />
                 ))}
             </div>
             <div className="loadmore-recent">

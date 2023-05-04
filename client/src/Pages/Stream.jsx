@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { HomeApi, ServerApi, StreamApi } from "../Components/constants";
 import Hls from 'hls.js';
 import Artplayer from "../Components/ArtPlayer";
+import VideoPlayer from "../Components/VideoPlayer";
 
 export default function Stream(props) {
   const { episodeId } = useParams()
@@ -126,7 +127,7 @@ export default function Stream(props) {
       const Video = await axios.get(
         `${HomeApi}/anime/gogoanime/watch/${episodeId}`
       );
-      setData(Video?.data?.sources[0]?.url);
+      setData(Video?.data?.sources);
       setDownload(Video?.data?.download)
       setQuality(Video?.data?.sources)
       setExternal(Video?.data?.headers?.Referer)
@@ -439,80 +440,19 @@ export default function Stream(props) {
               <div className="video-title">
                 <span>{detail.title?.romaji}</span>
                 <p>
-                  Note :- Refresh the page if the player doesnt load (server
-                  except Vidstreaming might contain ads use an adblocker to
-                  block ads)
+                  Note :- Will add new note soon till then let it be empty
                 </p>
               </div>
               <div className="video-player-list">
                 {/* Video Player */}
                 <div className="video-player">
-                  {displayArtPlayer ? <Artplayer
-                    option={{
-                      container: '.artplayer-app',
-                      url: `${data}`,
-                      title: `${episodeId}`,
-                      type: 'm3u8',
-                      // poster: 'https://artworks.thetvdb.com/banners/v4/episode/9734759/screencap/6444c0490de38.jpg',
-                      volume: 1,
-                      controlBar: true,
-                      isLive: false,
-                      muted: false,
-                      autoplay: false,
-                      pip: true,
-                      autoSize: true,
-                      autoMini: true,
-                      screenshot: true,
-                      setting: true,
-                      loop: true,
-                      flip: false,
-                      playbackRate: true,
-                      aspectRatio: true,
-                      fullscreen: true,
-                      fullscreenWeb: true,
-                      subtitleOffset: false,
-                      miniProgressBar: true,
-                      mutex: true,
-                      backdrop: true,
-                      playsInline: true,
-                      autoPlayback: true,
-                      airplay: true,
-                      theme: '#2196F3',
-                      customType: {
-                        m3u8: playM3u8,
-                      },
-                      lang: navigator.language.toLowerCase(),
-                      whitelist: ['*'],
-                      moreVideoAttr: {
-                        crossOrigin: 'anonymous',
-                      },
-                      quality: quality.map((q) => ({
-                        html: `${q.quality}`,
-                        url: `${q.url}`,
-                      })),
-                      controls: [
-                        {
-                          position: 'right',
-                          html: '<i class="fa-solid fa-download"></i>',
-                          index: 1,
-                          tooltip: 'Download',
-                          style: {
-                            marginRight: '10px',
-                          },
-                          click: function () {
-                            window.open(download)
-                          },
-                        },
-                      ],
-
-                    }}
-                    style={{
-                      width: '600px',
-                      height: '400px',
-                      margin: '60px auto 0',
-                    }}
-                  // getInstance={(art) => console.info(art)}
-                  /> : <iframe
+                  {displayArtPlayer ?
+                  <VideoPlayer
+                  videoUrl={data}
+                  download={download}
+                  quality={quality}
+                  title={episodeId}
+                  />: <iframe
                     src={external}
                     scrolling="no"
                     frameBorder="0"
