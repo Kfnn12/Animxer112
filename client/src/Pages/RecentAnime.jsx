@@ -17,7 +17,6 @@ import { Autoplay, Pagination, Navigation } from "swiper";
 // import History from "../Components/History";
 const RecentAnime = (props) => {
   const renderAfterCalled = useRef(false);
-  const [isBookmark, setIsBookmark] = useState(false);
   const [airingList, setairingList] = useState([])
   const getAiring = async () => {
     try {
