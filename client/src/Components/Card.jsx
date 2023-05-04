@@ -132,10 +132,10 @@ export default function Card(props) {
               <span>{(props.rec.type)}</span>
               <span>{(props.rec.rating / 10)}</span>
             </div>
-            {props?.rec?.title?.userPreferred && props?.rec?.title?.userPreferred ? (
-              <h5 className="card-title">{props?.rec?.title?.userPreferred || props?.rec?.title?.english || props?.rec?.romaji}</h5>
+            {props?.rec?.title?.english && props?.rec?.title?.english ? (
+              <h5 className="card-title">{props?.rec?.title?.english }</h5>
             ) : (
-              <p className="card-title"> {props?.rec?.title?.native}</p>
+              <p className="card-title"> {props?.rec?.title?.romaji}</p>
             )}
           </div>
         </div>
