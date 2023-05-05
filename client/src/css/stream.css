@@ -7,7 +7,7 @@
 }
 
 .airing-extra-info {
-  margin-top: 100px;
+  margin-top: 200px;
   max-width: 800px;
 }
 
@@ -42,6 +42,7 @@
 .video-player-list {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 70px;
 }
 
 .video-player {
@@ -53,6 +54,10 @@
   height: 500px;
   width: 800px;
   border-radius: 10px;
+}
+.art-video-player{
+  width: 100%;
+  height: 100%;
 }
 
 .list-box {
@@ -97,6 +102,27 @@
   background: transparent;
   outline: 3px solid rgb(51, 51, 154);
   color: rgb(51, 51, 154);
+}
+
+.video-player-list .loadmore-recent{
+  display: flex;
+  gap: 10px;
+}
+.video-player-list .server-list{
+  display: flex;
+  gap: 15px;
+}
+
+.video-player-list .server-list button{
+  padding: 10px;
+  border-radius: 5px;
+  background-color: blue;
+  color: white;
+}
+
+.video-player-list .server-list button:hover{
+  background-color: black;
+  border: 2px solid blue;
 }
 
 .characters-container {
@@ -288,6 +314,7 @@
     padding-bottom: 50%;
     display: flex;
     justify-content: center;
+    flex-direction: column;
   }
 
   .video-player iframe {

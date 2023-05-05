@@ -60,9 +60,9 @@ function VideoPlayer({
 
             }}
             style={{
-                width: '600px',
-                height: '400px',
-                margin: '60px auto 0',
+                width: '800px',
+                height: '500px',
+                // margin: '60px auto 0',
             }}
             videoUrl={videoUrl}
         />
